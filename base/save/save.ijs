@@ -7,24 +7,24 @@ a=. 'RADAR'
 a=. 'PIE'
 a=. 'JGRAPHICS'
 PLDEMOSEL_jdplot_=: a
-'load'~'~system\examples\graphics\plot\plotdemo.ijs'
+'load'~'~system/examples/graphics/plot/plotdemo.ijs'
 )
 
 cocurrent 'jprojsave'
 
-'load'~ jpath '~Source\plot\base\save\files.ijs'
-'load'~ jpath '~Source\plot\base\save\headers.ijs'
+'load'~ jpath '~Source/plot/base/save/files.ijs'
+'load'~ jpath '~Source/plot/base/save/headers.ijs'
 'require'~ 'dates files strings'
 
 NB. =========================================================
 makeprojfile=. 3 : 0
-nam=. (*./\. y ~: '\') # y
-SOURCEPATH, y,'\', nam,'.ijp'
+nam=. (*./\. y ~: '/') # y
+SOURCEPATH, y,'/', nam,'.ijp'
 )
 
 NB. =========================================================
 makesavefile=. 3 : 0
-nam=. (*./\. y ~: '\') # y
+nam=. (*./\. y ~: '/') # y
 RELEASEPATH, nam,'.ijs'
 )
 
@@ -58,16 +58,16 @@ if. wdisparent 'projectform' do.
 end.
 )
 
-saveproject DEVPATH,'demo\demo.ijp'
+saveproject DEVPATH,'demo/demo.ijp'
 saveproject &> PROJECTS
 openp_jproject_ LASTPROJECT
 
 NB. =========================================================
-NB. build the target script, and make a copy in d:\jst
+NB. build the target script, and make a copy in d:/jst
 dat=. ;freads each ~.SAVEFILES
 dat=. decomment_jproject_ dat
 dat=. dat,LF,FOOTER
-p=. jpath '~temp\plot.ijs'
+p=. jpath '~temp/plot.ijs'
 dat fwrites p
-(jpath '~System\classes\plot\jzplot.ijs') copynew_jproject_ p
+(jpath '~System/classes/plot/jzplot.ijs') copynew_jproject_ p
 ferase p

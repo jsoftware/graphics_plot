@@ -1,7 +1,7 @@
 
 
 require 'numeric trig'
-ferase 'temp\plot.eps'
+ferase 'temp/plot.eps'
 
 dbg 0
 dbstop''

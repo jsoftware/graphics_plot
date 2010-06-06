@@ -1,6 +1,6 @@
 
-TO=: jpath '~System\examples\graphics\plot\'
-FM=: jpath '~Source\plot\dev\demo\'
+TO=: jpath '~System/examples/graphics/plot/'
+FM=: jpath '~Source/plot/dev/demo/'
 
 fc=. 3 : 0
 (TO,y) copynew_jproject_ FM,y

@@ -3,7 +3,7 @@ NB. Plot examples
 coclass 'jdplot'
 
 0!:0 <jpath '~system/examples/graphics/plot/pldata.ijs'
-DATHILO=: }. 'm' fread jpath '~system\examples\data\dm0396.txt'
+DATHILO=: }. 'm' fread jpath '~system/examples/data/dm0396.txt'
 
 NB. =========================================================
 PLOTNAMES=: <;._2 (0 : 0)

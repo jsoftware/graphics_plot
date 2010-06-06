@@ -70,7 +70,7 @@ ItemNames=: j
 
 NB. =========================================================
 readplotdefaults=: 3 : 0
-MyPlotDefaults=: flread :: (''"_) jpath '~config\plotdefs.ijs'
+MyPlotDefaults=: flread :: (''"_) jpath '~config/plotdefs.ijs'
 )
 
 NB. =========================================================

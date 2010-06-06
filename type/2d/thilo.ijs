@@ -2,7 +2,7 @@ NB. test hilo
 
 require 'files'
 
-DATHILO=: }. 'm' fread jpath '~system\examples\data\dm0396.txt'
+DATHILO=: }. 'm' fread jpath '~system/examples/data/dm0396.txt'
 
 dat=. (-200 <.#DATHILO) {. DATHILO
 dat=. ',' cutopen"1 dat

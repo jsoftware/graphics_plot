@@ -1,14 +1,14 @@
-NB. project file: e:\jx\plot\source\base\axis\axis
+NB. project file: e:/jx/plot/source/base/axis/axis
 
 coclass 'jproject'
 
 PRIMARYFILES=: 0 : 0
-~Source\plot\base\axis\util
-~Source\plot\base\axis\get
-~Source\plot\base\axis\xaxis
-~Source\plot\base\axis\yaxis
-~Source\plot\base\axis\zaxis
-~Source\plot\base\axis\pietics
+~Source/plot/base/axis/util
+~Source/plot/base/axis/get
+~Source/plot/base/axis/xaxis
+~Source/plot/base/axis/yaxis
+~Source/plot/base/axis/zaxis
+~Source/plot/base/axis/pietics
 )
 
 PRIMARYLIBS=: ''
@@ -17,9 +17,9 @@ DEVFILES=: ''
 
 DEVLIBS=: ''
 
-OTHERFILES=: '~Source\plot\base\axis\changes.txt'
+OTHERFILES=: '~Source/plot/base/axis/changes.txt'
 
-TARGETFILE=: '~Source\plot\release\axis.ijs'
+TARGETFILE=: '~Source/plot/release/axis.ijs'
 
 TARGETLOCALE=: 'jzplot'
 
@@ -33,7 +33,7 @@ PREBUILDFILE=: ''
 
 POSTBUILDFILE=: ''
 
-TESTFILE=: '~Source\plot\base\axis\test.ijs'
+TESTFILE=: '~Source/plot/base/axis/test.ijs'
 
 NOTES=: ''
 

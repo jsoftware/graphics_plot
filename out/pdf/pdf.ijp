@@ -1,18 +1,18 @@
-NB. project file: e:\deb\libsrc\plot\out\pdf\pdf
+NB. project file: e:/deb/libsrc/plot/out/pdf/pdf
 
 coclass 'jproject'
 
 PRIMARYFILES=: 0 : 0
-~Source\plot\out\pdf\init
-~Source\plot\out\pdf\util
-~Source\plot\out\pdf\bezier
-~Source\plot\out\pdf\build
-~Source\plot\out\pdf\cid
-~Source\plot\out\pdf\cmds
-~Source\plot\out\pdf\draw
-~Source\plot\out\pdf\esc
-~Source\plot\out\pdf\mark
-~Source\plot\out\pdf\show
+~Source/plot/out/pdf/init
+~Source/plot/out/pdf/util
+~Source/plot/out/pdf/bezier
+~Source/plot/out/pdf/build
+~Source/plot/out/pdf/cid
+~Source/plot/out/pdf/cmds
+~Source/plot/out/pdf/draw
+~Source/plot/out/pdf/esc
+~Source/plot/out/pdf/mark
+~Source/plot/out/pdf/show
 )
 
 PRIMARYLIBS=: ''
@@ -22,12 +22,12 @@ DEVFILES=: ''
 DEVLIBS=: ''
 
 OTHERFILES=: 0 : 0
-~Source\plot\out\pdf\changes.txt
-~Source\plot\out\pdf\cidold.ijs
-~Source\plot\out\pdf\test0.ijs
+~Source/plot/out/pdf/changes.txt
+~Source/plot/out/pdf/cidold.ijs
+~Source/plot/out/pdf/test0.ijs
 )
 
-TARGETFILE=: '~Source\plot\release\pdf.ijs'
+TARGETFILE=: '~Source/plot/release/pdf.ijs'
 
 TARGETLOCALE=: 'jzplot'
 
@@ -41,7 +41,7 @@ PREBUILDFILE=: ''
 
 POSTBUILDFILE=: ''
 
-TESTFILE=: '~Source\plot\out\pdf\test.ijs'
+TESTFILE=: '~Source/plot/out/pdf/test.ijs'
 
 NOTES=: ''
 

@@ -1,12 +1,12 @@
-NB. project file: e:\japps\source\plot\source\base\pd\pd
+NB. project file: e:/japps/source/plot/source/base/pd/pd
 
 coclass 'jproject'
 
 PRIMARYFILES=: 0 : 0
-~Source\plot\base\pd\init
-~Source\plot\base\pd\util
-~Source\plot\base\pd\main
-~Source\plot\base\pd\show
+~Source/plot/base/pd/init
+~Source/plot/base/pd/util
+~Source/plot/base/pd/main
+~Source/plot/base/pd/show
 )
 
 PRIMARYLIBS=: ''
@@ -17,7 +17,7 @@ DEVLIBS=: ''
 
 OTHERFILES=: ''
 
-TARGETFILE=: '~Source\plot\release\pd.ijs'
+TARGETFILE=: '~Source/plot/release/pd.ijs'
 
 TARGETLOCALE=: 'jzplot'
 
@@ -31,7 +31,7 @@ PREBUILDFILE=: ''
 
 POSTBUILDFILE=: ''
 
-TESTFILE=: '~Source\plot\base\pd\test.ijs'
+TESTFILE=: '~Source/plot/base/pd/test.ijs'
 
 NOTES=: ''
 

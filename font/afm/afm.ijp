@@ -1,27 +1,27 @@
-NB. project file: e:\deb\libsrc\plot\font\afm\afm
+NB. project file: e:/deb/libsrc/plot/font/afm/afm
 
 coclass 'jproject'
 
 PRIMARYFILES=: 0 : 0
-~Source\plot\font\afm\init
-~Source\plot\font\afm\util
-~Source\plot\font\afm\defs
-~Source\plot\font\afm\methods
-~Source\plot\font\afm\cid
-~Source\plot\font\afm\courier
-~Source\plot\font\afm\courierbold
-~Source\plot\font\afm\courierboldoblique
-~Source\plot\font\afm\courieroblique
-~Source\plot\font\afm\helvetica
-~Source\plot\font\afm\helveticabold
-~Source\plot\font\afm\helveticaboldoblique
-~Source\plot\font\afm\helveticaoblique
-~Source\plot\font\afm\symbol
-~Source\plot\font\afm\timesbold
-~Source\plot\font\afm\timesbolditalic
-~Source\plot\font\afm\timesitalic
-~Source\plot\font\afm\timesroman
-~Source\plot\font\afm\zapfdingbats
+~Source/plot/font/afm/init
+~Source/plot/font/afm/util
+~Source/plot/font/afm/defs
+~Source/plot/font/afm/methods
+~Source/plot/font/afm/cid
+~Source/plot/font/afm/courier
+~Source/plot/font/afm/courierbold
+~Source/plot/font/afm/courierboldoblique
+~Source/plot/font/afm/courieroblique
+~Source/plot/font/afm/helvetica
+~Source/plot/font/afm/helveticabold
+~Source/plot/font/afm/helveticaboldoblique
+~Source/plot/font/afm/helveticaoblique
+~Source/plot/font/afm/symbol
+~Source/plot/font/afm/timesbold
+~Source/plot/font/afm/timesbolditalic
+~Source/plot/font/afm/timesitalic
+~Source/plot/font/afm/timesroman
+~Source/plot/font/afm/zapfdingbats
 )
 
 PRIMARYLIBS=: ''
@@ -31,12 +31,12 @@ DEVFILES=: ''
 DEVLIBS=: ''
 
 OTHERFILES=: 0 : 0
-~Source\plot\font\afm\altdefs.ijs
-~Source\plot\font\afm\changes.txt
-~Source\plot\font\afm\test1.ijs
+~Source/plot/font/afm/altdefs.ijs
+~Source/plot/font/afm/changes.txt
+~Source/plot/font/afm/test1.ijs
 )
 
-TARGETFILE=: '~System\classes\plot\afm.ijs'
+TARGETFILE=: '~System/classes/plot/afm.ijs'
 
 TARGETLOCALE=: 'jafm'
 
@@ -50,13 +50,13 @@ PREBUILDFILE=: ''
 
 POSTBUILDFILE=: ''
 
-TESTFILE=: '~Source\plot\font\afm\test.ijs'
+TESTFILE=: '~Source/plot/font/afm/test.ijs'
 
 NOTES=: ''
 
 WINDOWS=: 0 : 0
-e:\jx\plot\source\font\util.ijs;24 24 600 500
-e:\jx\plot\source\font\helvetica.ijs;48 48 600 500
+e:/jx/plot/source/font/util.ijs;24 24 600 500
+e:/jx/plot/source/font/helvetica.ijs;48 48 600 500
 )
 
 WINDOWSTATE=: 0

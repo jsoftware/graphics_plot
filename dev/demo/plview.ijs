@@ -30,8 +30,8 @@ NB. =========================================================
 plotdemo_run=: 3 : 0
 
 Cw=: _1 NB. ensure plot window is sized
-f=. jpath '~system\packages\graphics\'&, @ (,&'.ijs')
-DATHILO=: }. 'm' fread jpath '~system\examples\data\dm0396.txt'
+f=. jpath '~system/packages/graphics/'&, @ (,&'.ijs')
+DATHILO=: }. 'm' fread jpath '~system/examples/data/dm0396.txt'
 
 MyPlotDefaults=: '' NB. turn off user defaults
 

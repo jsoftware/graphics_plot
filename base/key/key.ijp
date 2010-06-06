@@ -1,13 +1,13 @@
-NB. project file: e:\japps\source\plot\source\base\key\key
+NB. project file: e:/japps/source/plot/source/base/key/key
 
 coclass 'jproject'
 
 PRIMARYFILES=: 0 : 0
-~Source\plot\base\key\util
-~Source\plot\base\key\draw
-~Source\plot\base\key\innerbox
-~Source\plot\base\key\outerbox
-~Source\plot\base\key\size
+~Source/plot/base/key/util
+~Source/plot/base/key/draw
+~Source/plot/base/key/innerbox
+~Source/plot/base/key/outerbox
+~Source/plot/base/key/size
 )
 
 PRIMARYLIBS=: ''
@@ -16,9 +16,9 @@ DEVFILES=: ''
 
 DEVLIBS=: ''
 
-OTHERFILES=: '~Source\plot\base\key\test0.ijs'
+OTHERFILES=: '~Source/plot/base/key/test0.ijs'
 
-TARGETFILE=: '~Source\plot\release\key.ijs'
+TARGETFILE=: '~Source/plot/release/key.ijs'
 
 TARGETLOCALE=: 'jzplot'
 
@@ -32,7 +32,7 @@ PREBUILDFILE=: ''
 
 POSTBUILDFILE=: ''
 
-TESTFILE=: '~Source\plot\base\key\test.ijs'
+TESTFILE=: '~Source/plot/base/key/test.ijs'
 
 NOTES=: ''
 

@@ -124,7 +124,7 @@ if. 0=#y do.
 end.
 type=. tolower firstword y
 if. (<type) e. ;: 'gif jpg png tif gifr jpgr pngr tifr' do.
-  af=. jpath '~addons\media\platimg\platimg.ijs'
+  af=. jpath '~addons/media/platimg/platimg.ijs'
   if. -. flexist af do.
     info 'Save to ',type,' requires the platimg addon.' return.
   end.

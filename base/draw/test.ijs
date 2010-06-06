@@ -9,9 +9,9 @@ dbstop''
 
 NB. =========================================================
 NB. load in all source files:
-load '~Source\plot\base\save\loadall.ijs'
+load '~Source/plot/base/save/loadall.ijs'
 
 NB. =========================================================
 NB. load specific test script:
-load '~Source\plot\base\make\test0.ijs'
+load '~Source/plot/base/make/test0.ijs'
 dbg 0

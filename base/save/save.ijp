@@ -1,10 +1,10 @@
-NB. project file: e:\deb\libsrc\plot\base\save\save
+NB. project file: e:/deb/libsrc/plot/base/save/save
 
 coclass 'jproject'
 
 PRIMARYFILES=: 0 : 0
-~Source\plot\base\save\files
-~Source\plot\base\save\save
+~Source/plot/base/save/files
+~Source/plot/base/save/save
 )
 
 PRIMARYLIBS=: 0 : 0
@@ -29,9 +29,9 @@ DEVFILES=: ''
 DEVLIBS=: ''
 
 OTHERFILES=: 0 : 0
-~Source\plot\base\save\changes.txt
-~Source\plot\base\save\headers.ijs
-~Source\plot\base\save\loadall.ijs
+~Source/plot/base/save/changes.txt
+~Source/plot/base/save/headers.ijs
+~Source/plot/base/save/loadall.ijs
 )
 
 TARGETFILE=: ''
@@ -46,9 +46,9 @@ BUILDOPTS=: 0 2 0 0 0 0 0
 
 PREBUILDFILE=: ''
 
-POSTBUILDFILE=: '~Source\plot\base\save\plotsave.ijs'
+POSTBUILDFILE=: '~Source/plot/base/save/plotsave.ijs'
 
-TESTFILE=: '~Source\plot\base\save\test.ijs'
+TESTFILE=: '~Source/plot/base/save/test.ijs'
 
 NOTES=: ''
 
