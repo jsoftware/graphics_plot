@@ -10,11 +10,15 @@ PLDEMOSEL_jdplot_=: a
 'load'~'~system/examples/graphics/plot/plotdemo.ijs'
 )
 
+IFJ7_z_=: 700 < 0 ". ({. ~i.&'/') }.9!:14''
+
 cocurrent 'jprojsave'
 
 'load'~ jpath '~Plot/base/save/files.ijs'
 'load'~ jpath '~Plot/base/save/headers.ijs'
 'require'~ 'dates files strings'
+
+NB. J6 branch
 
 NB. =========================================================
 makeprojfile=. 3 : 0
@@ -27,11 +31,6 @@ makesavefile=. 3 : 0
 nam=. (*./\. y ~: '/') # y
 RELEASEPATH, nam,'.ijs'
 )
-
-NB. =========================================================
-PROJECTS=: makeprojfile each SOURCEFILES
-SAVEFILES=: makesavefile each SOURCEFILES
-LASTPROJECT=: makeprojfile SOURCELAST
 
 NB. =========================================================
 saveproject=. 3 : 0
@@ -47,20 +46,23 @@ end.
 NB. =========================================================
 NB. do the saves:
 
+dosave6=: 3 : 0
+PROJECTS=: makeprojfile each SOURCEFILES
+SAVEFILES=: makesavefile each SOURCEFILES
+LASTPROJECT=: makeprojfile SOURCELAST
+
 NB. erase previous release:
 ferase 1 dir RELEASEPATH,'*.ijs'
 
 NB. close Project Manager if open:
-3 : 0''
 if. IFCONSOLE do. return. end.
 if. wdisparent 'projectform' do.
   closeproject_jproject_''
 end.
-)
 
 saveproject DEVPATH,'demo/demo.ijp'
 saveproject &> PROJECTS
-openp_jproject_ LASTPROJECT
+openp_jproject_ ::] LASTPROJECT
 
 NB. =========================================================
 NB. build the target script, and make a copy in d:/jst
@@ -69,5 +71,33 @@ dat=. decomment_jproject_ dat
 dat=. dat,LF,FOOTER
 p=. jpath '~temp/plot.ijs'
 dat fwrites p
-(jpath '~addons/graphics/plot/jzplot.ijs') copynew_jproject_ p
+(jpath '~system/classes/plot/jzplot.ijs') copynew_jproject_ p
 ferase p
+)
+
+NB. =========================================================
+NB. J7 branch
+
+f=: 3 : 0
+load '~Plot/',y,'/build.ijs'
+)
+
+dosave7=: 3 : 0
+
+ferase 1 dir '~.Plot/release/*.ijs'
+
+f 'dev/demo'
+f each SOURCEFILES
+g=: (jpath '~.Plot/release/')&,@spath_j_ each SOURCEFILES ,each <'.ijs'
+dat=: ;freads each g
+dat fwritenew jpath '~.Plot/jzplot.ijs'
+dat fwritenew jpath '~addons/graphics/plot/jzplot.ijs'
+
+NB. do not include afm.ijs into jzplot.ijs
+f 'font/afmdev'
+f 'font/afm'
+(jpath '~.Plot/afm.ijs') fcopynew jpath '~.Plot/release/afm.ijs'
+(jpath '~addons/graphics/plot/afm.ijs') fcopynew jpath '~.Plot/release/afm.ijs'
+)
+
+dosave6`dosave7@.IFJ7 ''
