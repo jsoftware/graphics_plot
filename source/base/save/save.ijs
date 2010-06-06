@@ -84,20 +84,12 @@ load '~Plot/',y,'/build.ijs'
 
 dosave7=: 3 : 0
 
-ferase 1 dir '~.Plot/release/*.ijs'
-
 f 'dev/demo'
 f each SOURCEFILES
 g=: (jpath '~.Plot/release/')&,@spath_j_ each SOURCEFILES ,each <'.ijs'
 dat=: ;freads each g
 dat fwritenew jpath '~.Plot/jzplot.ijs'
 dat fwritenew jpath '~addons/graphics/plot/jzplot.ijs'
-
-NB. do not include afm.ijs into jzplot.ijs
-f 'font/afmdev'
-f 'font/afm'
-(jpath '~.Plot/afm.ijs') fcopynew jpath '~.Plot/release/afm.ijs'
-(jpath '~addons/graphics/plot/afm.ijs') fcopynew jpath '~.Plot/release/afm.ijs'
 )
 
 dosave6`dosave7@.IFJ7 ''

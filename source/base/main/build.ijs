@@ -1,3 +1,3 @@
 NB. build
 
-writesourcex_jp_ '~Plot/base/main';'~.Plot/release/main.ijs'
+load '~Plot/base/main/save.ijs'
