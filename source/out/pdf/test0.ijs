@@ -1,7 +1,7 @@
 NB. test0
 
 NB. 3 : 0''
-NB. if. IFWIN32 do.
+NB. if. IFWIN do.
 NB.   PDFREADER_j_=: 'c:/program files/adobe/acrobat 7.0/reader/acrord32.exe'
 NB. end.
 NB. )

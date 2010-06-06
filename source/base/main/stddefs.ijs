@@ -158,7 +158,7 @@ SUBTITLEFONT=: 'sansserif 14'
 TITLEFONT=: 'sansserif 15'
 )
 
-all=. all, IFWIN32 pick unx;w32
+all=. all, IFWIN pick unx;w32
 
 NB. =========================================================
 PlotDefaults=: 3 : 0 all

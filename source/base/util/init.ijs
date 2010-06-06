@@ -24,3 +24,13 @@ NOFRAME=: 'axes 1;frame 0'
 
 KEYWORDS=: 'noaxes';'noframe'
 
+IFJ7=: 700 < 0 ". ({. ~i.&'/') }.9!:14''
+3 : 0''
+if. IFJ7 do.
+  wdinfo=: smoutput
+  wdinfo=: wd=: (i.0 0)"_
+else.
+  IFWIN=: IFWIN32
+end.
+''
+)
