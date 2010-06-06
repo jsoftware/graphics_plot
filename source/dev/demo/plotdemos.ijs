@@ -2,8 +2,10 @@ NB. plotdemos
 NB.
 NB. run plot demos in session
 
-require 'dates files isigraph numeric plot trig'
-load '~system/examples/graphics/plot/plexam.ijs'
+NB. require 'dates files isigraph numeric plot trig'
+NB. load '~system/examples/graphics/plot/plexam.ijs'
+require 'plot trig'
+load '~addons/graphics/plot/demo/plexam.ijs'
 
 coinsert_jdplot_ 'jzplot'
 
