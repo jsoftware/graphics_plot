@@ -1,0 +1,54 @@
+NB. project file: e:\japps\source\plot\source\base\make\make
+
+coclass 'jproject'
+
+PRIMARYFILES=: 0 : 0
+~Source\plot\base\make\util
+~Source\plot\base\make\data
+~Source\plot\base\make\defs
+~Source\plot\base\make\groups
+~Source\plot\base\make\make
+~Source\plot\base\make\multi
+~Source\plot\base\make\option
+~Source\plot\base\make\new
+~Source\plot\base\make\pdef
+~Source\plot\base\make\rule
+~Source\plot\base\make\sub
+~Source\plot\base\make\text
+~Source\plot\base\make\type
+)
+
+PRIMARYLIBS=: ''
+
+DEVFILES=: ''
+
+DEVLIBS=: ''
+
+OTHERFILES=: 0 : 0
+~Source\plot\base\make\changes.ijs
+~Source\plot\base\make\test0.ijs
+~Source\plot\base\make\test1.ijs
+~Source\plot\base\make\testmulti.ijs
+)
+
+TARGETFILE=: '~Source\plot\release\make.ijs'
+
+TARGETLOCALE=: 'jzplot'
+
+TARGETHEADER=: ''
+
+TARGETEXTRA=: ''
+
+BUILDOPTS=: 0 2 0 0 0 0 0
+
+PREBUILDFILE=: ''
+
+POSTBUILDFILE=: ''
+
+TESTFILE=: '~Source\plot\base\make\test.ijs'
+
+NOTES=: ''
+
+WINDOWS=: ''
+
+WINDOWSTATE=: 0

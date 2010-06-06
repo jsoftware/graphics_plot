@@ -1,0 +1,50 @@
+NB. project file: e:\jx\plot\source\type\3d\3d
+
+coclass 'jproject'
+
+PRIMARYFILES=: 0 : 0
+~Source\plot\type\3d\dot
+~Source\plot\type\3d\line
+~Source\plot\type\3d\poly
+~Source\plot\type\3d\stick
+~Source\plot\type\3d\surface
+~Source\plot\type\3d\wire
+)
+
+PRIMARYLIBS=: ''
+
+DEVFILES=: ''
+
+DEVLIBS=: ''
+
+OTHERFILES=: 0 : 0
+~Source\plot\type\3d\tdot.ijs
+~Source\plot\type\3d\tline.ijs
+~Source\plot\type\3d\tpoly.ijs
+~Source\plot\type\3d\tstick.ijs
+~Source\plot\type\3d\tsurface0.ijs
+~Source\plot\type\3d\tsurface1.ijs
+~Source\plot\type\3d\twire.ijs
+)
+
+TARGETFILE=: '~Source\plot\release\3d.ijs'
+
+TARGETLOCALE=: 'jzplot'
+
+TARGETHEADER=: ''
+
+TARGETEXTRA=: ''
+
+BUILDOPTS=: 0 1 0 0 0 0 0
+
+PREBUILDFILE=: ''
+
+POSTBUILDFILE=: ''
+
+TESTFILE=: '~Source\plot\type\3d\test.ijs'
+
+NOTES=: ''
+
+WINDOWS=: ''
+
+WINDOWSTATE=: 0

@@ -1,0 +1,45 @@
+NB. project file: e:\japps\source\plot\source\base\layout\layout
+
+coclass 'jproject'
+
+PRIMARYFILES=: 0 : 0
+~Source\plot\base\layout\aspect
+~Source\plot\base\layout\frame
+~Source\plot\base\layout\get
+~Source\plot\base\layout\graf
+~Source\plot\base\layout\label
+~Source\plot\base\layout\layout
+~Source\plot\base\layout\outerbox
+~Source\plot\base\layout\piemove
+~Source\plot\base\layout\tics
+)
+
+PRIMARYLIBS=: ''
+
+DEVFILES=: ''
+
+DEVLIBS=: ''
+
+OTHERFILES=: ''
+
+TARGETFILE=: '~Source\plot\release\layout.ijs'
+
+TARGETLOCALE=: 'jzplot'
+
+TARGETHEADER=: ''
+
+TARGETEXTRA=: ''
+
+BUILDOPTS=: 0 2 0 0 0 0 0
+
+PREBUILDFILE=: ''
+
+POSTBUILDFILE=: ''
+
+TESTFILE=: '~Source\plot\base\layout\test.ijs'
+
+NOTES=: ''
+
+WINDOWS=: ''
+
+WINDOWSTATE=: 0

@@ -1,0 +1,40 @@
+NB. project file: e:\japps\source\plot\source\base\pd\pd
+
+coclass 'jproject'
+
+PRIMARYFILES=: 0 : 0
+~Source\plot\base\pd\init
+~Source\plot\base\pd\util
+~Source\plot\base\pd\main
+~Source\plot\base\pd\show
+)
+
+PRIMARYLIBS=: ''
+
+DEVFILES=: ''
+
+DEVLIBS=: ''
+
+OTHERFILES=: ''
+
+TARGETFILE=: '~Source\plot\release\pd.ijs'
+
+TARGETLOCALE=: 'jzplot'
+
+TARGETHEADER=: ''
+
+TARGETEXTRA=: ''
+
+BUILDOPTS=: 0 2 0 0 0 0 0
+
+PREBUILDFILE=: ''
+
+POSTBUILDFILE=: ''
+
+TESTFILE=: '~Source\plot\base\pd\test.ijs'
+
+NOTES=: ''
+
+WINDOWS=: ''
+
+WINDOWSTATE=: 0

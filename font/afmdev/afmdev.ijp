@@ -1,0 +1,54 @@
+NB. project file: e:\jx\plot\font\afmdev\fonts
+
+coclass 'jproject'
+
+PRIMARYFILES=: 0 : 0
+~Source\plot\font\afmdev\readafm
+~Source\plot\font\afmdev\run
+)
+
+PRIMARYLIBS=: ''
+
+DEVFILES=: ''
+
+DEVLIBS=: ''
+
+OTHERFILES=: 0 : 0
+~Source\plot\font\afmdev\courier-bold.afm
+~Source\plot\font\afmdev\courier-boldoblique.afm
+~Source\plot\font\afmdev\courier-oblique.afm
+~Source\plot\font\afmdev\courier.afm
+~Source\plot\font\afmdev\fontsresourceanchor.java
+~Source\plot\font\afmdev\helvetica-bold.afm
+~Source\plot\font\afmdev\helvetica-boldoblique.afm
+~Source\plot\font\afmdev\helvetica-oblique.afm
+~Source\plot\font\afmdev\helvetica.afm
+~Source\plot\font\afmdev\symbol.afm
+~Source\plot\font\afmdev\times-bold.afm
+~Source\plot\font\afmdev\times-bolditalic.afm
+~Source\plot\font\afmdev\times-italic.afm
+~Source\plot\font\afmdev\times-roman.afm
+~Source\plot\font\afmdev\zapfdingbats.afm
+)
+
+TARGETFILE=: ''
+
+TARGETLOCALE=: ''
+
+TARGETHEADER=: ''
+
+TARGETEXTRA=: ''
+
+BUILDOPTS=: 0 1 0 0 0 0 0
+
+PREBUILDFILE=: ''
+
+POSTBUILDFILE=: ''
+
+TESTFILE=: '~Source\plot\font\afmdev\test.ijs'
+
+NOTES=: ''
+
+WINDOWS=: ''
+
+WINDOWSTATE=: 0

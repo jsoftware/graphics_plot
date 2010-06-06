@@ -1,0 +1,41 @@
+NB. project file: e:\japps\source\plot\source\base\key\key
+
+coclass 'jproject'
+
+PRIMARYFILES=: 0 : 0
+~Source\plot\base\key\util
+~Source\plot\base\key\draw
+~Source\plot\base\key\innerbox
+~Source\plot\base\key\outerbox
+~Source\plot\base\key\size
+)
+
+PRIMARYLIBS=: ''
+
+DEVFILES=: ''
+
+DEVLIBS=: ''
+
+OTHERFILES=: '~Source\plot\base\key\test0.ijs'
+
+TARGETFILE=: '~Source\plot\release\key.ijs'
+
+TARGETLOCALE=: 'jzplot'
+
+TARGETHEADER=: ''
+
+TARGETEXTRA=: ''
+
+BUILDOPTS=: 0 1 0 0 0 0 0
+
+PREBUILDFILE=: ''
+
+POSTBUILDFILE=: ''
+
+TESTFILE=: '~Source\plot\base\key\test.ijs'
+
+NOTES=: ''
+
+WINDOWS=: ''
+
+WINDOWSTATE=: 0

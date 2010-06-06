@@ -1,0 +1,39 @@
+NB. project file: /home/chris/japps/source/plot/source/base/data/data
+
+coclass 'jproject'
+
+PRIMARYFILES=: 0 : 0
+~Source\plot/base/data/conform3d
+~Source\plot/base/data/data
+~Source\plot/base/data/range
+)
+
+PRIMARYLIBS=: ''
+
+DEVFILES=: ''
+
+DEVLIBS=: ''
+
+OTHERFILES=: ''
+
+TARGETFILE=: '~Source\plot/release/data.ijs'
+
+TARGETLOCALE=: 'jzplot'
+
+TARGETHEADER=: ''
+
+TARGETEXTRA=: ''
+
+BUILDOPTS=: 0 2 0 0 0 0 0
+
+PREBUILDFILE=: ''
+
+POSTBUILDFILE=: ''
+
+TESTFILE=: '~Source\plot/base/data/test.ijs'
+
+NOTES=: ''
+
+WINDOWS=: ''
+
+WINDOWSTATE=: 0

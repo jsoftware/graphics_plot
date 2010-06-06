@@ -1,0 +1,42 @@
+NB. project file: /home/chris/deb/basecdb/plot/out/gtk/gtk
+
+coclass 'jproject'
+
+PRIMARYFILES=: 0 : 0
+~Source/plot/out/gtk/init
+~Source/plot/out/gtk/util
+~Source/plot/out/gtk/cmd
+~Source/plot/out/gtk/draw
+~Source/plot/out/gtk/mark
+~Source/plot/out/gtk/show
+)
+
+PRIMARYLIBS=: ''
+
+DEVFILES=: ''
+
+DEVLIBS=: ''
+
+OTHERFILES=: '~Source/plot/out/gtk/test0.ijs'
+
+TARGETFILE=: '~Source/plot/release/gtk.ijs'
+
+TARGETLOCALE=: 'jzplot'
+
+TARGETHEADER=: ''
+
+TARGETEXTRA=: ''
+
+BUILDOPTS=: 0 1 0 0 0 0 0
+
+PREBUILDFILE=: ''
+
+POSTBUILDFILE=: ''
+
+TESTFILE=: '~Source/plot/out/gtk/test.ijs'
+
+NOTES=: ''
+
+VERSION=: ''
+
+WINDOWS=: ''

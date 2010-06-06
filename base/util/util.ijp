@@ -1,0 +1,52 @@
+NB. project file: /home/chris/deb/basecdb/plot/base/util/util
+
+coclass 'jproject'
+
+PRIMARYFILES=: 0 : 0
+~Source/plot/base/util/init
+~Source/plot/base/util/util
+~Source/plot/base/util/putil
+~Source/plot/base/util/color
+~Source/plot/base/util/files
+~Source/plot/base/util/scale
+~Source/plot/base/util/unicode
+)
+
+PRIMARYLIBS=: 0 : 0
+afm
+bmp
+colortab
+gl2
+numeric
+strings
+trig
+unicode
+)
+
+DEVFILES=: ''
+
+DEVLIBS=: ''
+
+OTHERFILES=: '~Source/plot/base/util/changes.txt'
+
+TARGETFILE=: '~Source/plot/release/util.ijs'
+
+TARGETLOCALE=: 'jzplot'
+
+TARGETHEADER=: 'Plot script'
+
+TARGETEXTRA=: ''
+
+BUILDOPTS=: 0 1 0 1 0 0 0
+
+PREBUILDFILE=: ''
+
+POSTBUILDFILE=: ''
+
+TESTFILE=: '~Source/plot/base/util/test.ijs'
+
+NOTES=: ''
+
+VERSION=: ''
+
+WINDOWS=: ''

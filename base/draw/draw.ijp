@@ -1,0 +1,45 @@
+NB. project file: /home/chris/deb/basecdb/plot/base/draw/draw
+
+coclass 'jproject'
+
+PRIMARYFILES=: 0 : 0
+~Source/plot/base/draw/defs
+~Source/plot/base/draw/draw
+~Source/plot/base/draw/shape
+~Source/plot/base/draw/trims
+~Source/plot/base/draw/win
+)
+
+PRIMARYLIBS=: ''
+
+DEVFILES=: ''
+
+DEVLIBS=: ''
+
+OTHERFILES=: 0 : 0
+~Source/plot/base/draw/changes.txt
+~Source/plot/base/draw/mouse.ijs
+~Source/plot/base/draw/test0.ijs
+)
+
+TARGETFILE=: '~Source/plot/release/draw.ijs'
+
+TARGETLOCALE=: 'jzplot'
+
+TARGETHEADER=: ''
+
+TARGETEXTRA=: ''
+
+BUILDOPTS=: 0 2 0 0 0 0 0
+
+PREBUILDFILE=: ''
+
+POSTBUILDFILE=: ''
+
+TESTFILE=: '~Source/plot/base/draw/test.ijs'
+
+NOTES=: ''
+
+VERSION=: ''
+
+WINDOWS=: ''

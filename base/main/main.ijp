@@ -1,0 +1,52 @@
+NB. project file: /home/chris/deb/basecdb/plot/base/main/main
+
+coclass 'jproject'
+
+PRIMARYFILES=: 0 : 0
+~Source/plot/base/main/create
+~Source/plot/base/main/defs
+~Source/plot/base/main/opts
+~Source/plot/base/main/pdef
+~Source/plot/base/main/plotf
+~Source/plot/base/main/show
+~Source/plot/base/main/sizes
+~Source/plot/base/main/stddefs
+~Source/plot/base/main/types
+~Source/plot/base/main/user
+)
+
+PRIMARYLIBS=: ''
+
+DEVFILES=: ''
+
+DEVLIBS=: ''
+
+OTHERFILES=: 0 : 0
+~Source/plot/base/main/changes.txt
+~Source/plot/base/main/plot.ijs
+~Source/plot/base/main/test0.ijs
+~Source/plot/base/main/test1.ijs
+~Source/plot/base/main/testdyn.ijs
+)
+
+TARGETFILE=: '~Source/plot/release/main.ijs'
+
+TARGETLOCALE=: 'jzplot'
+
+TARGETHEADER=: ''
+
+TARGETEXTRA=: ''
+
+BUILDOPTS=: 0 2 0 0 0 0 0
+
+PREBUILDFILE=: ''
+
+POSTBUILDFILE=: '~Source/plot/base/main/savemain.ijs'
+
+TESTFILE=: '~Source/plot/base/main/test.ijs'
+
+NOTES=: ''
+
+VERSION=: ''
+
+WINDOWS=: ''

@@ -1,0 +1,46 @@
+NB. project file: e:\japps\source\plot\source\out\eps\eps
+
+coclass 'jproject'
+
+PRIMARYFILES=: 0 : 0
+~Source\plot\out\eps\init
+~Source\plot\out\eps\util
+~Source\plot\out\eps\build
+~Source\plot\out\eps\cmd
+~Source\plot\out\eps\draw
+~Source\plot\out\eps\mark
+~Source\plot\out\eps\show
+)
+
+PRIMARYLIBS=: ''
+
+DEVFILES=: ''
+
+DEVLIBS=: ''
+
+OTHERFILES=: 0 : 0
+~Source\plot\out\eps\changes.txt
+~Source\plot\out\eps\test0.ijs
+)
+
+TARGETFILE=: '~Source\plot\release\eps.ijs'
+
+TARGETLOCALE=: 'jzplot'
+
+TARGETHEADER=: ''
+
+TARGETEXTRA=: ''
+
+BUILDOPTS=: 0 2 0 0 0 0 0
+
+PREBUILDFILE=: ''
+
+POSTBUILDFILE=: ''
+
+TESTFILE=: '~Source\plot\out\eps\test.ijs'
+
+NOTES=: ''
+
+WINDOWS=: ''
+
+WINDOWSTATE=: 0

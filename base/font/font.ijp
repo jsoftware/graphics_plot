@@ -1,0 +1,38 @@
+NB. project file: e:\deb\libsrc\plot\base\font\font
+
+coclass 'jproject'
+
+PRIMARYFILES=: 0 : 0
+~Source\plot\base\font\util
+~Source\plot\base\font\set
+)
+
+PRIMARYLIBS=: ''
+
+DEVFILES=: ''
+
+DEVLIBS=: ''
+
+OTHERFILES=: ''
+
+TARGETFILE=: '~Source\plot\release\font.ijs'
+
+TARGETLOCALE=: ''
+
+TARGETHEADER=: ''
+
+TARGETEXTRA=: ''
+
+BUILDOPTS=: 0 1 0 0 0 0 0
+
+PREBUILDFILE=: ''
+
+POSTBUILDFILE=: ''
+
+TESTFILE=: ''
+
+NOTES=: ''
+
+WINDOWS=: ''
+
+WINDOWSTATE=: 0

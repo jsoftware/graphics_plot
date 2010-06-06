@@ -1,0 +1,57 @@
+NB. project file: e:\deb\libsrc\plot\base\save\save
+
+coclass 'jproject'
+
+PRIMARYFILES=: 0 : 0
+~Source\plot\base\save\files
+~Source\plot\base\save\save
+)
+
+PRIMARYLIBS=: 0 : 0
+afm
+bmp
+color16
+colortab
+dates
+files
+gl2
+isigraph
+jzplot
+numeric
+plot
+strings
+trig
+viewmat
+)
+
+DEVFILES=: ''
+
+DEVLIBS=: ''
+
+OTHERFILES=: 0 : 0
+~Source\plot\base\save\changes.txt
+~Source\plot\base\save\headers.ijs
+~Source\plot\base\save\loadall.ijs
+)
+
+TARGETFILE=: ''
+
+TARGETLOCALE=: 'jzplot'
+
+TARGETHEADER=: ''
+
+TARGETEXTRA=: ''
+
+BUILDOPTS=: 0 2 0 0 0 0 0
+
+PREBUILDFILE=: ''
+
+POSTBUILDFILE=: '~Source\plot\base\save\plotsave.ijs'
+
+TESTFILE=: '~Source\plot\base\save\test.ijs'
+
+NOTES=: ''
+
+WINDOWS=: ''
+
+WINDOWSTATE=: 0

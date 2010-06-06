@@ -1,0 +1,40 @@
+NB. project file: e:/deb/basecdb/plot/base/gd/gd
+
+coclass 'jproject'
+
+PRIMARYFILES=: 0 : 0
+~Source/plot/base/gd/init
+~Source/plot/base/gd/util
+~Source/plot/base/gd/cmd
+~Source/plot/base/gd/draw
+)
+
+PRIMARYLIBS=: ''
+
+DEVFILES=: ''
+
+DEVLIBS=: ''
+
+OTHERFILES=: '~Source/plot/base/gd/test0.ijs'
+
+TARGETFILE=: '~Source/plot/release/gd.ijs'
+
+TARGETLOCALE=: 'jzplot'
+
+TARGETHEADER=: ''
+
+TARGETEXTRA=: ''
+
+BUILDOPTS=: 0 1 0 0 0 0 0
+
+PREBUILDFILE=: ''
+
+POSTBUILDFILE=: ''
+
+TESTFILE=: '~Source/plot/base/gd/test.ijs'
+
+NOTES=: ''
+
+VERSION=: ''
+
+WINDOWS=: ''

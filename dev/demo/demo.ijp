@@ -1,0 +1,69 @@
+NB. project file: /home/chris/deb/basecdb/plot/dev/demo/demo
+
+coclass 'jproject'
+
+PRIMARYFILES=: 0 : 0
+~Source/plot/dev/demo/pldata
+~Source/plot/dev/demo/plotdwin
+~Source/plot/dev/demo/pledit
+~Source/plot/dev/demo/plexam
+~Source/plot/dev/demo/plotrun
+~Source/plot/dev/demo/plview
+~Source/plot/dev/demo/plotdemo
+~Source/plot/dev/demo/view3d
+)
+
+PRIMARYLIBS=: 0 : 0
+afm
+bmp
+colortab
+dates
+files
+gl2
+guid
+isigraph
+jzplot
+libpath
+numeric
+plot
+random
+statdist
+statfns
+stats
+strings
+trig
+viewmat
+)
+
+DEVFILES=: ''
+
+DEVLIBS=: ''
+
+OTHERFILES=: 0 : 0
+~Source/plot/dev/demo/plotdemos.ijs
+~Source/plot/dev/demo/linefitdemo.ijs
+~Source/plot/dev/demo/plot.txt
+~Source/plot/dev/demo/plotdwince.ijs
+)
+
+TARGETFILE=: ''
+
+TARGETLOCALE=: 'jdplot'
+
+TARGETHEADER=: ''
+
+TARGETEXTRA=: ''
+
+BUILDOPTS=: 0 2 0 1 0 0 0
+
+PREBUILDFILE=: ''
+
+POSTBUILDFILE=: '~Source/plot/dev/demo/savedemo.ijs'
+
+TESTFILE=: '~Source/plot/dev/demo/test.ijs'
+
+NOTES=: ''
+
+VERSION=: ''
+
+WINDOWS=: ''

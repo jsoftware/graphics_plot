@@ -1,0 +1,45 @@
+NB. project file: e:\japps\source\plot\source\out\isi\isi
+
+coclass 'jproject'
+
+PRIMARYFILES=: 0 : 0
+~Source\plot\out\isi\init
+~Source\plot\out\isi\util
+~Source\plot\out\isi\clip
+~Source\plot\out\isi\cmd
+~Source\plot\out\isi\draw
+~Source\plot\out\isi\mark
+~Source\plot\out\isi\print
+~Source\plot\out\isi\save
+~Source\plot\out\isi\show
+)
+
+PRIMARYLIBS=: ''
+
+DEVFILES=: ''
+
+DEVLIBS=: ''
+
+OTHERFILES=: '~Source\plot\out\isi\changes.txt'
+
+TARGETFILE=: '~Source\plot\release\isi.ijs'
+
+TARGETLOCALE=: 'jzplot'
+
+TARGETHEADER=: ''
+
+TARGETEXTRA=: ''
+
+BUILDOPTS=: 0 2 0 0 0 0 0
+
+PREBUILDFILE=: ''
+
+POSTBUILDFILE=: ''
+
+TESTFILE=: '~Source\plot\out\isi\test.ijs'
+
+NOTES=: ''
+
+WINDOWS=: ''
+
+WINDOWSTATE=: 0

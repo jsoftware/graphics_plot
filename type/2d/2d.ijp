@@ -1,0 +1,75 @@
+NB. project file: /home/chris/deb/libsrc/plot/type/2d/2d
+
+coclass 'jproject'
+
+PRIMARYFILES=: 0 : 0
+~Source/plot/type/2d/area
+~Source/plot/type/2d/bar
+~Source/plot/type/2d/contour
+~Source/plot/type/2d/density
+~Source/plot/type/2d/dot
+~Source/plot/type/2d/errorbar
+~Source/plot/type/2d/hilo
+~Source/plot/type/2d/hist
+~Source/plot/type/2d/line
+~Source/plot/type/2d/marker
+~Source/plot/type/2d/pie
+~Source/plot/type/2d/piem
+~Source/plot/type/2d/poly
+~Source/plot/type/2d/radar
+~Source/plot/type/2d/stick
+~Source/plot/type/2d/symbol
+)
+
+PRIMARYLIBS=: ''
+
+DEVFILES=: ''
+
+DEVLIBS=: ''
+
+OTHERFILES=: 0 : 0
+~Source/plot/type/2d/changes.txt
+~Source/plot/type/2d/dev.ijs
+~Source/plot/type/2d/tarea.ijs
+~Source/plot/type/2d/tbar.ijs
+~Source/plot/type/2d/tcontour.ijs
+~Source/plot/type/2d/tdensity.ijs
+~Source/plot/type/2d/tdot.ijs
+~Source/plot/type/2d/terrorbar.ijs
+~Source/plot/type/2d/thilo.ijs
+~Source/plot/type/2d/tline.ijs
+~Source/plot/type/2d/tline0.ijs
+~Source/plot/type/2d/tline1.ijs
+~Source/plot/type/2d/tline2.ijs
+~Source/plot/type/2d/tmarker.ijs
+~Source/plot/type/2d/tpie0.ijs
+~Source/plot/type/2d/tpie1.ijs
+~Source/plot/type/2d/tpiem.ijs
+~Source/plot/type/2d/tpolar.ijs
+~Source/plot/type/2d/tpoly.ijs
+~Source/plot/type/2d/tradar.ijs
+~Source/plot/type/2d/tstick.ijs
+~Source/plot/type/2d/tsymbol.ijs
+)
+
+TARGETFILE=: '~Source/plot/release/2d.ijs'
+
+TARGETLOCALE=: 'jzplot'
+
+TARGETHEADER=: ''
+
+TARGETEXTRA=: ''
+
+BUILDOPTS=: 0 1 0 0 0 0 0
+
+PREBUILDFILE=: ''
+
+POSTBUILDFILE=: ''
+
+TESTFILE=: '~Source/plot/type/2d/test.ijs'
+
+NOTES=: ''
+
+WINDOWS=: ''
+
+WINDOWSTATE=: 0
