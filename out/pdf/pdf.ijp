@@ -6,7 +6,7 @@ PRIMARYFILES=: 0 : 0
 ~Plot/out/pdf/init
 ~Plot/out/pdf/util
 ~Plot/out/pdf/bezier
-~Plot/out/pdf/build
+~Plot/out/pdf/pdfbuild
 ~Plot/out/pdf/cid
 ~Plot/out/pdf/cmds
 ~Plot/out/pdf/draw

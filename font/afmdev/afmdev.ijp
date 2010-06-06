@@ -4,7 +4,7 @@ coclass 'jproject'
 
 PRIMARYFILES=: 0 : 0
 ~Plot/font/afmdev/readafm
-~Plot/font/afmdev/run
+~Plot/font/afmdev/afmdevrun
 )
 
 PRIMARYLIBS=: ''
