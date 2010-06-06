@@ -3,6 +3,10 @@ NB. init
 coclass 'jzplot'
 NB. init
 
+'require'~'~addons/graphics/color/colortab.ijs'
+'require'~'~addons/graphics/color/hues.ijs'
+'require'~'~addons/graphics/afm/afm.ijs'
+
 coinsert 'jafm jgl2'
 
 NB. =========================================================
