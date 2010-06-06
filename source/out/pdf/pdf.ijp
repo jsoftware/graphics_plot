@@ -1,0 +1,50 @@
+NB. project file: e:/deb/libsrc/plot/out/pdf/pdf
+
+coclass 'jproject'
+
+PRIMARYFILES=: 0 : 0
+~Plot/out/pdf/init
+~Plot/out/pdf/util
+~Plot/out/pdf/bezier
+~Plot/out/pdf/pdfbuild
+~Plot/out/pdf/cid
+~Plot/out/pdf/cmds
+~Plot/out/pdf/draw
+~Plot/out/pdf/esc
+~Plot/out/pdf/mark
+~Plot/out/pdf/show
+)
+
+PRIMARYLIBS=: ''
+
+DEVFILES=: ''
+
+DEVLIBS=: ''
+
+OTHERFILES=: 0 : 0
+~Plot/out/pdf/changes.txt
+~Plot/out/pdf/cidold.ijs
+~Plot/out/pdf/test0.ijs
+)
+
+TARGETFILE=: '~Plot/../release/pdf.ijs'
+
+TARGETLOCALE=: 'jzplot'
+
+TARGETHEADER=: ''
+
+TARGETEXTRA=: ''
+
+BUILDOPTS=: 0 2 0 0 0 0 0
+
+PREBUILDFILE=: ''
+
+POSTBUILDFILE=: ''
+
+TESTFILE=: '~Plot/out/pdf/test.ijs'
+
+NOTES=: ''
+
+WINDOWS=: ''
+
+WINDOWSTATE=: 0

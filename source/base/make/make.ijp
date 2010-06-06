@@ -1,0 +1,54 @@
+NB. project file: e:/japps/source/plot/source/base/make/make
+
+coclass 'jproject'
+
+PRIMARYFILES=: 0 : 0
+~Plot/base/make/util
+~Plot/base/make/data
+~Plot/base/make/defs
+~Plot/base/make/groups
+~Plot/base/make/make
+~Plot/base/make/multi
+~Plot/base/make/option
+~Plot/base/make/new
+~Plot/base/make/pdef
+~Plot/base/make/rule
+~Plot/base/make/sub
+~Plot/base/make/text
+~Plot/base/make/type
+)
+
+PRIMARYLIBS=: ''
+
+DEVFILES=: ''
+
+DEVLIBS=: ''
+
+OTHERFILES=: 0 : 0
+~Plot/base/make/changes.ijs
+~Plot/base/make/test0.ijs
+~Plot/base/make/test1.ijs
+~Plot/base/make/testmulti.ijs
+)
+
+TARGETFILE=: '~Plot/../release/make.ijs'
+
+TARGETLOCALE=: 'jzplot'
+
+TARGETHEADER=: ''
+
+TARGETEXTRA=: ''
+
+BUILDOPTS=: 0 2 0 0 0 0 0
+
+PREBUILDFILE=: ''
+
+POSTBUILDFILE=: ''
+
+TESTFILE=: '~Plot/base/make/test.ijs'
+
+NOTES=: ''
+
+WINDOWS=: ''
+
+WINDOWSTATE=: 0

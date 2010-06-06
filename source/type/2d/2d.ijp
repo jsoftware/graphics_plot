@@ -1,0 +1,75 @@
+NB. project file: ~Plot/type/2d/2d
+
+coclass 'jproject'
+
+PRIMARYFILES=: 0 : 0
+~Plot/type/2d/area
+~Plot/type/2d/bar
+~Plot/type/2d/contour
+~Plot/type/2d/density
+~Plot/type/2d/dot
+~Plot/type/2d/errorbar
+~Plot/type/2d/hilo
+~Plot/type/2d/hist
+~Plot/type/2d/line
+~Plot/type/2d/marker
+~Plot/type/2d/pie
+~Plot/type/2d/piem
+~Plot/type/2d/poly
+~Plot/type/2d/radar
+~Plot/type/2d/stick
+~Plot/type/2d/symbol
+)
+
+PRIMARYLIBS=: ''
+
+DEVFILES=: ''
+
+DEVLIBS=: ''
+
+OTHERFILES=: 0 : 0
+~Plot/type/2d/changes.txt
+~Plot/type/2d/dev.ijs
+~Plot/type/2d/tarea.ijs
+~Plot/type/2d/tbar.ijs
+~Plot/type/2d/tcontour.ijs
+~Plot/type/2d/tdensity.ijs
+~Plot/type/2d/tdot.ijs
+~Plot/type/2d/terrorbar.ijs
+~Plot/type/2d/thilo.ijs
+~Plot/type/2d/tline.ijs
+~Plot/type/2d/tline0.ijs
+~Plot/type/2d/tline1.ijs
+~Plot/type/2d/tline2.ijs
+~Plot/type/2d/tmarker.ijs
+~Plot/type/2d/tpie0.ijs
+~Plot/type/2d/tpie1.ijs
+~Plot/type/2d/tpiem.ijs
+~Plot/type/2d/tpolar.ijs
+~Plot/type/2d/tpoly.ijs
+~Plot/type/2d/tradar.ijs
+~Plot/type/2d/tstick.ijs
+~Plot/type/2d/tsymbol.ijs
+)
+
+TARGETFILE=: '~Plot/../release/2d.ijs'
+
+TARGETLOCALE=: 'jzplot'
+
+TARGETHEADER=: ''
+
+TARGETEXTRA=: ''
+
+BUILDOPTS=: 0 1 0 0 0 0 0
+
+PREBUILDFILE=: ''
+
+POSTBUILDFILE=: ''
+
+TESTFILE=: '~Plot/type/2d/test.ijs'
+
+NOTES=: ''
+
+WINDOWS=: ''
+
+WINDOWSTATE=: 0
