@@ -18,7 +18,7 @@ case. iISI do.
   glfont x
   |: glqextent &> y
 case. iGTK do.
-  gtkextent GtkPL;y;gtkfontdesc x
+  gtkextent gtkpl;y;gtkfontdesc x
 case. do.
   FontScale * x getextent y
 end.
@@ -35,7 +35,7 @@ case. iISI do.
   glfont x
   glqextent y
 case. iGTK do.
-  gtkextent GtkPL;y;gtkfontdesc x
+  gtkextent gtkpl;y;gtkfontdesc x
 case. do.
   FontScale * x getextent1 y
 end.

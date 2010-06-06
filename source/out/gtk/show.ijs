@@ -3,14 +3,20 @@ NB. show
 NB. =========================================================
 gtk_show=: 3 : 0
 initplotgtk''
-gtkopen''
+gtkinit''
+newwindow 'graph'
+locGB=: 540 400 conew 'jgtkgraph'
+coinsert__locGB coname''
+gtk_container_add window,gtkbox__locGB
+windowfinish''
+gtk_main ''
 )
 
 NB. =========================================================
 NB. this is the main drawing program
-gtk_paint=: 3 : 0
-'Cw Ch'=: _2 {. gtkXYWH
-make iGTK;gtkXYWH
+paint=: 3 : 0
+'Cw Ch'=: glqwh''
+make iGTK;gtkxywh
 glclipreset''
 ids=. 1 {"1 Plot
 fns=. 'gtk'&, each ids
@@ -21,6 +27,5 @@ end.
 glpaint''
 )
 
-
-
+window_delete=: 0:
 
