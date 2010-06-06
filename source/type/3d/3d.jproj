@@ -1,0 +1,20 @@
+NB. project: ~Plot/type/3d
+NB.
+NB. files should be given with their extension.
+NB. path defaults to project directory.
+NB.
+NB. Build     - build script
+NB. Run       - run script
+NB. Source    - source scripts
+
+Build=: 'build.ijs'
+Run=: 'run.ijs'
+Source=: 0 : 0
+init.ijs
+dot.ijs
+line.ijs
+poly.ijs
+stick.ijs
+surface.ijs
+wire.ijs
+)

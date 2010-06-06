@@ -1,0 +1,23 @@
+NB. project: ~Plot/base/layout
+NB.
+NB. files should be given with their extension.
+NB. path defaults to project directory.
+NB.
+NB. Build     - build script
+NB. Run       - run script
+NB. Source    - source scripts
+
+Build=: 'build.ijs'
+Run=: 'run.ijs'
+Source=: 0 : 0
+init.ijs
+aspect.ijs
+frame.ijs
+get.ijs
+graf.ijs
+label.ijs
+layout.ijs
+outerbox.ijs
+piemove.ijs
+tics.ijs
+)

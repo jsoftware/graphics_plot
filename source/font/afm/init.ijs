@@ -1,4 +1,7 @@
 NB. init
+
+coclass 'jafm'
+NB. init
 NB.
 NB. In Plot, fonts are stored internally as a five-element
 NB. integer list.

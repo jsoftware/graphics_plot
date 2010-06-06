@@ -1,3 +1,6 @@
+NB. init
+
+coclass 'jzplot'
 NB. eps init
 
 EPS_DEFSIZE=: 480 360

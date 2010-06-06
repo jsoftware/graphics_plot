@@ -1,5 +1,8 @@
 NB. init
 
+coclass 'jzplot'
+NB. init
+
 ISI_DEFFILE=: '~temp/plot'
 
 NB. =========================================================

@@ -1,3 +1,6 @@
+NB. init
+
+coclass 'jzplot'
 NB. pdf init
 
 PDF_DEFSIZE=: 480 360

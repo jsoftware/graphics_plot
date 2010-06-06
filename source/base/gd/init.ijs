@@ -1,3 +1,6 @@
+NB. init
+
+coclass 'jzplot'
 NB. gl2 init
 NB.
 NB. gl2 commands are gdxxx, roughly corresponding to glxxx

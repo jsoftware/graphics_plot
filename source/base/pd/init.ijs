@@ -1,3 +1,6 @@
+NB. init
+
+coclass 'jzplot'
 NB. pd init
 
 NB. following commands define the plot

@@ -1,5 +1,8 @@
 NB. init
 
+coclass 'jzplot'
+NB. init
+
 coinsert 'jafm jgl2'
 
 NB. =========================================================

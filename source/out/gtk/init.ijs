@@ -1,3 +1,6 @@
+NB. init
+
+coclass 'jzplot'
 NB. gtk init
 
 PlotGtkInit=: 0
