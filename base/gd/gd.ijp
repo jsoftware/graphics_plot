@@ -3,10 +3,10 @@ NB. project file: e:/deb/basecdb/plot/base/gd/gd
 coclass 'jproject'
 
 PRIMARYFILES=: 0 : 0
-~Source/plot/base/gd/init
-~Source/plot/base/gd/util
-~Source/plot/base/gd/cmd
-~Source/plot/base/gd/draw
+~Plot/base/gd/init
+~Plot/base/gd/util
+~Plot/base/gd/cmd
+~Plot/base/gd/draw
 )
 
 PRIMARYLIBS=: ''
@@ -15,9 +15,9 @@ DEVFILES=: ''
 
 DEVLIBS=: ''
 
-OTHERFILES=: '~Source/plot/base/gd/test0.ijs'
+OTHERFILES=: '~Plot/base/gd/test0.ijs'
 
-TARGETFILE=: '~Source/plot/release/gd.ijs'
+TARGETFILE=: '~Plot/release/gd.ijs'
 
 TARGETLOCALE=: 'jzplot'
 
@@ -31,7 +31,7 @@ PREBUILDFILE=: ''
 
 POSTBUILDFILE=: ''
 
-TESTFILE=: '~Source/plot/base/gd/test.ijs'
+TESTFILE=: '~Plot/base/gd/test.ijs'
 
 NOTES=: ''
 

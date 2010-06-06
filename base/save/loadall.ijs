@@ -4,9 +4,9 @@ require 'dates'
 
 cocurrent 'jprojsave'
 
-load '~Source/plot/base/save/files.ijs'
+load '~Plot/base/save/files.ijs'
 
-rel=. jpath '~Source/plot/release/'
+rel=. jpath '~Plot/release/'
 files=. ((1: + i:&'/') }. ]) each SOURCEFILES
 files=. (rel&, @ (,&'.ijs')) each files
 load files

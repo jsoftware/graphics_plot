@@ -3,12 +3,12 @@ NB. project file: e:/jx/plot/source/type/3d/3d
 coclass 'jproject'
 
 PRIMARYFILES=: 0 : 0
-~Source/plot/type/3d/dot
-~Source/plot/type/3d/line
-~Source/plot/type/3d/poly
-~Source/plot/type/3d/stick
-~Source/plot/type/3d/surface
-~Source/plot/type/3d/wire
+~Plot/type/3d/dot
+~Plot/type/3d/line
+~Plot/type/3d/poly
+~Plot/type/3d/stick
+~Plot/type/3d/surface
+~Plot/type/3d/wire
 )
 
 PRIMARYLIBS=: ''
@@ -18,16 +18,16 @@ DEVFILES=: ''
 DEVLIBS=: ''
 
 OTHERFILES=: 0 : 0
-~Source/plot/type/3d/tdot.ijs
-~Source/plot/type/3d/tline.ijs
-~Source/plot/type/3d/tpoly.ijs
-~Source/plot/type/3d/tstick.ijs
-~Source/plot/type/3d/tsurface0.ijs
-~Source/plot/type/3d/tsurface1.ijs
-~Source/plot/type/3d/twire.ijs
+~Plot/type/3d/tdot.ijs
+~Plot/type/3d/tline.ijs
+~Plot/type/3d/tpoly.ijs
+~Plot/type/3d/tstick.ijs
+~Plot/type/3d/tsurface0.ijs
+~Plot/type/3d/tsurface1.ijs
+~Plot/type/3d/twire.ijs
 )
 
-TARGETFILE=: '~Source/plot/release/3d.ijs'
+TARGETFILE=: '~Plot/release/3d.ijs'
 
 TARGETLOCALE=: 'jzplot'
 
@@ -41,7 +41,7 @@ PREBUILDFILE=: ''
 
 POSTBUILDFILE=: ''
 
-TESTFILE=: '~Source/plot/type/3d/test.ijs'
+TESTFILE=: '~Plot/type/3d/test.ijs'
 
 NOTES=: ''
 

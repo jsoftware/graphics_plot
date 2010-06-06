@@ -1,2 +1,2 @@
 
-load '~Source/plot/base/save/plotsave.ijs'
+load '~Plot/base/save/plotsave.ijs'

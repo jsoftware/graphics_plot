@@ -1,9 +1,9 @@
 cocurrent 'jprojsave'
 
-SOURCEPATH=: jpath '~Source/plot/'
-RELEASEPATH=: jpath '~Source/plot/release/'
-DEVPATH=: jpath '~Source/plot/dev/'
-FILES=: jpath '~Source/plot/base/save/files.ijs'
+SOURCEPATH=: jpath '~Plot/'
+RELEASEPATH=: jpath '~Plot/release/'
+DEVPATH=: jpath '~Plot/dev/'
+FILES=: jpath '~Plot/base/save/files.ijs'
 
 NB. =========================================================
 NB. define source projects - each project builds a file

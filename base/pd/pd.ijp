@@ -3,10 +3,10 @@ NB. project file: e:/japps/source/plot/source/base/pd/pd
 coclass 'jproject'
 
 PRIMARYFILES=: 0 : 0
-~Source/plot/base/pd/init
-~Source/plot/base/pd/util
-~Source/plot/base/pd/main
-~Source/plot/base/pd/show
+~Plot/base/pd/init
+~Plot/base/pd/util
+~Plot/base/pd/main
+~Plot/base/pd/show
 )
 
 PRIMARYLIBS=: ''
@@ -17,7 +17,7 @@ DEVLIBS=: ''
 
 OTHERFILES=: ''
 
-TARGETFILE=: '~Source/plot/release/pd.ijs'
+TARGETFILE=: '~Plot/release/pd.ijs'
 
 TARGETLOCALE=: 'jzplot'
 
@@ -31,7 +31,7 @@ PREBUILDFILE=: ''
 
 POSTBUILDFILE=: ''
 
-TESTFILE=: '~Source/plot/base/pd/test.ijs'
+TESTFILE=: '~Plot/base/pd/test.ijs'
 
 NOTES=: ''
 

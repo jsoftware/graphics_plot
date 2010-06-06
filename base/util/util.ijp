@@ -1,15 +1,15 @@
-NB. project file: /home/chris/deb/basecdb/plot/base/util/util
+NB. project file: ~Plot/base/util/util
 
 coclass 'jproject'
 
 PRIMARYFILES=: 0 : 0
-~Source/plot/base/util/init
-~Source/plot/base/util/util
-~Source/plot/base/util/putil
-~Source/plot/base/util/color
-~Source/plot/base/util/files
-~Source/plot/base/util/scale
-~Source/plot/base/util/unicode
+~Plot/base/util/init
+~Plot/base/util/util
+~Plot/base/util/putil
+~Plot/base/util/color
+~Plot/base/util/files
+~Plot/base/util/scale
+~Plot/base/util/unicode
 )
 
 PRIMARYLIBS=: 0 : 0
@@ -27,9 +27,9 @@ DEVFILES=: ''
 
 DEVLIBS=: ''
 
-OTHERFILES=: '~Source/plot/base/util/changes.txt'
+OTHERFILES=: '~Plot/base/util/changes.txt'
 
-TARGETFILE=: '~Source/plot/release/util.ijs'
+TARGETFILE=: '~Plot/release/util.ijs'
 
 TARGETLOCALE=: 'jzplot'
 
@@ -43,7 +43,7 @@ PREBUILDFILE=: ''
 
 POSTBUILDFILE=: ''
 
-TESTFILE=: '~Source/plot/base/util/test.ijs'
+TESTFILE=: '~Plot/base/util/test.ijs'
 
 NOTES=: ''
 

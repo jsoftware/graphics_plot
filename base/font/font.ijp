@@ -3,8 +3,8 @@ NB. project file: e:/deb/libsrc/plot/base/font/font
 coclass 'jproject'
 
 PRIMARYFILES=: 0 : 0
-~Source/plot/base/font/util
-~Source/plot/base/font/set
+~Plot/base/font/util
+~Plot/base/font/set
 )
 
 PRIMARYLIBS=: ''
@@ -15,7 +15,7 @@ DEVLIBS=: ''
 
 OTHERFILES=: ''
 
-TARGETFILE=: '~Source/plot/release/font.ijs'
+TARGETFILE=: '~Plot/release/font.ijs'
 
 TARGETLOCALE=: ''
 

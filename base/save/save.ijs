@@ -12,8 +12,8 @@ PLDEMOSEL_jdplot_=: a
 
 cocurrent 'jprojsave'
 
-'load'~ jpath '~Source/plot/base/save/files.ijs'
-'load'~ jpath '~Source/plot/base/save/headers.ijs'
+'load'~ jpath '~Plot/base/save/files.ijs'
+'load'~ jpath '~Plot/base/save/headers.ijs'
 'require'~ 'dates files strings'
 
 NB. =========================================================
@@ -69,5 +69,5 @@ dat=. decomment_jproject_ dat
 dat=. dat,LF,FOOTER
 p=. jpath '~temp/plot.ijs'
 dat fwrites p
-(jpath '~System/classes/plot/jzplot.ijs') copynew_jproject_ p
+(jpath '~addons/graphics/plot/jzplot.ijs') copynew_jproject_ p
 ferase p

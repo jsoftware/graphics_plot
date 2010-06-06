@@ -2,5 +2,5 @@
 dbg 1
 dbstop''
 
-load '~Source/plot/font/afmdev/run.ijs'
+load '~Plot/font/afmdev/run.ijs'
 readfonts''

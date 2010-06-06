@@ -1,16 +1,16 @@
-NB. project file: /home/chris/deb/basecdb/plot/dev/demo/demo
+NB. project file: ~Plot/dev/demo/demo
 
 coclass 'jproject'
 
 PRIMARYFILES=: 0 : 0
-~Source/plot/dev/demo/pldata
-~Source/plot/dev/demo/plotdwin
-~Source/plot/dev/demo/pledit
-~Source/plot/dev/demo/plexam
-~Source/plot/dev/demo/plotrun
-~Source/plot/dev/demo/plview
-~Source/plot/dev/demo/plotdemo
-~Source/plot/dev/demo/view3d
+~Plot/dev/demo/pldata
+~Plot/dev/demo/plotdwin
+~Plot/dev/demo/pledit
+~Plot/dev/demo/plexam
+~Plot/dev/demo/plotrun
+~Plot/dev/demo/plview
+~Plot/dev/demo/plotdemo
+~Plot/dev/demo/view3d
 )
 
 PRIMARYLIBS=: 0 : 0
@@ -40,10 +40,10 @@ DEVFILES=: ''
 DEVLIBS=: ''
 
 OTHERFILES=: 0 : 0
-~Source/plot/dev/demo/plotdemos.ijs
-~Source/plot/dev/demo/linefitdemo.ijs
-~Source/plot/dev/demo/plot.txt
-~Source/plot/dev/demo/plotdwince.ijs
+~Plot/dev/demo/plotdemos.ijs
+~Plot/dev/demo/linefitdemo.ijs
+~Plot/dev/demo/plot.txt
+~Plot/dev/demo/plotdwince.ijs
 )
 
 TARGETFILE=: ''
@@ -58,9 +58,9 @@ BUILDOPTS=: 0 2 0 1 0 0 0
 
 PREBUILDFILE=: ''
 
-POSTBUILDFILE=: '~Source/plot/dev/demo/savedemo.ijs'
+POSTBUILDFILE=: '~Plot/dev/demo/savedemo.ijs'
 
-TESTFILE=: '~Source/plot/dev/demo/test.ijs'
+TESTFILE=: '~Plot/dev/demo/test.ijs'
 
 NOTES=: ''
 

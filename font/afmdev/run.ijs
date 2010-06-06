@@ -2,8 +2,8 @@ NB. run
 
 NB. =========================================================
 readfonts=: 3 : 0
-load '~Source/plot/font/afmdev/readafm.ijs'
-p=. jpath '~Source/plot/font/afmdev/'
+load '~Plot/font/afmdev/readafm.ijs'
+p=. jpath '~Plot/font/afmdev/'
 
 NB. ---------------------------------------------------------
 readafm1 'Courier';p,'courier.afm'
@@ -26,5 +26,5 @@ NB. =========================================================
 readafm1=: 3 : 0
 'name file'=. y
 a=. readafm y
-a fwrites jpath '~Source/plot/font/afm/',(tolower name),'.ijs'
+a fwrites jpath '~Plot/font/afm/',(tolower name),'.ijs'
 )

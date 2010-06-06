@@ -3,15 +3,15 @@ NB. project file: e:/japps/source/plot/source/base/layout/layout
 coclass 'jproject'
 
 PRIMARYFILES=: 0 : 0
-~Source/plot/base/layout/aspect
-~Source/plot/base/layout/frame
-~Source/plot/base/layout/get
-~Source/plot/base/layout/graf
-~Source/plot/base/layout/label
-~Source/plot/base/layout/layout
-~Source/plot/base/layout/outerbox
-~Source/plot/base/layout/piemove
-~Source/plot/base/layout/tics
+~Plot/base/layout/aspect
+~Plot/base/layout/frame
+~Plot/base/layout/get
+~Plot/base/layout/graf
+~Plot/base/layout/label
+~Plot/base/layout/layout
+~Plot/base/layout/outerbox
+~Plot/base/layout/piemove
+~Plot/base/layout/tics
 )
 
 PRIMARYLIBS=: ''
@@ -22,7 +22,7 @@ DEVLIBS=: ''
 
 OTHERFILES=: ''
 
-TARGETFILE=: '~Source/plot/release/layout.ijs'
+TARGETFILE=: '~Plot/release/layout.ijs'
 
 TARGETLOCALE=: 'jzplot'
 
@@ -36,7 +36,7 @@ PREBUILDFILE=: ''
 
 POSTBUILDFILE=: ''
 
-TESTFILE=: '~Source/plot/base/layout/test.ijs'
+TESTFILE=: '~Plot/base/layout/test.ijs'
 
 NOTES=: ''
 

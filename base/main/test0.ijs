@@ -1,5 +1,5 @@
 NB. test0
 
-load '~Source/plot/base/make/test0.ijs'
+load '~Plot/base/make/test0.ijs'
 
 

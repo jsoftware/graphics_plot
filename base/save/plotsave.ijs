@@ -2,5 +2,5 @@ NB. plot save
 
 cocurrent 'base'
 
-load '~Source/plot/base/save/save.ijs'
+load '~Plot/base/save/save.ijs'
 

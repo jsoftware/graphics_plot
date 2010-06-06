@@ -85,7 +85,7 @@ plotedit_sctrlshift_fkey=: 3 : 0
 grf=. toJ graf
 grf=. (+./\. grf ~: LF) # grf
 grf=. grf,LF
-f=. jpath '~Source/plot/dev/demo/plexam.ijs'
+f=. jpath '~Plot/dev/demo/plexam.ijs'
 dat=. freads f
 sel=. GNAME,'=: 0 : 0',LF
 ndx=. (#sel) + 1 i.~ sel E. dat

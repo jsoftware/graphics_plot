@@ -3,25 +3,25 @@ NB. project file: e:/deb/libsrc/plot/font/afm/afm
 coclass 'jproject'
 
 PRIMARYFILES=: 0 : 0
-~Source/plot/font/afm/init
-~Source/plot/font/afm/util
-~Source/plot/font/afm/defs
-~Source/plot/font/afm/methods
-~Source/plot/font/afm/cid
-~Source/plot/font/afm/courier
-~Source/plot/font/afm/courierbold
-~Source/plot/font/afm/courierboldoblique
-~Source/plot/font/afm/courieroblique
-~Source/plot/font/afm/helvetica
-~Source/plot/font/afm/helveticabold
-~Source/plot/font/afm/helveticaboldoblique
-~Source/plot/font/afm/helveticaoblique
-~Source/plot/font/afm/symbol
-~Source/plot/font/afm/timesbold
-~Source/plot/font/afm/timesbolditalic
-~Source/plot/font/afm/timesitalic
-~Source/plot/font/afm/timesroman
-~Source/plot/font/afm/zapfdingbats
+~Plot/font/afm/init
+~Plot/font/afm/util
+~Plot/font/afm/defs
+~Plot/font/afm/methods
+~Plot/font/afm/cid
+~Plot/font/afm/courier
+~Plot/font/afm/courierbold
+~Plot/font/afm/courierboldoblique
+~Plot/font/afm/courieroblique
+~Plot/font/afm/helvetica
+~Plot/font/afm/helveticabold
+~Plot/font/afm/helveticaboldoblique
+~Plot/font/afm/helveticaoblique
+~Plot/font/afm/symbol
+~Plot/font/afm/timesbold
+~Plot/font/afm/timesbolditalic
+~Plot/font/afm/timesitalic
+~Plot/font/afm/timesroman
+~Plot/font/afm/zapfdingbats
 )
 
 PRIMARYLIBS=: ''
@@ -31,12 +31,12 @@ DEVFILES=: ''
 DEVLIBS=: ''
 
 OTHERFILES=: 0 : 0
-~Source/plot/font/afm/altdefs.ijs
-~Source/plot/font/afm/changes.txt
-~Source/plot/font/afm/test1.ijs
+~Plot/font/afm/altdefs.ijs
+~Plot/font/afm/changes.txt
+~Plot/font/afm/test1.ijs
 )
 
-TARGETFILE=: '~System/classes/plot/afm.ijs'
+TARGETFILE=: '~addons/graphics/plot/afm.ijs'
 
 TARGETLOCALE=: 'jafm'
 
@@ -50,7 +50,7 @@ PREBUILDFILE=: ''
 
 POSTBUILDFILE=: ''
 
-TESTFILE=: '~Source/plot/font/afm/test.ijs'
+TESTFILE=: '~Plot/font/afm/test.ijs'
 
 NOTES=: ''
 

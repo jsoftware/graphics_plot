@@ -3,8 +3,8 @@ NB. project file: e:/jx/plot/font/afmdev/fonts
 coclass 'jproject'
 
 PRIMARYFILES=: 0 : 0
-~Source/plot/font/afmdev/readafm
-~Source/plot/font/afmdev/run
+~Plot/font/afmdev/readafm
+~Plot/font/afmdev/run
 )
 
 PRIMARYLIBS=: ''
@@ -14,21 +14,21 @@ DEVFILES=: ''
 DEVLIBS=: ''
 
 OTHERFILES=: 0 : 0
-~Source/plot/font/afmdev/courier-bold.afm
-~Source/plot/font/afmdev/courier-boldoblique.afm
-~Source/plot/font/afmdev/courier-oblique.afm
-~Source/plot/font/afmdev/courier.afm
-~Source/plot/font/afmdev/fontsresourceanchor.java
-~Source/plot/font/afmdev/helvetica-bold.afm
-~Source/plot/font/afmdev/helvetica-boldoblique.afm
-~Source/plot/font/afmdev/helvetica-oblique.afm
-~Source/plot/font/afmdev/helvetica.afm
-~Source/plot/font/afmdev/symbol.afm
-~Source/plot/font/afmdev/times-bold.afm
-~Source/plot/font/afmdev/times-bolditalic.afm
-~Source/plot/font/afmdev/times-italic.afm
-~Source/plot/font/afmdev/times-roman.afm
-~Source/plot/font/afmdev/zapfdingbats.afm
+~Plot/font/afmdev/courier-bold.afm
+~Plot/font/afmdev/courier-boldoblique.afm
+~Plot/font/afmdev/courier-oblique.afm
+~Plot/font/afmdev/courier.afm
+~Plot/font/afmdev/fontsresourceanchor.java
+~Plot/font/afmdev/helvetica-bold.afm
+~Plot/font/afmdev/helvetica-boldoblique.afm
+~Plot/font/afmdev/helvetica-oblique.afm
+~Plot/font/afmdev/helvetica.afm
+~Plot/font/afmdev/symbol.afm
+~Plot/font/afmdev/times-bold.afm
+~Plot/font/afmdev/times-bolditalic.afm
+~Plot/font/afmdev/times-italic.afm
+~Plot/font/afmdev/times-roman.afm
+~Plot/font/afmdev/zapfdingbats.afm
 )
 
 TARGETFILE=: ''
@@ -45,7 +45,7 @@ PREBUILDFILE=: ''
 
 POSTBUILDFILE=: ''
 
-TESTFILE=: '~Source/plot/font/afmdev/test.ijs'
+TESTFILE=: '~Plot/font/afmdev/test.ijs'
 
 NOTES=: ''
 

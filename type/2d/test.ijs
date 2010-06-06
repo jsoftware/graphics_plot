@@ -10,10 +10,10 @@ wdpclose 'plotdemo'
 
 NB. =========================================================
 NB. load in all source files:
-load '~Source/plot/base/save/loadall.ijs'
-NB. load '~Source/plot/base/make/test0.ijs'
-load '~Source/plot/type/2d/tsymbol.ijs'
-NB. load '~Source/plot/base/gd/test0.ijs'
+load '~Plot/base/save/loadall.ijs'
+NB. load '~Plot/base/make/test0.ijs'
+load '~Plot/type/2d/tsymbol.ijs'
+NB. load '~Plot/base/gd/test0.ijs'
 dbg 0
 
 

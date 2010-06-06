@@ -10,9 +10,9 @@ wdpclose 'plotdemo'
 
 NB. =========================================================
 NB. load in all source files:
-load '~Source/plot/base/save/loadall.ijs'
+load '~Plot/base/save/loadall.ijs'
 
 NB. =========================================================
 NB. load specific test script:
-load '~Source/plot/base/main/test0.ijs'
+load '~Plot/base/main/test0.ijs'
 dbg 0
