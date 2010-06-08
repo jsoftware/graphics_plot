@@ -21,4 +21,4 @@ plotdefs.ijs
 demo/
 )
 
-RELEASE=: 'j701'
+RELEASE=: 'j602 j701'
