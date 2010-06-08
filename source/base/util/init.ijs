@@ -7,6 +7,18 @@ NB. init
 'require'~'~addons/graphics/color/hues.ijs'
 'require'~'~addons/graphics/afm/afm.ijs'
 
+IFJ7=: 700 < 0 ". ({. ~i.&'/') }.9!:14''
+3 : 0''
+if. IFJ7 do.
+  wdinfo=: smoutput
+  wd=: (i.0 0)"_
+else.
+  LF2_z_=: LF,LF [ IFWIN_z_=: IFWIN32 [  Debug_z_=: 0 [ EMPTY_z_=: i.0 0
+  IFGTK_z_=: 0
+  'require'~'dll strings unicode'
+end.
+''
+)
 coinsert 'jafm jgl2'
 
 NB. =========================================================
@@ -28,13 +40,3 @@ NOFRAME=: 'axes 1;frame 0'
 
 KEYWORDS=: 'noaxes';'noframe'
 
-IFJ7=: 700 < 0 ". ({. ~i.&'/') }.9!:14''
-3 : 0''
-if. IFJ7 do.
-  wdinfo=: smoutput
-  wdinfo=: wd=: (i.0 0)"_
-else.
-  IFWIN=: IFWIN32
-end.
-''
-)

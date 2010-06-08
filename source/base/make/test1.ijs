@@ -1,6 +1,6 @@
 NB. examples of multiplots
 
-require 'plot'
+require 'graphics/plot'
 
 NB. =========================================================
 NB. simple subplot example (not multiplot)

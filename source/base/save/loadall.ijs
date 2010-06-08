@@ -11,6 +11,6 @@ files=. ((1: + i:&'/') }. ]) each SOURCEFILES
 files=. (rel&, @ (,&'.ijs')) each files
 load files
 
-load '~system/classes/plot/plotdefs.ijs'
+load '~addons/graphics/plot/plotdefs.ijs'
 ('jgl2';'z') copath 'jzplot'
 (;: 'jzplot jafm jgl2 z') copath 'jwplot'

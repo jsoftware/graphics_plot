@@ -2,9 +2,16 @@ NB. plotdemos
 NB.
 NB. run plot demos in session
 
-NB. require 'dates files isigraph numeric plot trig'
-NB. load '~system/examples/graphics/plot/plexam.ijs'
-require 'plot trig'
+IFJ7=: 700 < 0 ". ({. ~i.&'/') }.9!:14''
+3 : 0''
+if. IFJ7 do.
+  require 'graphics/plot trig'
+else.
+  require 'dates files isigraph numeric graphics/plot trig'
+end.
+''
+)
+
 load '~addons/graphics/plot/demo/plexam.ijs'
 
 coinsert_jdplot_ 'jzplot'

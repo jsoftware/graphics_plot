@@ -9,7 +9,7 @@ wdpclose 'plotdemo'
 
 NB. =========================================================
 NB. load in all source files:
-load 'jzplot'
+load '~addons/graphics/plot/jzplot.ijs'
 load '~Plot/base/save/loadall.ijs'
 load '~Plot/base/make/test0.ijs'
 NB. load '~Plot/type/2d/tpie0.ijs'

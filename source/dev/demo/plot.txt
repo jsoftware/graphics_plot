@@ -4,4 +4,4 @@ This directory contains a demo of Plot.
 
 To load, using the standard profile:
 
-   load 'examples/graphics/plot/plotdemo.ijs'
+   load '~addons/graphics/plot/demo/plotdemo.ijs'

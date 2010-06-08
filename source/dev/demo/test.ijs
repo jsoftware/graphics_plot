@@ -7,4 +7,4 @@ wdpclose 'plotdemo'
 dbg 1
 dbstops''
 
-load '~System/examples/graphics/plot/plotdemo.ijs'
+load '~addons/graphics/plot/demo/plotdemo.ijs'

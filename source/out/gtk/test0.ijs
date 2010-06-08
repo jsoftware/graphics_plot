@@ -1,6 +1,6 @@
 NB. test0
 
-require '~system/examples/graphics/plot/plotdemos.ijs'
+require '~addons/graphics/plot/demo/plotdemos.ijs'
 p_z_=: plotdemos_z_
 
 dbg 1

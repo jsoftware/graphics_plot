@@ -7,7 +7,7 @@ a=. 'RADAR'
 a=. 'PIE'
 a=. 'JGRAPHICS'
 PLDEMOSEL_jdplot_=: a
-'load'~'~system/examples/graphics/plot/plotdemo.ijs'
+'load'~'~addons/graphics/plot/demo/plotdemo.ijs'
 )
 
 IFJ7_z_=: 700 < 0 ". ({. ~i.&'/') }.9!:14''

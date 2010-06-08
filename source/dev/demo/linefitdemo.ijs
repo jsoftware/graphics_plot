@@ -1,4 +1,4 @@
-require 'plot numeric stats trig'
+require 'graphics/plot numeric stats trig'
 
 dat=: 0.1 0.4 0.5 0.7 0.7 0.9 ,: 0.61 0.92 0.99 1.52 1.47 2.03
 

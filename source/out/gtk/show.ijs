@@ -3,13 +3,12 @@ NB. show
 NB. =========================================================
 gtk_show=: 3 : 0
 initplotgtk''
-gtkinit''
 newwindow 'graph'
 locGB=: 540 400 conew 'jgtkgraph'
 coinsert__locGB coname''
 gtk_container_add window,gtkbox__locGB
 windowfinish''
-gtk_main ''
+if. -.IFGTK do. gtk_main '' end.
 )
 
 NB. =========================================================

@@ -7,6 +7,7 @@ fc=. 3 : 0
 (jpath '~addons/graphics/plot/demo/',y) fcopynew ::] FM,y
 )
 
+fc 'dm0396.txt'
 fc 'pledit.ijs'
 fc 'plexam.ijs'
 fc 'plot.txt'
