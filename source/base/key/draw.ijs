@@ -26,11 +26,11 @@ boxed=. -. 'o' e. KEYSTYLE
 marker=. 1 e. 'mc' e. KEYSTYLE
 
 if. marker do.
- if. #ndx=. KEYMARKERS,MARKERS do.
-   markers=. ndx { KeyMarkerNames
- else.
-   markers=. KeyMarkerNames
- end.
+  if. #ndx=. KEYMARKERS,MARKERS do.
+    markers=. ndx { KeyMarkerNames
+  else.
+    markers=. KeyMarkerNames
+  end.
 end.
 
 NB. ---------------------------------------------------------
@@ -87,10 +87,10 @@ if. marker do.
     drawmarker iKEY;(MarkerScale*MARKERSIZE);(i{clr);(i{markers),<,:i{xy
   end.
   if. 'c' e. KEYSTYLE do.
-  wh=. KeyLen,KeyPen
-  xy=. gx,.ty - -: KeyPen + th
-  dat=. xy ,"1 xy +"1 wh
-  drawrect iKEY;AXISCOLOR;0;clr;dat
+    wh=. KeyLen,KeyPen
+    xy=. gx,.ty - -: KeyPen + th
+    dat=. xy ,"1 xy +"1 wh
+    drawrect iKEY;AXISCOLOR;0;clr;dat
   end.
 elseif. 'f' e. KEYSTYLE do.
   hit=. 0.5 * <./th

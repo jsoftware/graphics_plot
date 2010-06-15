@@ -22,7 +22,7 @@ pd 'type pie'
 pd 'piepercent 1'
 pd 'captionfont arial 12 bold'
 pd 'ycaption Avojohto PAS Ilmakaapeli Maakaapeli'
-pd 'key Luonnonilmiöt Tekniset "Ulkopuoliset syyt"'	
+pd 'key Luonnonilmiöt Tekniset "Ulkopuoliset syyt"'
 pd 'keypos rmo;keystyle bf'
 pd 1 + ?. 4 3 $ 10
 pd 'show'

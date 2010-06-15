@@ -54,11 +54,11 @@ bgn=. p -. q
 arc=. {&q^:a: each bgn
 msk=. p e. ;arc
 if. 0 e. msk do.
-   bgn=. (-.msk) # p
-   end=. (-.msk) # q
-   cyc=. (C. bgn i. end) { each <end
+  bgn=. (-.msk) # p
+  end=. (-.msk) # q
+  cyc=. (C. bgn i. end) { each <end
 else.
-   cyc=. ''
+  cyc=. ''
 end.
 arc=. arc {each <e
 cyc=. cyc {each <e

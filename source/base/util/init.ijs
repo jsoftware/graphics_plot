@@ -13,7 +13,7 @@ if. IFJ7 do.
   wdinfo=: smoutput
   wd=: (i.0 0)"_
 else.
-  LF2_z_=: LF,LF [ IFWIN_z_=: IFWIN32 [  Debug_z_=: 0 [ EMPTY_z_=: i.0 0
+  LF2_z_=: LF,LF [ IFWIN_z_=: IFWIN32 [ Debug_z_=: 0 [ EMPTY_z_=: i.0 0
   IFGTK_z_=: 0
   'require'~'dll strings unicode'
 end.

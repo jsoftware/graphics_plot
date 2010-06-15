@@ -10,8 +10,8 @@ X=. i.6
 d=. |: X ^/ 1 + 0.2 * i.6
 pd 'sub 1 2,1 2 3'
 for_i. i.6 do.
- pd 'new'
- pd i{d
+  pd 'new'
+  pd i{d
 end.
 pd 'show'
 )

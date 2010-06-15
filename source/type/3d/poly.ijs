@@ -30,6 +30,6 @@ dat=. fitgrafxy3d dat
 dat=. (-vert),\ dat
 
 
-clr=. getitemcolor  blockcount dat
+clr=. getitemcolor blockcount dat
 drawpoly iDATA;EDGECOLOR;EDGESIZE;clr;dat
 )

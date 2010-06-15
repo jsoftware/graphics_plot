@@ -171,7 +171,7 @@ if. x -: 1 0 do.
 else.
   a=. ; 2 < @ (x&linepattern1) \ }: y
   <. _2 ,\ a nap x linepattern2 _2 {. y  NB. changed simple append into nap
-                                         NB. see http://www.jsoftware.com/pipermail/programming/2009-April/014528.html
+NB. see http://www.jsoftware.com/pipermail/programming/2009-April/014528.html
 end.
 )
 
