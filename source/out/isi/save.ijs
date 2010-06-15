@@ -90,7 +90,7 @@ if. #y do.
   num=. __ ". &.> arg
   msk=. +./ &> num = &.> __
   file=. > {. msk # arg
-  qual=. <. {. ((-.msk) # num),qual
+  qual=. <. {. (>(-.msk) # num),qual
 end.
 file=. jpath '.jpg' fext file,(0=#file) # ISI_DEFFILE
 rgb=. isi_getrgb''
@@ -106,7 +106,7 @@ if. #y do.
   num=. __ ". &.> arg
   msk=. +./ &> num = &.> __
   file=. > {. msk # arg
-  comp=. <. {. ((-.msk) # num),comp
+  comp=. <. {. (>(-.msk) # num),comp
 end.
 file=. jpath '.png' fext file,(0=#file) # ISI_DEFFILE
 rgb=. isi_getrgb''
