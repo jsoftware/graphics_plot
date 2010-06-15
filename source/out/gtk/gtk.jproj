@@ -12,8 +12,11 @@ Run=: 'run.ijs'
 Source=: 0 : 0
 init.ijs
 util.ijs
+clip.ijs
 cmd.ijs
 draw.ijs
 mark.ijs
+print.ijs
+save.ijs
 show.ijs
 )

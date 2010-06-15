@@ -162,6 +162,10 @@ all=. all, IFWIN pick unx;w32
 
 NB. =========================================================
 PlotDefaults=: 3 : 0 all
+IFJ7_z_=: 700 < 0 ". ({. ~i.&'/') }.9!:14''
+if. IFJ7 do.
+    r=. 'OUTPUT=: ''gtk'''
+else.
 if. IFCONSOLE do.
   if. UNAME -: 'Linux' do.
     r=. 'OUTPUT=: ''gtk'''
@@ -170,6 +174,7 @@ if. IFCONSOLE do.
   end.
 else.
   r=. 'OUTPUT=: ''isi'''
+end.
 end.
 y,r,LF
 )

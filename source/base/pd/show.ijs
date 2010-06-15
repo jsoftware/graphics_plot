@@ -7,10 +7,53 @@ pd_pdf=: pdf_show
 pd_pdfr=: pdf_get
 pd_jpf=: pdf_jpf
 
-pd_clip=: isi_clip
-pd_print=: isi_print
-pd_save=: isi_save
-pd_get=: isi_get
+pd_clip=: 3 : 0
+if. Poutput e. _1,iGTK do.
+  if. IFGTK do.
+    gtk_clip__locGB y
+  else.
+    gtk_clip y
+  end.
+else.
+  isi_clip y
+end.
+)
+
+pd_print=: 3 : 0
+if. Poutput e. _1,iGTK do.
+  if. IFGTK do.
+    gtk_print__locGB y
+  else.
+    gtk_print y
+  end.
+else.
+  isi_print y
+end.
+)
+
+pd_save=: 3 : 0
+if. Poutput e. _1,iGTK do.
+  if. IFGTK do.
+    gtk_save__locGB y
+  else.
+    gtk_save y
+  end.
+else.
+  isi_save y
+end.
+)
+
+pd_get=: 3 : 0
+if. Poutput e. _1,iGTK do.
+  if. IFGTK do.
+    gtk_get__locGB y
+  else.
+    gtk_get y
+  end.
+else.
+  isi_get y
+end.
+)
 
 NB. =========================================================
 pd_show=: 3 : 0

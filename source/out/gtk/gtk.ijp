@@ -8,6 +8,7 @@ PRIMARYFILES=: 0 : 0
 ~Plot/out/gtk/cmd
 ~Plot/out/gtk/draw
 ~Plot/out/gtk/mark
+~Plot/out/gtk/save
 ~Plot/out/gtk/show
 )
 
