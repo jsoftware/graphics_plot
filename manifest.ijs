@@ -10,6 +10,7 @@ VERSION=: ''
 
 DEPENDS=: 0 : 0
 graphics/afm
+graphics/bmp
 graphics/color
 gui/gtk
 )

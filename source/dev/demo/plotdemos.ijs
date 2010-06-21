@@ -2,7 +2,7 @@ NB. plotdemos
 NB.
 NB. run plot demos in session
 
-IFJ7=: 700 < 0 ". ({. ~i.&'/') }.9!:14''
+IFJ7_z_=: 700 < 0 ". ({. ~i.&'/') }.9!:14''
 3 : 0''
 if. IFJ7 do.
   require 'graphics/plot trig'

@@ -1,21 +1,24 @@
 NB. init
 
 coclass 'jzplot'
-NB. init
 
-'require'~'~addons/graphics/color/colortab.ijs'
-'require'~'~addons/graphics/color/hues.ijs'
-'require'~'~addons/graphics/afm/afm.ijs'
+NB. this will be the first script being loaded for package jzplot
 
-IFJ7=: 700 < 0 ". ({. ~i.&'/') }.9!:14''
+require 'graphics/afm'
+require 'graphics/bmp'
+require 'graphics/color/colortab'
+require 'graphics/color/hues'
+require 'gui/gtk'
+
+IFJ7_z_=: 700 < 0 ". ({. ~i.&'/') }.9!:14''
 3 : 0''
 if. IFJ7 do.
-  wdinfo=: smoutput
+  wdinfo=: smoutput`mbinfo_jgtk_@.IFGTK
   wd=: (i.0 0)"_
 else.
   LF2_z_=: LF,LF [ IFWIN_z_=: IFWIN32 [ Debug_z_=: 0 [ EMPTY_z_=: i.0 0
   IFGTK_z_=: 0
-  'require'~'dll strings unicode'
+  require 'dll strings unicode'
 end.
 ''
 )

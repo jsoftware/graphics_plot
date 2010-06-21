@@ -66,16 +66,15 @@ s ('gtkmark_',m)~ p
 NB. =========================================================
 gtkpie=: 3 : 0
 p=. _1 pick y
-ctr=. gpflip 2 {."1 p
+ctr=. gpflip 0 1 {"1 p
 rad=. 2 {"1 p
+ang=. 3 4 {"1 p
 xy=. ctr - rad
 wh=. +: rad ,. rad
-'a b'=. rndint 64 * |:3 4 {"1 p
-dif=. 23040 | b - a
-bgn=. _5760 + {.a
-bgn=. 23040 | +/\ bgn,-}.dif
-p=. rndint xy,.wh,.bgn,.dif
-'glarcx' gtk_shape (<p) _1 } y
+tx=. ({."1 ctr) + rad * sind ang
+ty=. ({:"1 ctr) + rad * cosd ang
+p=. rndint xy ,. wh ,. ,"2 tx ,"0 ty
+'glpie' gtk_shape (<p) _1 } y
 )
 
 NB. =========================================================

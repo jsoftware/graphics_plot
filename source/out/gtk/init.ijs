@@ -8,7 +8,6 @@ PlotGtkInit_jzplot_=: 0
 NB. =========================================================
 initplotgtk=: 3 : 0
 if. PlotGtkInit_jzplot_ do. return. end.
-'require'~'gui/gtk'
 if. -.IFGTK do. gtkinit_jgtk_'' end.
 path=. copath coname''
 ndx=. path i. <'jgl2'
