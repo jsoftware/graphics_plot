@@ -2,6 +2,13 @@ NB. Plot examples
 
 coclass 'jdplot'
 
+NB. include definitions from math/misc/trig
+rfd=: *&(1p1%180)
+sin=: 1&o.
+cos=: 2&o.
+sind=: sin @ rfd
+cosd=: cos @ rfd
+
 0!:0 <jpath '~addons/graphics/plot/demo/pldata.ijs'
 DATHILO=: }. 'm' fread jpath '~addons/graphics/plot/demo/dm0396.txt'
 

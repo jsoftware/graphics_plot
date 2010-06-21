@@ -5,9 +5,9 @@ NB. run plot demos in session
 IFJ7_z_=: 700 < 0 ". ({. ~i.&'/') }.9!:14''
 3 : 0''
 if. IFJ7 do.
-  require 'graphics/plot trig'
+  require 'graphics/plot'
 else.
-  require 'dates files isigraph numeric graphics/plot trig'
+  require 'dates files isigraph numeric graphics/plot'
 end.
 ''
 )
