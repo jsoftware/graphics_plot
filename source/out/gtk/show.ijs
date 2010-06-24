@@ -23,7 +23,6 @@ dat=. 3 }."1 Plot
 for_d. dat do.
   (>d_index{fns)~d
 end.
-glpaint''
 )
 
 window_delete=: 0:
