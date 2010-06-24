@@ -10,6 +10,12 @@ coclass 'jwplot'
 coinsert 'jzplot'
 
 NB. =========================================================
+NB. deferred commands
+pdcmdpixels=: 0$0
+pdcmdsave=: ''
+pdcmdclip=: 0
+
+NB. =========================================================
 NB. z locale definitions
 pd_z_=: 3 : 0
 caller_jwplot_=. coname''

@@ -13,11 +13,7 @@ gtk_gif=: 0:
 
 NB. =========================================================
 gtk_getrgb=: 3 : 0
-if. IFGTK do.
-  wh, glqpixels 0 0, wh=. glqwh''
-else.
-  gtkgraphpixels
-end.
+pdcmdpixels
 )
 
 NB. =========================================================
@@ -54,9 +50,8 @@ rgb saveimg 'png';file;'compression';":comp
 
 NB. =========================================================
 gtk_save=: 3 : 0
-if. (-. (0~:#gtkgraphpixels) *. -.IFGTK) *. Poutput ~: iGTK do.
-  msg=. 'First display an gtk graph Plot.'
-  info msg return.
+if. 0=#gtk_getrgb'' do.
+  pdcmdsave=: y return.
 end.
 if. 0=#y do.
   gtk_clip'' return.

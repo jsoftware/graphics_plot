@@ -31,5 +31,9 @@ if. #y do.
   PForm=: y
 end.
 PReset=: 1
+NB. deferred commands
+pdcmdpixels=: 0$0
+pdcmdsave=: ''
+pdcmdclip=: 0
 EMPTY
 )
