@@ -91,7 +91,7 @@ NB. type: bmp jpeg png tiff
 type=. type, (type-:'tif')#'f'
 'w h'=. 2{.x
 d=. 2}.x
-d=. flip_rgb d
+NB. d=. flip_rgb d
 d=. d OR ALPHA
 if. IF64 do. d=. 2 ic d end.
 NB. create new pixbuf from data
