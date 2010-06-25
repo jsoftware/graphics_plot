@@ -3,7 +3,7 @@ NB. graphics/plot manifest
 CAPTION=: 'Plot'
 
 DESCRIPTION=: 0 : 0
-2D and 3D Plot
+2D Plot
 )
 
 VERSION=: ''
@@ -19,7 +19,8 @@ FILES=: 0 : 0
 jzplot.ijs
 plot.ijs
 plotdefs.ijs
+history.txt
 demo/
 )
 
-RELEASE=: 'j602 j701'
+RELEASE=: 'j701'
