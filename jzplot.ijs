@@ -4931,6 +4931,16 @@ gtk_gif=: 0:
 gtk_getrgb=: 3 : 0
 pdcmdpixels
 )
+gtk_bmp=: 3 : 0
+type=. 'bmp'
+file=. jpath ('.',type) fext (;qchop y),(0=#y) # GTK_DEFFILE
+rgb=. gtk_getrgb''
+if. IFWIN do.
+  ((1 0{rgb) $ flip_rgb 2}.rgb) writebmp file
+else.
+  rgb saveimg type;file
+end.
+)
 gtk_jpg=: 3 : 0
 file=. ''
 qual=. 85  
@@ -4971,9 +4981,15 @@ type=. tolower firstword y
 )
 
 gtk_get=: 0:
-gtk_bmp=: 'bmp' & gtk_def
 gtk_tif=: 'tif' & gtk_def
-ALPHA=: 0{_2 ic 0 0 0 255{a.
+3 : 0''
+if. IF64 do.
+  ALPHA=: 0{_3 ic 0 0 0 255 255 255 255 255{a.
+else.
+  ALPHA=: 0{_2 ic 0 0 0 255{a.
+end.
+''
+)
 
 OR=: 23 b./
 
@@ -4993,7 +5009,7 @@ if. IF64 do. d=. 2 ic d end.
 buf=. gdk_pixbuf_new_from_data (15!:14<'d'),GDK_COLORSPACE_RGB,1,8,w,h,(4*w),0,0
 if. buf do.
   if. 3<#y do.
-    gdk_pixbuf_save_1 buf;fl;type;0;(2 3{y),<0
+    gdk_pixbuf_save_2 buf;fl;type;0;(2 3{y),<0
   else.
     gdk_pixbuf_save buf;fl;type;0;0
   end.

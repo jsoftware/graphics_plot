@@ -2,3 +2,7 @@ graphics/plot - change history
 
 == 1.0.0 ==
  * initial 701 release
+
+== 1.0.1 ==
+ * bug fixes
+ * add missing demo
