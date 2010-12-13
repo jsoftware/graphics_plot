@@ -4910,7 +4910,6 @@ p=. rndint (x-t),.(y+s),.(x+t),.(y+s),.x,.y-t
 glpolygon p
 )
 gtk_print=: 3 : 0
-if. IF64*.IFUNIX do. return. end.  
 if. -.IFGTK do. pdcmdprint=: 1 return. end.
 initplotgtk''
 newwindow 'graph'
@@ -5017,7 +5016,7 @@ g_object_unref buf
 gtk_show=: 3 : 0
 initplotgtk''
 newwindow 'graph'
-locGB=: 540 400 conew (IF64*.IFUNIX){::'jgtkcanvas';'jgtkgraph'  
+locGB=: 540 400 conew 'jgtkcanvas'
 coinsert__locGB coname''
 gtk_container_add window,gtkbox__locGB
 windowfinish''
