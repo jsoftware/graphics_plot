@@ -5,10 +5,9 @@ require 'graphics/color/colortab'
 require 'graphics/color/hues'
 require 'gui/gtk'
 
-IFJ7_z_=: 700 < 0 ". ({. ~i.&'/') }.9!:14''
 3 : 0''
-if. IFJ7 do.
-  wdinfo=: smoutput`mbinfo_jgtk_@.IFGTK
+if. -.IFJ6 do.
+  wdinfo=: sminfo
   wd=: (i.0 0)"_
 else.
   require 'dll strings unicode'
@@ -1249,8 +1248,7 @@ TITLEFONT=: 'sansserif 15'
 
 all=. all, IFWIN pick unx;w32
 PlotDefaults=: 3 : 0 all
-IFJ7_z_=: 700 < 0 ". ({. ~i.&'/') }.9!:14''
-if. IFJ7 do.
+if. -.IFJ6 do.
   r=. 'OUTPUT=: ''gtk'''
 else.
   if. IFCONSOLE do.

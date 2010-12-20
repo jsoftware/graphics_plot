@@ -162,8 +162,7 @@ all=. all, IFWIN pick unx;w32
 
 NB. =========================================================
 PlotDefaults=: 3 : 0 all
-IFJ7_z_=: 700 < 0 ". ({. ~i.&'/') }.9!:14''
-if. IFJ7 do.
+if. -.IFJ6 do.
   r=. 'OUTPUT=: ''gtk'''
 else.
   if. IFCONSOLE do.
