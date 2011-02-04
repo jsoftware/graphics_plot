@@ -184,11 +184,7 @@ ifplotf=: 3 : 0
 2 e. 3!:0 (S:0) _1 pick y
 )
 info=: 3 : 0
-if. IFCONSOLE do.
-  smoutput y
-else.
-  wdinfo 'Plot';y
-end.
+wdinfo@('Plot'&;) :: smoutput y
 )
 interp01=: 3 : 0
 y=. y * <: #x
@@ -240,12 +236,7 @@ y=. DEL (inxb qs)}y
 dltb@unquot@((DEL,' ')&charsub)@deb each chop y
 )
 query=: 4 : 0
-if. IFCONSOLE do.
-  smoutput y
-  1
-else.
-  x wdquery 'Plot';y
-end.
+x ((wdquery 'Plot'&;) :: (1: smoutput)) y
 )
 range=: 3 : 0
 'x y n'=. 3{.y,1
@@ -4680,7 +4671,7 @@ gtkfontdesc=: 3 : 0
 'ind fst siz ang und'=. y
 'ita bld'=. 2 2 #: fst
 sty=. (bld#' bold'),(ita#' italic'),und#' underline'
-(dquote ind pick FONTNAMES),sty,' ',":siz
+('_' (I.@(' '&=)nam)} nam=. ind pick GTKFONTNAMES),sty,' ',":siz
 )
 gtk_clip=: 0:
 gtk_edge=: 4 : 0
@@ -5648,10 +5639,14 @@ while. _1 -: dat flwrite file do.
 end.
 if. VISIBLE *. 0 = 4!:0 <'PDFREADER_j_' do.
   if. #PDFREADER_j_ do.
-    if. IFUNIX *. IFCONSOLE do.
-      hostcmd (dquote PDFREADER_j_),' ',dquote file
+    if. -.IFJ6 do.
+      fork_jtask_ (dquote PDFREADER_j_),' ',dquote file
     else.
-      wd 'winexec *',PDFREADER_j_,' ',dquote file
+      if. IFUNIX *. IFCONSOLE do.
+        hostcmd (dquote PDFREADER_j_),' ',dquote file
+      else.
+        wd 'winexec *',PDFREADER_j_,' ',dquote file
+      end.
     end.
   end.
 end.
