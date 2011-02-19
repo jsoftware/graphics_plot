@@ -6,3 +6,7 @@ graphics/plot - change history
 == 1.0.1 ==
  * bug fixes
  * add missing demo
+
+== 1.0.2 ==
+ * fix jwplot
+ * use jgl2

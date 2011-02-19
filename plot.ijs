@@ -9,6 +9,8 @@ load '~addons/graphics/plot/jzplot.ijs'
 coclass 'jwplot'
 coinsert 'jzplot'
 
+cxywh=: 4$0
+
 NB. =========================================================
 NB. deferred commands
 pdcmdpixels=: 0$0

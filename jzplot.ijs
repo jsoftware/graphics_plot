@@ -9,6 +9,7 @@ require 'gui/gtk'
 if. -.IFJ6 do.
   wdinfo=: sminfo
   wd=: (i.0 0)"_
+  require 'graphics/gl2'
 else.
   require 'dll strings unicode'
 end.
@@ -612,7 +613,7 @@ PForm=: 'plot'
 Ch=: Cw=: 0      
 PId=: 'gs'
 Plot=: i. 0 0
-PFormhwnd=: ''
+PFormhwnd=: 0['' 
 Poutput=: _1     
 Printer=: 0      
 PReset=: 0       
@@ -1067,11 +1068,11 @@ end.
 subres
 )
 plotshow=: 3 : 0
-wd 'psel ',PFormhwnd
-glsel PId
+gtk_window_present_with_time PFormhwnd,GDK_CURRENT_TIME
+glsel PIdLoc
 gpinit''
 make ''
-isi_show 1
+gtk_show 1
 )
 PDFScale=: 0.5   
 Sizes=: ([:<i.&' '{.]);._2 (0 : 0)
@@ -2140,54 +2141,52 @@ else.
 
 end.
 )
-PMenu=: 0 : 0
-menupop "&File";
-menu clip "&Clip" "" "" "";
-menusep;
-menu saveeps "&Save EPS" "" "" "";
-menusep;
-menu savepdf "&Save PDF" "" "" "";
-menusep;
-menu print "&Print" "" "" "";
-menusep;
-menu exit "E&xit" "" "" "";
-menupopz;
-menupop "&Help";
-menu help "&Plot Help" "" "" "";
-menusep;
-menu about "&About" "" "" "";
-menupopz;
+wpsave=: 3 : 0
+cx=. ,_1 [ cy=. ,_1
+gtk_window_get_position y;cx;cy
+cxywh_jwplot_=: cx,cy, 2}. getGtkWidgetAllocation y
+)
+
+wpset=: 3 : 0
+if. 0 0 0 0-:cxywh_jwplot_ do.
+  gtk_window_move y,0 0
+  gtk_window_set_default_size y,480 360
+else.
+  gtk_window_move y,2{.cxywh_jwplot_
+  gtk_window_set_default_size y,2}.cxywh_jwplot_
+end.
 )
 pclose=: 3 : 0
 try.
-  wd 'psel ',PFormhwnd
   if. ifjwplot'' do.
-    wpsave_j_ :: 0: PForm
+    wpsave PFormhwnd
   end.
-  wd 'pclose'
+  gtk_widget_destroy ::0: PFormhwnd
+  PFormhwnd=: 0
   pd 'reset'
 catch. end.
+0
 )
 popen=: 3 : 0
-if. ifparent PFormhwnd do.
-  wd 'psel ',PFormhwnd
-  wd 'pactive'
-  glsel PId
-  0 return.
+if. 0~:PFormhwnd do.
+  if. 0= gtk_widget_get_parent_window PFormhwnd do.
+    gtk_window_present_with_time PFormhwnd,GDK_CURRENT_TIME
+    glsel PIdLoc
+    0 return.
+  end.
 end.
-wd 'pc ',PForm
-PFormhwnd=: wd 'qhwndp'
-wd 'pn *',PLOTCAPTION
-wd 'xywh 0 0 240 180'
-wd 'cc ',PId,' isigraph rightmove bottommove'
-wd 'pas 0 0'
+PFormhwnd=: window=. gtk_window_new GTK_WINDOW_TOPLEVEL
+'Cw Ch'=: 480 360
+gtk_window_set_title window;PLOTCAPTION
+PIdLoc=: glcanvas PForm;PId;Cw,Ch
+box=. gtk_vbox_new 0 0
+gtk_container_add window,box
+gtk_box_pack_start box, gtkbox__PIdLoc, 1 1 0
+consig3 window;'delete-event';'pclose'
 
 if. ifjwplot'' do.
-  wpset_j_ :: 0: PForm
-else.
-  wdmove _1 0
+  wpset window
 end.
-wdfit ''
 
 fm=. PForm,'_'
 id=. fm,PId,'_'
@@ -2202,12 +2201,14 @@ id=. fm,PId,'_'
 
 Pxywh=: ''
 PShow=: 0
+1
 )
 ppaint=: 3 : 0
 cwh=. glqwh''
 if. -. cwh -: Cw,Ch do.
-  isi_show ''
+  gtk_show ''
 end.
+0
 )
 psize=: 3 : 0
 if. #Plot do.
@@ -2216,7 +2217,8 @@ end.
 )
 ptop=: 3 : 0
 PTop=: -. PTop
-wd 'ptop ',":PTop
+gtk_window_set_keep_above PFormhwnd, PTop
+0
 )
 
 pgetascender=: 3 : 0
@@ -2233,7 +2235,8 @@ case. iISI do.
   glfont x
   |: glqextent &> y
 case. iGTK do.
-  gtkextent gtkpl;y;gtkfontdesc x
+  l=. locGL2_jgl2_
+  gtkextent__l gtkpl__l;y;gtkfontdesc x
 case. do.
   FontScale * x getextent y
 end.
@@ -2248,7 +2251,8 @@ case. iISI do.
   glfont x
   glqextent y
 case. iGTK do.
-  gtkextent gtkpl;y;gtkfontdesc x
+  l=. locGL2_jgl2_
+  gtkextent__l gtkpl__l;y;gtkfontdesc x
 case. do.
   FontScale * x getextent1 y
 end.
@@ -5004,17 +5008,31 @@ g_object_unref buf
 )
 gtk_show=: 3 : 0
 initplotgtk''
-newwindow 'graph'
-locGB=: 540 400 conew 'jgtkcanvas'
-coinsert__locGB coname''
-gtk_container_add window,gtkbox__locGB
-windowfinish''
+
+popen''
+(PForm,'_',PId,'_paint')=: gtk_paint
+if. PShow=0 do.
+  if. VISIBLE do.
+    gtk_widget_show_all PFormhwnd
+  else.
+    gtk_widget_hdie_all PFormhwnd
+  end.
+  gtk_window_set_keep_above PFormhwnd,PTop
+  PShow=: 1
+else.
+  glpaint''
+end.
 if. -.IFGTK do. gtk_main '' end.
 )
-paint=: 3 : 0
+gtk_paint=: 3 : 0
+glsel PIdLoc
 'Cw Ch'=: glqwh''
-make iGTK;gtkxywh
+gtk_paintit 0 0,Cw,Ch
+)
+gtk_paintit=: 3 : 0
+make iGTK;y
 glclipreset''
+if. 0=#Plot do. return. end.
 ids=. 1 {"1 Plot
 fns=. 'gtk'&, each ids
 dat=. 3 }."1 Plot
@@ -5022,8 +5040,6 @@ for_d. dat do.
   (>d_index{fns)~d
 end.
 )
-
-window_delete=: 0:
 
 coclass 'jzplot'
 ISI_DEFFILE=: '~temp/plot'
