@@ -4139,7 +4139,6 @@ if. #y do.
   PForm=: y
 end.
 PReset=: 1
-pdcmdpixels=: 0$0
 pdcmdsave=: ''
 pdcmdclip=: 0
 pdcmdprint=: 0
@@ -4919,7 +4918,8 @@ file=. jpath ('.',type) fext (;qchop y),(0=#y) # GTK_DEFFILE
 gtk_emf=: 0:
 gtk_gif=: 0:
 gtk_getrgb=: 3 : 0
-pdcmdpixels
+box=. 0 0,glqwh''
+(2}.box),glqpixels box
 )
 gtk_bmp=: 3 : 0
 type=. 'bmp'

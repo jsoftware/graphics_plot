@@ -13,7 +13,6 @@ cxywh=: 4$0
 
 NB. =========================================================
 NB. deferred commands
-pdcmdpixels=: 0$0
 pdcmdsave=: ''
 pdcmdclip=: 0
 pdcmdprint=: 0
