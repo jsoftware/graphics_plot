@@ -2178,6 +2178,7 @@ end.
 PFormhwnd=: window=. gtk_window_new GTK_WINDOW_TOPLEVEL
 'Cw Ch'=: 480 360
 gtk_window_set_title window;PLOTCAPTION
+gtk_widget_set_name window;PForm
 PIdLoc=: glcanvas PForm;PId;Cw,Ch
 box=. gtk_vbox_new 0 0
 gtk_container_add window,box
