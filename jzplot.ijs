@@ -2182,7 +2182,7 @@ gtk_widget_set_name window;PForm
 PIdLoc=: glcanvas PForm;PId;Cw,Ch
 box=. gtk_vbox_new 0 0
 gtk_container_add window,box
-gtk_box_pack_start box, gtkbox__PIdLoc, 1 1 0
+gtk_box_pack_start box, canvas__PIdLoc, 1 1 0
 consig3 window;'delete-event';'pclose'
 
 if. ifjwplot'' do.
