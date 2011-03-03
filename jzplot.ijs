@@ -5007,9 +5007,8 @@ g_object_unref buf
 )
 gtk_show=: 3 : 0
 initplotgtk''
-
 popen''
-(PForm,'_',PId,'_paint')=: gtk_paint
+gtk_paint''
 if. PShow=0 do.
   if. VISIBLE do.
     gtk_widget_show_all PFormhwnd
@@ -5039,7 +5038,6 @@ for_d. dat do.
   (>d_index{fns)~d
 end.
 )
-
 coclass 'jzplot'
 ISI_DEFFILE=: '~temp/plot'
 fext=: 4 : 0
