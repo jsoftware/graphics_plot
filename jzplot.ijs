@@ -4904,11 +4904,9 @@ glpolygon p
 )
 gtk_print=: 3 : 0
 if. -.IFGTK do. pdcmdprint=: 1 return. end.
-initplotgtk''
-newwindow 'graph'
-locGB=: 540 400 conew 'jgtkcanvas'
-coinsert__locGB coname''
-print__locGB''
+window=. gtk_window_new GTK_WINDOW_TOPLEVEL
+gloc=. glcanvas_jgl2_ '';'';540 400;coname''
+print__gloc''
 if. -.IFGTK do. gtk_main '' end.
 )
 gtk_def=: 4 : 0
