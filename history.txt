@@ -14,5 +14,5 @@ graphics/plot - change history
 == 1.0.3 ==
  * gtkbox and gtkda renamed as canvas
 
-== 1.0.4 ==
+== 1.0.4/5 ==
  * use double buffering

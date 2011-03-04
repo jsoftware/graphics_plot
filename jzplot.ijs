@@ -2165,6 +2165,7 @@ try.
   PFormhwnd=: 0
   pd 'reset'
 catch. end.
+if. (ifjwplot'') *. -.IFGTK do. gtk_main_quit'' end.
 0
 )
 popen=: 3 : 0
@@ -2179,11 +2180,11 @@ PFormhwnd=: window=. gtk_window_new GTK_WINDOW_TOPLEVEL
 'Cw Ch'=: 480 360
 gtk_window_set_title window;PLOTCAPTION
 gtk_widget_set_name window;PForm
-PIdLoc=: glcanvas PForm;PId;Cw,Ch
+PIdLoc=: glcanvas PForm;PId;(Cw,Ch);coname''
 box=. gtk_vbox_new 0 0
 gtk_container_add window,box
 gtk_box_pack_start box, canvas__PIdLoc, 1 1 0
-consig3 window;'delete-event';'pclose'
+consig window;'destroy';'pclose'
 
 if. ifjwplot'' do.
   wpset window
@@ -5008,19 +5009,23 @@ g_object_unref buf
 gtk_show=: 3 : 0
 initplotgtk''
 popen''
-gtk_paint''
+if. ifjwplot'' do.
+  (PForm,'_',PId,'_paint')=: gtk_paint
+end.
 if. PShow=0 do.
   if. VISIBLE do.
     gtk_widget_show_all PFormhwnd
   else.
     gtk_widget_hdie_all PFormhwnd
   end.
-  gtk_window_set_keep_above PFormhwnd,PTop
   PShow=: 1
+  gtk_paint''
+  gtk_window_set_keep_above PFormhwnd,PTop
 else.
+  gtk_paint''
   glpaint''
 end.
-if. -.IFGTK do. gtk_main '' end.
+if. (ifjwplot'') *. -.IFGTK do. gtk_main '' end.
 )
 gtk_paint=: 3 : 0
 glsel PIdLoc
