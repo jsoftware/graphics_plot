@@ -6,13 +6,13 @@ DESCRIPTION=: 0 : 0
 2D Plot
 )
 
-VERSION=: '1.0.5'
+VERSION=: '1.0.6'
 
 DEPENDS=: 0 : 0
 graphics/afm
 graphics/bmp
 graphics/color
-gui/gtk
+graphics/gl2
 )
 
 FILES=: 0 : 0

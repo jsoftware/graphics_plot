@@ -5,7 +5,7 @@ NB.*pdf v plot function driver
 NB.*plot v cover for pd
 NB.*plotf v cover for pdf
 
-load '~addons/graphics/plot/jzplot.ijs'
+require 'jzplot'
 coclass 'jwplot'
 coinsert 'jzplot'
 

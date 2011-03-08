@@ -149,13 +149,13 @@ TITLEFONT=: 'Arial 15'
 )
 
 unx=. 0 : 0
-CAPTIONFONT=: 'sansserif 13'
-KEYFONT=: 'sansserif 10'
-LABELFONT=: 'sansserif 10'
-SYMBOLFONT=: 'monospaced 10'
-TEXTFONT=: 'sansserif 13'
-SUBTITLEFONT=: 'sansserif 14'
-TITLEFONT=: 'sansserif 15'
+CAPTIONFONT=: 'Sans 13'
+KEYFONT=: 'Sans 10'
+LABELFONT=: 'Sans 10'
+SYMBOLFONT=: 'Monospace 10'
+TEXTFONT=: 'Sans 13'
+SUBTITLEFONT=: 'Sans 14'
+TITLEFONT=: 'Sans 15'
 )
 
 all=. all, IFWIN pick unx;w32

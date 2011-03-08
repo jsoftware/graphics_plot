@@ -1068,7 +1068,7 @@ end.
 subres
 )
 plotshow=: 3 : 0
-gtk_window_present_with_time PFormhwnd,GDK_CURRENT_TIME
+gtk_window_present_with_time_jgtk_ PFormhwnd,GDK_CURRENT_TIME_jgtk_
 glsel PIdLoc
 gpinit''
 make ''
@@ -1229,13 +1229,13 @@ TITLEFONT=: 'Arial 15'
 )
 
 unx=. 0 : 0
-CAPTIONFONT=: 'sansserif 13'
-KEYFONT=: 'sansserif 10'
-LABELFONT=: 'sansserif 10'
-SYMBOLFONT=: 'monospaced 10'
-TEXTFONT=: 'sansserif 13'
-SUBTITLEFONT=: 'sansserif 14'
-TITLEFONT=: 'sansserif 15'
+CAPTIONFONT=: 'Sans 13'
+KEYFONT=: 'Sans 10'
+LABELFONT=: 'Sans 10'
+SYMBOLFONT=: 'Monospace 10'
+TEXTFONT=: 'Sans 13'
+SUBTITLEFONT=: 'Sans 14'
+TITLEFONT=: 'Sans 15'
 )
 
 all=. all, IFWIN pick unx;w32
@@ -1379,7 +1379,7 @@ Int=. INT
 Label=. LABEL
 TicPos=. TICPOS
 'Step Minor'=. TIC
-wid=. wid - getfontsize LabelFontX
+wid=. wid - getplotfontsize LabelFontX
 mtc=. <. wid % MinTic
 
 if. #RANGE do.
@@ -1589,7 +1589,7 @@ drawycaption=: 3 : 0
 if. #YCAPTION do.
   x=. Yx + MYCaption
   y=. Yy + -: Yh
-  if. Poutput = iISI do.
+  if. Poutput e. iISI do.
     font=. CaptionFont,' angle900'
   else.
     font=. 90 (3) } CaptionFont
@@ -1601,7 +1601,7 @@ drawy2caption=: 3 : 0
 if. #Y2CAPTION do.
   x=. Y2x + Y2w - MYCaption
   y=. Y2y + -: Y2h
-  if. Poutput = iISI do.
+  if. Poutput e. iISI do.
     font=. CaptionFont,' angle2700'
   else.
     font=. 270 (3) } CaptionFont
@@ -2143,17 +2143,17 @@ end.
 )
 wpsave=: 3 : 0
 cx=. ,_1 [ cy=. ,_1
-gtk_window_get_position y;cx;cy
-cxywh_jwplot_=: cx,cy, 2}. getGtkWidgetAllocation y
+gtk_window_get_position_jgtk_ y;cx;cy
+cxywh_jwplot_=: cx,cy, 2}. getGtkWidgetAllocation_jgtk_ y
 )
 
 wpset=: 3 : 0
 if. 0 0 0 0-:cxywh_jwplot_ do.
-  gtk_window_move y,0 0
-  gtk_window_set_default_size y,480 360
+  gtk_window_move_jgtk_ y,0 0
+  gtk_window_set_default_size_jgtk_ y,480 360
 else.
-  gtk_window_move y,2{.cxywh_jwplot_
-  gtk_window_set_default_size y,2}.cxywh_jwplot_
+  gtk_window_move_jgtk_ y,2{.cxywh_jwplot_
+  gtk_window_set_default_size_jgtk_ y,2}.cxywh_jwplot_
 end.
 )
 pclose=: 3 : 0
@@ -2161,30 +2161,30 @@ try.
   if. ifjwplot'' do.
     wpsave PFormhwnd
   end.
-  gtk_widget_destroy ::0: PFormhwnd
+  gtk_widget_destroy_jgtk_ ::0: PFormhwnd
   PFormhwnd=: 0
   pd 'reset'
 catch. end.
-if. (ifjwplot'') *. -.IFGTK do. gtk_main_quit'' end.
+if. (ifjwplot'') *. -.IFGTK do. gtk_main_quit_jgtk_ '' end.
 0
 )
 popen=: 3 : 0
 if. 0~:PFormhwnd do.
-  if. 0= gtk_widget_get_parent_window PFormhwnd do.
-    gtk_window_present_with_time PFormhwnd,GDK_CURRENT_TIME
+  if. 0= gtk_widget_get_parent_window_jgtk_ PFormhwnd do.
+    gtk_window_present_with_time_jgtk_ PFormhwnd,GDK_CURRENT_TIME_jgtk_
     glsel PIdLoc
     0 return.
   end.
 end.
-PFormhwnd=: window=. gtk_window_new GTK_WINDOW_TOPLEVEL
+PFormhwnd=: window=. gtk_window_new_jgtk_ GTK_WINDOW_TOPLEVEL_jgtk_
 'Cw Ch'=: 480 360
-gtk_window_set_title window;PLOTCAPTION
-gtk_widget_set_name window;PForm
-PIdLoc=: glcanvas PForm;PId;(Cw,Ch);coname''
-box=. gtk_vbox_new 0 0
-gtk_container_add window,box
-gtk_box_pack_start box, canvas__PIdLoc, 1 1 0
-consig window;'destroy';'pclose'
+gtk_window_set_title_jgtk_ window;PLOTCAPTION
+gtk_widget_set_name_jgtk_ window;PForm
+PIdLoc=: glcanvas_jgl2_ PForm;PId;(Cw,Ch);coname''
+box=. gtk_vbox_new_jgtk_ 0 0
+gtk_container_add_jgtk_ window,box
+gtk_box_pack_start_jgtk_ box, canvas__PIdLoc, 1 1 0
+consig_jgtk_ window;'destroy';'pclose';coname''
 
 if. ifjwplot'' do.
   wpset window
@@ -2195,6 +2195,7 @@ id=. fm,PId,'_'
 (fm,'close')=: pclose
 (fm,'cancel')=: pclose
 (fm,'tctrl_fkey')=: ptop
+(id,'paint')=: ppaint
 (id,'size')=: ppaint
 (id,'mmove')=: ]
 
@@ -2219,26 +2220,30 @@ end.
 )
 ptop=: 3 : 0
 PTop=: -. PTop
-gtk_window_set_keep_above PFormhwnd, PTop
+gtk_window_set_keep_above_jgtk_ PFormhwnd, PTop
 0
 )
 
 pgetascender=: 3 : 0
-if. Poutput=iISI do.
+if. Poutput = iISI do.
   glfont y
   1 { glqtextmetrics''
-else.
+elseif. Poutput = iGTK do.
+  if. GL2Backend_jgl2_ e. 3 do.
+    glfont y
+    1 { glqtextmetrics''
+  else.
+    FontScale * getascender y
+  end.
+elseif. do.
   FontScale * getascender y
 end.
 )
 pgetextent=: 4 : 0
 select. Poutput
-case. iISI do.
+case. iISI,iGTK do.
   glfont x
   |: glqextent &> y
-case. iGTK do.
-  l=. locGL2_jgl2_
-  gtkextent__l gtkpl__l;y;gtkfontdesc x
 case. do.
   FontScale * x getextent y
 end.
@@ -2249,17 +2254,22 @@ if. LF e. y do.
   (>./{."1 r),+/{:"1 r return.
 end.
 select. Poutput
-case. iISI do.
+case. iISI,iGTK do.
   glfont x
   glqextent y
-case. iGTK do.
-  l=. locGL2_jgl2_
-  gtkextent__l gtkpl__l;y;gtkfontdesc x
 case. do.
   FontScale * x getextent1 y
 end.
 )
-getfontsize=: 3 : 'FontScale * 2 { y'
+getfontsize=: 13 : '{.1{._1 -.~ _1 ". y'
+getplotfontsize=: 3 : 0
+if. 2 131072 e.~ 3!:0 y do.
+  FontScale * getfontsize y
+else.
+  FontScale * 2 { y
+end.
+)
+
 pgetstringlen=: {. @ pgetextent
 setfonts=: 3 : 0
 
@@ -2277,7 +2287,14 @@ if. Poutput = iISI do.
   SubTitleFont=: getisifontid SubTitleFontX
   SymbolFont=: getisifontid SymbolFontX
   TitleFont=: getisifontid TitleFontX
-else.
+elseif. Poutput = iGTK do.
+  CaptionFont=: getgtkfontid CaptionFontX
+  KeyFont=: getgtkfontid KeyFontX
+  LabelFont=: getgtkfontid LabelFontX
+  SubTitleFont=: getgtkfontid SubTitleFontX
+  SymbolFont=: getgtkfontid SymbolFontX
+  TitleFont=: getgtkfontid TitleFontX
+elseif. do.
   CaptionFont=: CaptionFontX
   KeyFont=: KeyFontX
   LabelFont=: LabelFontX
@@ -2519,7 +2536,6 @@ if. 0 = #KEY do.
   'Kx Ky Kw Kh'=: Kxywh=: 4$0 return.
 end.
 len=. #KEY
-
 KeyExtent=: KeyFont pgetextent KEY
 'tw th'=. KeyExtent
 if. 'h' e. KEYSTYLE do.
@@ -4073,7 +4089,10 @@ for_p. Text do.
     font=. getfontid TEXTFONT
     if. Poutput = iISI do.
       font=. getisifontid font
+    elseif. Poutput = iGTK do.
+      font=. getgtkfontid font
     end.
+
     drawtext iTEXT;align;font;TEXTCOLOR;text;pos
   end.
 
@@ -4550,7 +4569,7 @@ rot=. 3 | 0 90 270 i. fan
 asc=. pgetascender f
 fnm=. getfntname fnx,fst
 pbuf '/',fnm,' findfont'
-pbuf (": getfontsize f),' scalefont setfont'
+pbuf (": getplotfontsize f),' scalefont setfont'
 select. rot
 case. 0 do. p=. 0 >. p -"1 [ 0, asc
 case. 1 do. p=. p +"1 asc, 0
@@ -4652,11 +4671,7 @@ coclass 'jzplot'
 PlotGtkInit_jzplot_=: 0
 initplotgtk=: 3 : 0
 if. PlotGtkInit_jzplot_ do. return. end.
-if. -.IFGTK do. gtkinit_jgtk_'' end.
-path=. copath coname''
-ndx=. path i. <'jgl2'
-path=. ~. (ndx{.path),'jgtk';ndx}.path
-path copath coname''
+if. -.IFGTK do. gtkinit_jgtk_ '' end.
 PlotGtkInit_jzplot_=: 1
 )
 
@@ -4822,8 +4837,13 @@ p=. gpflip citemize p
 t=. text2utf8 each boxopen t
 t=. (#p) $ ,each t
 
-glfontangle 3{f
-glfont gtkfontdesc f
+if. 2 131072 e.~ 3!:0 f do.
+  smoutput 'fixme: gtktext font ';f
+  13!:8[3
+else.
+  glfontangle 3{f
+  glfont gtkfontdesc f
+end.
 if. a e. iCENTER, iRIGHT do.
   off=. <. -: a * f pgetstringlen t
   select. 3{f
@@ -4905,10 +4925,10 @@ glpolygon p
 )
 gtk_print=: 3 : 0
 if. -.IFGTK do. pdcmdprint=: 1 return. end.
-window=. gtk_window_new GTK_WINDOW_TOPLEVEL
+window=. gtk_window_new_jgtk_ GTK_WINDOW_TOPLEVEL_jgtk_
 gloc=. glcanvas_jgl2_ '';'';540 400;coname''
 print__gloc''
-if. -.IFGTK do. gtk_main '' end.
+if. -.IFGTK do. gtk_main_jgtk_ '' end.
 )
 gtk_def=: 4 : 0
 type=. x
@@ -4996,15 +5016,15 @@ type=. type, (type-:'tif')#'f'
 d=. 2}.x
 d=. d OR ALPHA
 if. IF64 do. d=. 2 ic d end.
-buf=. gdk_pixbuf_new_from_data (15!:14<'d'),GDK_COLORSPACE_RGB,1,8,w,h,(4*w),0,0
+buf=. gtk_pixbuf_new_from_data_jgtk_ (15!:14<'d'),GDK_COLORSPACE_RGB_jgtk_,1,8,w,h,(4*w),0,0
 if. buf do.
   if. 3<#y do.
-    gdk_pixbuf_save_2 buf;fl;type;0;(2 3{y),<0
+    gtk_pixbuf_save_2_jgtk_ buf;fl;type;0;(2 3{y),<0
   else.
-    gdk_pixbuf_save buf;fl;type;0;0
+    gtk_pixbuf_save_jgtk_ buf;fl;type;0;0
   end.
 end.
-g_object_unref buf
+g_object_unref_jgtk_ buf
 )
 gtk_show=: 3 : 0
 initplotgtk''
@@ -5014,18 +5034,18 @@ if. ifjwplot'' do.
 end.
 if. PShow=0 do.
   if. VISIBLE do.
-    gtk_widget_show_all PFormhwnd
+    gtk_widget_show_all_jgtk_ PFormhwnd
   else.
-    gtk_widget_hdie_all PFormhwnd
+    gtk_widget_hide_all_jgtk_ PFormhwnd
   end.
   PShow=: 1
   gtk_paint''
-  gtk_window_set_keep_above PFormhwnd,PTop
+  gtk_window_set_keep_above_jgtk_ PFormhwnd,PTop
 else.
   gtk_paint''
   glpaint''
 end.
-if. (ifjwplot'') *. -.IFGTK do. gtk_main '' end.
+if. (ifjwplot'') *. -.IFGTK do. gtk_main_jgtk_ '' end.
 )
 gtk_paint=: 3 : 0
 glsel PIdLoc
@@ -6078,7 +6098,7 @@ asc=. pgetascender f
 fnm=. <getfntname fnx,fst
 PDFFonts=: ~. PDFFonts,fnm
 fnx=. 1 + PDFFonts i. fnm
-txt=. '/F',(":fnx),' ',(": getfontsize f),' Tf '
+txt=. '/F',(":fnx),' ',(": getplotfontsize f),' Tf '
 select. rot
 case. 0 do. p=. 0 >. p -"1 [ 0, asc
 case. 1 do. p=. p +"1 asc, 0

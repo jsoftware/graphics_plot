@@ -16,3 +16,6 @@ graphics/plot - change history
 
 == 1.0.4/5 ==
  * use double buffering
+
+== 1.0.6 ==
+ * support multiple backends
