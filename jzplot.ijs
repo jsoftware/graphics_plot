@@ -2225,11 +2225,11 @@ gtk_window_set_keep_above_jgtk_ PFormhwnd, PTop
 )
 
 pgetascender=: 3 : 0
-if. Poutput = iISI do.
+if. Poutput e. iISI do.
   glfont y
   1 { glqtextmetrics''
 elseif. Poutput = iGTK do.
-  if. GL2Backend_jgl2_ e. 3 do.
+  if. GL2Backend_jgl2_ e. 3 4 do.
     glfont y
     1 { glqtextmetrics''
   else.
@@ -2280,14 +2280,14 @@ SubTitleFontX=: getfontid SUBTITLEFONT
 SymbolFontX=: getfontid SYMBOLFONT
 TitleFontX=: getfontid TITLEFONT
 
-if. Poutput = iISI do.
+if. Poutput e. iISI do.
   CaptionFont=: getisifontid CaptionFontX
   KeyFont=: getisifontid KeyFontX
   LabelFont=: getisifontid LabelFontX
   SubTitleFont=: getisifontid SubTitleFontX
   SymbolFont=: getisifontid SymbolFontX
   TitleFont=: getisifontid TitleFontX
-elseif. Poutput = iGTK do.
+elseif. Poutput e. iGTK do.
   CaptionFont=: getgtkfontid CaptionFontX
   KeyFont=: getgtkfontid KeyFontX
   LabelFont=: getgtkfontid LabelFontX
@@ -4087,9 +4087,9 @@ for_p. Text do.
     text=. towords 2 }. arg
     align=. TextTypes i. cmd
     font=. getfontid TEXTFONT
-    if. Poutput = iISI do.
+    if. Poutput e. iISI do.
       font=. getisifontid font
-    elseif. Poutput = iGTK do.
+    elseif. Poutput e. iGTK do.
       font=. getgtkfontid font
     end.
 
@@ -4668,13 +4668,6 @@ res=. eps_build buf
 res eps_write file
 )
 coclass 'jzplot'
-PlotGtkInit_jzplot_=: 0
-initplotgtk=: 3 : 0
-if. PlotGtkInit_jzplot_ do. return. end.
-if. -.IFGTK do. gtkinit_jgtk_ '' end.
-PlotGtkInit_jzplot_=: 1
-)
-
 GTK_DEFFILE=: '~temp/plot'
 fext=: 4 : 0
 f=. deb y
@@ -4687,63 +4680,152 @@ a=. 0, {.@:(0&".)@> _4 }. each {."1 d
 a=. ": {. (i. >: #a) -. a
 p,a,'.',y
 )
-gtkfontdesc=: 3 : 0
-'ind fst siz ang und'=. y
-'ita bld'=. 2 2 #: fst
-sty=. (bld#' bold'),(ita#' italic'),und#' underline'
-('_' (I.@(' '&=)nam)} nam=. ind pick GTKFONTNAMES),sty,' ',":siz
+gtk_getsize=: 3 : 0
+if. 0=PFormhwnd do. '' return. end.
+_2{.getGtkWidgetAllocation_jgtk_ canvas__PIdLoc
+)
+output_parms=: 4 : 0
+'size file'=. x
+if. #y do.
+  prm=. qchop y
+  select. #prm
+  case. 1 do.
+    file=. 0 pick prm
+  case. 2 do.
+    size=. 0 ".&> prm
+  case. 3 do.
+    file=. 0 pick prm
+    size=. 0 ". &> _2 {. prm
+    if. 0 e. size do.
+      size=. 0 ". &> 2 {. prm
+      file=. 2 pick prm
+    end.
+  end.
+else.
+  if. #sz=. gtk_getsize'' do.
+    size=. sz
+  end.
+end.
+size;file
 )
 gtk_clip=: 0:
-gtk_edge=: 4 : 0
+gpcount=: ,"1~ 1 + [: {: 1 , $
+gpcut=: 3 : 0
+r=. ''
+while. #y do.
+  n=. {. y
+  if. n=0 do.
+    info 'zero length segment at: ',":#;r
+    r
+    return.
+  end.
+  r=. r, < n {. y
+  y=. n }. y
+end.
+r
+)
+gpbuf=: 3 : 0
+assert. 2 > #$y
+buf=: buf,y
+)
+gpapply=: 3 : 0
+glcmds buf
+buf=: $0
+)
+gpflip=: flipxy @ rndint
+gpfliplast=: 3 : 0
+(<gpflip _1 pick y) _1 } y
+)
+gpinit=: 3 : 0
+buf=: bufdef=: $0
+r=. ''
+r=. r,3 2003 1 
+r=. r,3 2071 1 
+gpapply''
+)
+gpbrushnull=: 3 : '2 2005'
+gppens=: 4 : 0
+y=. rndint y
+5 2032,"1 x,"1 [ 4 2022,"1 y,.5*y=0
+)
+gppen=: 4 : 0
+y=. rndint y
+5 2032,(,x),4 2022,y,5*y=0
+)
+gppens1=: 3 : 0
+5 2032,"1 y,"1 [ 4 2022 1 0
+)
+gppen1=: 3 : 0
+5 2032,(,y),4 2022 1 0
+)
+gppenbrush1=: 3 : 0
+5 2032,(,y),4 2022 1 0 2 2004
+)
+gppixel=: 3 : 0
 's t f e c p'=. y
-glbrushnull''
-fn=. x~
-if. (is1color e) *. 1=#s do.
-  s glsetpen e
-  fn p
+p=. gpcount 2024 ,"1 gpflip p
+if. is1color e do.
+  gpbuf e gppen 1
+  gpbuf ,p
 else.
-  s=. (#p) $ s
-  e=. (#p) $ citemize e
-  for_i. i.#s do.
-    (i{s) glsetpen i{e
-    fn i{p
-  end.
+  rws=. #p
+  e=. rws $ citemize e
+  pen=. e gppens 1
+  gpbuf ,pen ,. p
 end.
 )
-gtk_shape=: 4 : 0
+gppline=: 4 : 0
+'s t f e c p'=. y
+if. (is1color e) *. 1 = #s do.
+  gpbuf (,e) gppen s
+  gpbuf ,gpcount x,"1 p
+else.
+  rws=. #p
+  e=. rws $ citemize e
+  s=. rws $ s
+  pen=. e gppens s
+  gpbuf ,pen ,. gpcount x,"1 p
+end.
+)
+gppshape=: 4 : 0
 'v s f e c p'=. y
+
 if. v=0 do. e=. c end.
-fn=. x~
-if. isempty c do.
-  glbrushnull''
-  if. is1color e do.
-    glsetpen e
-    fn p
-  else.
-    for_clr. e do.
-      glsetpen clr
-      fn clr_index{p
-    end.
+
+if. is1color e do.
+  gpbuf e gppen v
+  if. isempty c do.
+    gpbuf gpbrushnull''
+    gpbuf ,gpcount x,"1 p
+  elseif. is1color c do.
+    gpbuf 5 2032,(,c),2 2004
+    gpbuf ,gpcount x,"1 p
+  elseif. do.
+    c=. (#p) $ c
+    clr=. 5 2032 ,"1 c ,"1 [ 2 2004
+    gpbuf , clr ,. gpcount x,"1 p
   end.
 else.
-  if. (is1color e) *. is1color c do.
-    glsetpen e
-    glsetbrush c
-    fn p
-  else.
-    c=. (#p) $ citemize c
-    e=. (#p) $ citemize e
-    for_i. i.#p do.
-      glsetpen i{e
-      glsetbrush i{c
-      fn i{p
-    end.
+  e=. (#p) $ e
+  e=. e gppens v
+  if. isempty c do.
+    gpbuf gpbrushnull''
+    gpbuf , e ,. gpcount x,"1 p
+  elseif. is1color c do.
+    gpbuf 5 2032,(,c),2 2004
+    gpbuf , e ,. gpcount x,"1 p
+  elseif. do.
+    c=. (#p) $ c
+    clr=. 5 2032 ,"1 c ,"1 [ 2 2004
+    gpbuf , e ,. clr ,. gpcount x,"1 p
   end.
+
 end.
 )
-gtkline=: 'gllines' gtk_edge gpfliplast
-gtkpie=: 'glpie' gtk_shape gpfliplast
-gtkpoly=: 'glpolygon' gtk_shape gpfliplast
+gtkarc=: 3 : '2001 gppline gpfliplast y'
+gtkline=: 3 : '2015 gppline gpfliplast y'
+gtkpie=: 3 : '2023 gppshape gpfliplast y'
+gtkpoly=: 3 : '2029 gppshape gpfliplast y'
 gtkcircle=: 3 : 0
 p=. _1 pick y
 ctr=. gpflip 0 1 {"1 p
@@ -4751,25 +4833,22 @@ rad=. rndint 2 {"1 p
 xy=. ctr - rad
 wh=. +: rad ,. rad
 p=. xy ,. wh
-'glellipse' gtk_edge (<p) _1 } y
+2008 gppshape (<p) _1 } y
 )
 gtkdot=: 3 : 0
 'v s f e c p'=. y
-p=. rndint p
 select. v
 case. 1 do.  
-  p=. gpflip p
-  'glpixel' gtk_edge 1;0;0;e;e;p
+  gppixel y
 case. 2 do.  
   p=. gpflip p
   p=. (p-1) ,"1 [ 2 2
-  'glrect' gtk_shape 1;0;0;e;e;p
+  dat=. 1;0;0;e;e;p
+  2031 gppshape dat
 case. 3 do.  
-  p=. gpflip p
-  h=. (p-"1[2 0) ,. p+"1[2 0
-  v=. (p-"1[0 2) ,. p+"1[0 2
-  e=. 2 # (#p) $ citemize e
-  'gllines' gtk_edge 2;0;0;e;e;h,v
+  h=. (p-"1[1 0) ,. p+"1[2 0
+  v=. (p-"1[0 1) ,. p+"1[0 2
+  gtkline 1;0;0;e;e;h,v
 case. do.    
   o=. >. -: v
   p=. p ,"1 v,.v
@@ -4782,16 +4861,15 @@ if. #p do.
   'x y w h'=. p
   xy=. _1 + <. x,Ch-y+h
   wh=. 2 + >. w,h
-  glclip xy,wh
+  gpbuf 6 2078,xy,wh
 else.
-  glclipreset''
+  gpbuf 2 2079
 end.
 )
 gtkmarker=: 3 : 0
 's m f e c p'=. y
 p=. gpflip p
-1 glsetpen e
-glsetbrush e
+gpbuf gppenbrush1 e
 s ('gtkmark_',m)~ p
 )
 gtkpie=: 3 : 0
@@ -4804,7 +4882,7 @@ wh=. +: rad ,. rad
 tx=. ({."1 ctr) + rad * sind ang
 ty=. ({:"1 ctr) + rad * cosd ang
 p=. rndint xy ,. wh ,. ,"2 tx ,"0 ty
-'glpie' gtk_shape (<p) _1 } y
+2023 gppshape (<p) _1 } y
 )
 gtkpline=: 3 : 0
 's t f e c p'=. y
@@ -4814,93 +4892,89 @@ end.
 p=. gpflip p
 t=. t { PENPATTERN
 if. (is1color e) *. 1 = #s do.
-  s glsetpen e
-  gllines t linepattern"0 1 p
+  gpbuf 5 2032,(,e),4 2022,s,0
+  pos=. t linepattern"0 1 p
+  gpbuf ,gpcount 2015,"1 pos
 else.
   rws=. #p
   e=. rws $ citemize e
   s=. rws $ s
   t=. rws $ t
+  pen=. e gppens s
   for_i. i.#p do.
-    (i{s) glsetpen i{e
-    gllines (i{t) linepattern i{p
+    gpbuf i{pen
+    pos=. (i{t) linepattern i{p
+    gpbuf ,gpcount 2015,"1 pos
   end.
 end.
 )
 gtkrect=: 3 : 0
-p=. boxrs2wh gpflip citemize _1 pick y
-'glrect' gtk_shape (<p) _1 } y
+p=. boxrs2wh gpflip _1 pick y
+y=. (<p) _1 } y
+2031 gppshape y
 )
 gtktext=: 3 : 0
 't f a e c p'=. y
-p=. gpflip citemize p
-t=. text2utf8 each boxopen t
-t=. (#p) $ ,each t
 
-if. 2 131072 e.~ 3!:0 f do.
-  smoutput 'fixme: gtktext font ';f
-  13!:8[3
-else.
-  glfontangle 3{f
-  glfont gtkfontdesc f
-end.
-if. a e. iCENTER, iRIGHT do.
-  off=. <. -: a * f pgetstringlen t
-  select. 3{f
-  case. 90 do.
+f=. getisifontid f
+p=. gpflip p
+t=. text2utf8 each boxopen t
+if. a do.
+  glfont f
+  off=. <. -: a * {."1 glqextent &> t
+  if. 1 e. 'angle900' E. f do.
+    p=. p +"1 [ 0,.off
+  elseif. 1 e. 'angle2700' E. f do.
     p=. p -"1 [ 0,.off
-  case. 270 do.
-    p=. p -"1 [ 0,.off
-  case. do.
+  elseif. do.
     p=. p -"1 off,.0
   end.
 end.
+gpbuf gpcount 2012,alfndx,f
 if. is1color e do.
-  glrgb ,e
-  gltextcolor ''
-  for_i. i.#t do.
-    txt=. >i{t
-    gltextxy i{p
-    gltext txt
+  gpbuf 5 2032,(,e),2 2040
+  if. rank01 p do.
+    gpbuf gpcount 2056,p
+    gpbuf gpcount 2038,alfndx,>t
+  else.
+    t=. gpcount each 2038 ,each alfndx each t
+    t=. (<"1 gpcount 2056 ,"1 p) ,each t
+    gpbuf ; t
   end.
 else.
-  for_i. i.#t do.
-    glrgb i_index{e
-    txt=. >i{t
-    gltextcolor ''
-    gltextxy i{p
-    gltext txt
-  end.
+  t=. gpcount each 2038 ,each alfndx each t
+  t=. t ,each <"1 gpcount 2056 ,"1 p
+  t=. (<"1 (5 2032 ,"1 e) ,"1 [ 2 2040) ,each t
+  gpbuf ; t
 end.
 )
 gtkmark_circle=: 4 : 0
 s=. rndint x * 3
 p=. (y - s) ,"1 >: +: s,s
-p=. p,"1 ] 10000 _1 10000 0
-glarc p
+gpbuf ,gpcount 2008 ,"1 p
 )
 gtkmark_diamond=: 4 : 0
-p=. 8 $"1 y
-d=. rndint (4 * x) * _1 0 0 1 1 0 0 _1
-p=. p +"1 d
-glpolygon p
+s=. rndint x * 4
+'x y'=. |: y
+p=. (x-s),.y,.x,.(y+s),.(x+s),.y,.x,.y-s
+gpbuf ,gpcount 2029 ,"1 p
 )
 gtkmark_line=: 4 : 0
 'x y'=. , y
 p=. >.(x--:KeyLen),(y--:KeyPen),<:KeyLen,KeyPen
-gllines p
+gpbuf ,gpcount 2031 ,p
 )
 gtkmark_plus=: 4 : 0
-s=. rndint 4 0 * x
-p=. (y -"1 s) ,"1 y +"1 s
+s=. rndint 4 1 * x
+p=. (y -"1 s) ,"1 +: s
 s=. |. s
-p=. p , (y -"1 s) ,"1 y +"1 s
-gllines p
+p=. p , (y -"1 s) ,"1 +: s
+gpbuf ,gpcount 2031 ,"1 p
 )
 gtkmark_square=: 4 : 0
 s=. rndint x * 3
 p=. (y - s) ,"1 +: s,s
-glrect p
+gpbuf ,gpcount 2031 ,"1 p
 )
 gtkmark_times=: 4 : 0
 if. x = 1 do.
@@ -4908,20 +4982,22 @@ if. x = 1 do.
   q=. (y - "1 [ 3 _3) ,. y +"1 [ 4 _4
   p=. p, (p +"1 [ 0 1 _1 0), p + "1 [ 1 0 0 _1
   q=. q, (q +"1 [ 0 _1 _1 0), q +"1 [ 1 0 0 1
+  gpbuf ,gpcount 2015 ,"1 p,q
 else.
   s=. rndint _1 + 3 * x
   n=. rndint 2 * x
   p=. (y - s) ,. y + s
   q=. (y - "1 s * 1 _1) ,. y +"1 s * 1 _1
+  gpbuf 4 2022,n,0
+  gpbuf ,gpcount 2015 ,"1 p,q
 end.
-gllines p,q
 )
 gtkmark_triangle=: 4 : 0
 s=. rndint 2 * x
 t=. rndint 4 * x
 'x y'=. |: y
 p=. rndint (x-t),.(y+s),.(x+t),.(y+s),.x,.y-t
-glpolygon p
+gpbuf ,gpcount 2029 ,"1 p
 )
 gtk_print=: 3 : 0
 if. -.IFGTK do. pdcmdprint=: 1 return. end.
@@ -4950,6 +5026,14 @@ if. IFWIN do.
 else.
   rgb saveimg type;file
 end.
+)
+gtk_emf=: 3 : 0
+file=. jpath '.emf' fext (;qchop y),(0=#y) # GTK_DEFFILE
+glsel PIdLoc
+glfile file
+glemfopen''
+gtk_paint''
+glemfclose''
 )
 gtk_jpg=: 3 : 0
 file=. ''
@@ -5053,16 +5137,17 @@ glsel PIdLoc
 gtk_paintit 0 0,Cw,Ch
 )
 gtk_paintit=: 3 : 0
+gpinit''
 make iGTK;y
-glclipreset''
-if. 0=#Plot do. return. end.
 ids=. 1 {"1 Plot
 fns=. 'gtk'&, each ids
 dat=. 3 }."1 Plot
 for_d. dat do.
   (>d_index{fns)~d
 end.
+gpapply''
 )
+
 coclass 'jzplot'
 ISI_DEFFILE=: '~temp/plot'
 fext=: 4 : 0

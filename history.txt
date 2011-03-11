@@ -19,3 +19,6 @@ graphics/plot - change history
 
 == 1.0.6 ==
  * support multiple backends
+
+== 1.0.7 ==
+ * support gdi32 backend
