@@ -5111,7 +5111,7 @@ end.
 g_object_unref_jgtk_ buf
 )
 gtk_show=: 3 : 0
-initplotgtk''
+if. -.IFGTK do. gtkinit_jgtk_ '' end.
 popen''
 if. ifjwplot'' do.
   (PForm,'_',PId,'_paint')=: gtk_paint
