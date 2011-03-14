@@ -22,3 +22,6 @@ graphics/plot - change history
 
 == 1.0.7/8 ==
  * support gdi32 backend
+
+== 1.0.9 ==
+ * support glcmds shared library
