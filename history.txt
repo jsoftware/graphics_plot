@@ -25,3 +25,6 @@ graphics/plot - change history
 
 == 1.0.9/10 ==
  * support glcmds shared library
+
+== 1.0.11 ==
+ * fix pd save

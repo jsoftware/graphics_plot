@@ -2160,6 +2160,18 @@ pclose=: 3 : 0
 try.
   if. ifjwplot'' do.
     wpsave PFormhwnd
+    if. #pdcmdsave do.
+      gtk_save pdcmdsave
+      pdcmdsave=: ''
+    end.
+    if. pdcmdclip do.
+      gtk_clip ''
+      pdcmdclip=: 0
+    end.
+    if. pdcmdprint do.
+      pdcmdprint=: 0       
+      print''
+    end.
   end.
   gtk_widget_destroy_jgtk_ ::0: PFormhwnd
   PFormhwnd=: 0
@@ -4256,6 +4268,9 @@ end.
 
 pd_save=: 3 : 0
 if. Poutput e. _1,iGTK do.
+  if. IFGTK < ifjwplot'' do.
+    pdcmdsave=: y return.
+  end.
   gtk_save y
 else.
   isi_save y
@@ -4708,7 +4723,10 @@ else.
 end.
 size;file
 )
-gtk_clip=: 0:
+gtk_clip=: 3 : 0
+if. IFGTK < ifjwplot'' do. pdcmdclip=: 1 return. end.
+0
+)
 gpcount=: ,"1~ 1 + [: {: 1 , $
 gpcut=: 3 : 0
 r=. ''
@@ -5021,7 +5039,7 @@ p=. rndint (x-t),.(y+s),.(x+t),.(y+s),.x,.y-t
 gpbuf ,gpcount 2029 ,"1 p
 )
 gtk_print=: 3 : 0
-if. -.IFGTK do. pdcmdprint=: 1 return. end.
+if. IFGTK < ifjwplot'' do. pdcmdprint=: 1 return. end.
 window=. gtk_window_new_jgtk_ GTK_WINDOW_TOPLEVEL_jgtk_
 gloc=. glcanvas_jgl2_ '';'';540 400;coname''
 print__gloc''
@@ -5035,6 +5053,7 @@ file=. jpath ('.',type) fext (;qchop y),(0=#y) # GTK_DEFFILE
 gtk_emf=: 0:
 gtk_gif=: 0:
 gtk_getrgb=: 3 : 0
+glsel PIdLoc
 box=. 0 0,glqwh''
 (2}.box),glqpixels box
 )
@@ -5085,9 +5104,6 @@ rgb=. gtk_getrgb''
 rgb saveimg 'png';file;'compression';":comp
 )
 gtk_save=: 3 : 0
-if. 0=#gtk_getrgb'' do.
-  pdcmdsave=: y return.
-end.
 if. 0=#y do.
   gtk_clip'' return.
 end.
