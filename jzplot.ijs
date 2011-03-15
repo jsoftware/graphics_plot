@@ -5121,12 +5121,12 @@ type=. type, (type-:'tif')#'f'
 d=. 2}.x
 d=. d OR ALPHA
 if. IF64 do. d=. 2 ic d end.
-buf=. gtk_pixbuf_new_from_data_jgtk_ (15!:14<'d'),GDK_COLORSPACE_RGB_jgtk_,1,8,w,h,(4*w),0,0
+buf=. gdk_pixbuf_new_from_data_jgtk_ (15!:14<'d'),GDK_COLORSPACE_RGB_jgtk_,1,8,w,h,(4*w),0,0
 if. buf do.
   if. 3<#y do.
-    gtk_pixbuf_save_2_jgtk_ buf;fl;type;0;(2 3{y),<0
+    gdk_pixbuf_save_2_jgtk_ buf;fl;type;0;(2 3{y),<0
   else.
-    gtk_pixbuf_save_jgtk_ buf;fl;type;0;0
+    gdk_pixbuf_save_jgtk_ buf;fl;type;0;0
   end.
 end.
 g_object_unref_jgtk_ buf
