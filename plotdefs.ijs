@@ -42,7 +42,9 @@ GRAPHBACKCOLOR=: '' NB. color of graph background (if different from BACKCOLOR)
 GRIDCOLOR=: SILVER
 GRIDPATTERN=: 1 0 0 NB. series of 1's followed by 0's
 GRIDS=: 1
-GUIDESIZE=: 1 NB. axes, grids, frame
+NB. GUIDESIZE=: 1 NB. axes, grids, frame
+NB. reduced as cairo accepts floats and 1 is too thick
+GUIDESIZE=: 0.5 NB. axes, grids, frame
 ITEMCOLOR=: STDCLR
 KEY=: ''
 KEYCOLOR=: ''   NB. color of keys, default itemcolor. Text uses labelcolor.

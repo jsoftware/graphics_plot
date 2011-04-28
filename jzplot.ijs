@@ -1125,7 +1125,7 @@ GRAPHBACKCOLOR=: ''
 GRIDCOLOR=: SILVER
 GRIDPATTERN=: 1 0 0 
 GRIDS=: 1
-GUIDESIZE=: 1 
+GUIDESIZE=: 0.5 
 ITEMCOLOR=: STDCLR
 KEY=: ''
 KEYCOLOR=: ''   
@@ -2237,12 +2237,9 @@ gtk_window_set_keep_above_jgtk_ PFormhwnd, PTop
 )
 
 pgetascender=: 3 : 0
-if. Poutput e. iISI do.
-  glfont y
-  1 { glqtextmetrics''
-elseif. Poutput = iGTK do.
+if. Poutput = iGTK do.
   if. GL2Backend_jgl2_ e. 3 4 do.
-    glfont y
+    CF gtkfontdesc y
     1 { glqtextmetrics''
   else.
     FontScale * getascender y
@@ -2253,8 +2250,8 @@ end.
 )
 pgetextent=: 4 : 0
 select. Poutput
-case. iISI,iGTK do.
-  glfont x
+case. iGTK do.
+  glfont gtkfontdesc x
   |: glqextent &> y
 case. do.
   FontScale * x getextent y
@@ -2266,8 +2263,8 @@ if. LF e. y do.
   (>./{."1 r),+/{:"1 r return.
 end.
 select. Poutput
-case. iISI,iGTK do.
-  glfont x
+case. iGTK do.
+  glfont gtkfontdesc x
   glqextent y
 case. do.
   FontScale * x getextent1 y
@@ -2292,14 +2289,7 @@ SubTitleFontX=: getfontid SUBTITLEFONT
 SymbolFontX=: getfontid SYMBOLFONT
 TitleFontX=: getfontid TITLEFONT
 
-if. Poutput e. iISI do.
-  CaptionFont=: getisifontid CaptionFontX
-  KeyFont=: getisifontid KeyFontX
-  LabelFont=: getisifontid LabelFontX
-  SubTitleFont=: getisifontid SubTitleFontX
-  SymbolFont=: getisifontid SymbolFontX
-  TitleFont=: getisifontid TitleFontX
-elseif. Poutput e. iGTK do.
+if. Poutput e. iGTK do.
   CaptionFont=: getgtkfontid CaptionFontX
   KeyFont=: getgtkfontid KeyFontX
   LabelFont=: getgtkfontid LabelFontX
@@ -4099,9 +4089,7 @@ for_p. Text do.
     text=. towords 2 }. arg
     align=. TextTypes i. cmd
     font=. getfontid TEXTFONT
-    if. Poutput e. iISI do.
-      font=. getisifontid font
-    elseif. Poutput e. iGTK do.
+    if. Poutput e. iGTK do.
       font=. getgtkfontid font
     end.
 
@@ -4694,6 +4682,12 @@ d=. 1!:0 p,'*.',y
 a=. 0, {.@:(0&".)@> _4 }. each {."1 d
 a=. ": {. (i. >: #a) -. a
 p,a,'.',y
+)
+gtkfontdesc=: 3 : 0
+'ind fst siz ang und'=. y
+'ita bld'=. 2 2 #: fst
+sty=. (bld#' bold'),(ita#' italic'),und#' underline'
+('_' (I.@(' '&=)nam)} nam=. ind pick GTKFONTNAMES),sty,' ',":siz
 )
 gtk_getsize=: 3 : 0
 if. 0=PFormhwnd do. '' return. end.
