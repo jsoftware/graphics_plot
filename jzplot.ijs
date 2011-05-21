@@ -2219,9 +2219,9 @@ PShow=: 0
 1
 )
 ppaint=: 3 : 0
-cwh=. glqwh''
-if. -. cwh -: Cw,Ch do.
+if. newsize__PIdLoc do.
   gtk_show ''
+  newsize__PIdLoc=: 0
 end.
 0
 )
@@ -5154,11 +5154,10 @@ if. PShow=0 do.
     gtk_widget_hide_all_jgtk_ PFormhwnd
   end.
   PShow=: 1
-  gtk_paint''
   gtk_window_set_keep_above_jgtk_ PFormhwnd,PTop
+  gtk_paint''
 else.
   gtk_paint''
-  glpaint''
 end.
 if. (ifjwplot'') *. -.IFGTK do. gtk_main_jgtk_ '' end.
 )
