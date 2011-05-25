@@ -28,3 +28,7 @@ graphics/plot - change history
 
 == 1.0.11 ==
  * fix pd save
+
+== 1.0.12 ==
+ * gl2 plot: bug fix
+ * remove ijp
