@@ -5238,15 +5238,15 @@ while. _1 -: dat flwrite file do.
   else.
     info msg,'The file name is invalid.' return. end.
 end.
-if. VISIBLE *. 0 = 4!:0 <'PDFREADER_j_' do.
-  if. #PDFREADER_j_ do.
+if. VISIBLE *. 0 = 4!:0 <'PDFReader_j_' do.
+  if. #PDFReader_j_ do.
     if. -.IFJ6 do.
-      fork_jtask_ (dquote PDFREADER_j_),' ',dquote file
+      fork_jtask_ (dquote PDFReader_j_),' ',dquote file
     else.
       if. IFUNIX *. IFCONSOLE do.
-        hostcmd (dquote PDFREADER_j_),' ',dquote file
+        hostcmd (dquote PDFReader_j_),' ',dquote file
       else.
-        wd 'winexec *',PDFREADER_j_,' ',dquote file
+        wd 'winexec *',PDFReader_j_,' ',dquote file
       end.
     end.
   end.
