@@ -229,6 +229,15 @@ dat=. ": 0.0001 round y
 txt=. ,dat
 ($dat) $ '-' (I. txt='_') } txt
 )
+pfmtjs=: 3 : 0
+dat=. 0.0001 round y
+txt=. , dat=. commasep@('('&,)@(,&')')@":"1 dat
+($dat) $ '-' (I. txt='_') } txt
+)
+
+commasep=: 3 : 0
+',' (I. y=' ') } y
+)
 qchop=: 3 : 0
 q=. dquoted y
 s=. ' '=y
@@ -624,7 +633,7 @@ Pxywh=: ''
 PStyle=: ''
 TypeRest=: ''    
 ('i',each ;: 'LEFT CENTER RIGHT')=: i. 3
-j=. ;: 'ISI EPS GTK PDF'
+j=. ;: 'ISI EPS GTK PDF CANVAS'
 ('i' ,each j)=: i.#j
 j=. 'i' ,each cutopen toupper 0 : 0
 background
@@ -1097,7 +1106,7 @@ MYCaption  Y caption (left and right)
 
 DefSizes=: 25 2 50 50 50 6 4 3 4 10 6 2 3 6 4 3 3
 setsizes=: 3 : 0
-s=. PDFScale ^ Poutput e. iEPS,iPDF
+s=. PDFScale ^ Poutput e. iEPS,iPDF,iCANVAS
 (Sizes)=: DefSizes * s
 MarkerScale=: s
 )
@@ -2305,7 +2314,7 @@ elseif. do.
   TitleFont=: TitleFontX
 end.
 
-FontScale=: (Poutput e. iEPS,iPDF) { 1,FONTSCALE
+FontScale=: (Poutput e. iEPS,iPDF,iCANVAS) { 1,FONTSCALE
 )
 coclass 'jzplot'
 gdxy=: 3 : 0
@@ -4232,6 +4241,7 @@ v=. < caller plotdefverbm`plotdefverbd@.(3=#y) v
 v _1 } y
 )
 pd_eps=: eps_show
+pd_canvas=: canvas_show
 pd_gtk=: gtk_show
 pd_isi=: isi_show
 pd_pdf=: pdf_show
@@ -4284,6 +4294,440 @@ fn~arg
 EMPTY
 )
 
+coclass 'jzplot'
+CANVAS_DEFSIZE=: 480 360
+CANVAS_DEFFILE=: jpath '~temp/plot.htm'
+CANVAS_PENSCALE=: 0.4
+canvas_getparms=: 3 : 0
+(CANVAS_DEFSIZE;CANVAS_DEFFILE) output_parms y
+)
+getarcangles=: 3 : 0
+ang=. dfr arctan | %~/"1 y
+quad=. (#. y < 0) { 0 3 1 2
+(quad { 0 180 180 360) + ang * quad { 1 _1 1 _1
+)
+canvas_write=: 4 : 0
+dat=. x
+file=. y
+while. _1 -: dat flwrites file do.
+  msg=. 'Unable to write to file: ',file,LF,LF
+  if. #d=. 1!:0 file do.
+    msg=. msg, 'If the file is open in a viewer, close the file and try again.'
+    if. 1 query msg do. return. end.
+  else.
+    info msg,'The file name is invalid.' return. end.
+end.
+if. VISIBLE do.
+  browse_j_ file
+end.
+)
+CANVAS_DEFS=: 0 : 0
+		function initPlot(ctx) {
+			ctx.lineWidth = "1.0";
+    }
+)
+canvas_build=: 3 : 0
+canvas_wrap (canvas_header''),LF,'function drawPlot(ctx) {',LF,y,'}',LF
+)
+canvas_header=: 3 : 0
+r=. ('80';(pfmt 0{Pxywh);'40';(pfmt 1{Pxywh)) stringreplace canvas_template
+r=. r, CANVAS_DEFS
+)
+
+canvas_template=: 0 : 0
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset=utf-8>
+	<title>J Plot</title>
+	<style>
+		#canvas1 { margin-left:80px; margin-top:40px; }
+	</style>
+	
+	<script type="text/javascript">
+		function graph() {							
+			var graphCanvas = document.getElementById('canvas1');
+			// ensure that the element is available within the DOM
+			if (graphCanvas && graphCanvas.getContext) {
+				// open a 2D context within the canvas
+				var context = graphCanvas.getContext('2d');
+				// init
+				initPlot(context);
+				// draw
+				drawPlot(context);
+			}
+		}
+)
+CANVAS_TRL=: 0 : 0
+	</script>
+</head>
+<body onLoad="graph();">
+	<article>
+		<h1>plot</h1>		
+		<canvas id="canvas1" width="800" height="400"></canvas>		
+	</article>
+</body>
+</html>
+)
+canvas_wrap=: 3 : 0
+y, ('800';(pfmt 2{Pxywh);'400';(pfmt 3{Pxywh)) stringreplace CANVAS_TRL
+)
+canvas_color=: 4 : 0
+if. x do.
+'ctx.fillStyle= "rgb',(pfmtjs y),'";'
+else.
+'ctx.strokeStyle= "rgb',(pfmtjs y),'";'
+end.
+)
+canvas_makerect=: 3 : 0
+'x y r s'=. y
+r=. (pfmt _2 [\ x,y,x,s,r,s,r,y) ,. 1 3 # ' moveto',:' lineto'
+(,r,.LF),'ctx.closePath();'
+''
+)
+canvas_makelines=: 3 : 0
+len=. -: {: $ y
+if. len = 0 do. i.0 0 return. end.
+opr=. (1,len-1) # 'ctx.moveTo',:'ctx.lineTo'
+if. 2 > #$y do.
+  , ((pfmtjs _2 [\ y) ,.~ opr) ,. ';'
+else.
+  ,"2 ((pfmtjs _2 [\"1 y) ,."2~ opr) ,."2 ';' 
+end.
+)
+canvas_pens=: 4 : 0
+(0 canvas_color x) ,"1 'ctx.lineWidth="',(":CANVAS_PENSCALE*y),'";'
+)
+canvas_pen=: 4 : 0
+(0 canvas_color x) , 'ctx.lineWidth="',(":CANVAS_PENSCALE*y),'";'
+)
+canvas_lines=: 3 : 0
+'ctx.beginPath();' ,"1 (canvas_makelines y) ,"1 'ctx.closePath();ctx.stroke();'
+)
+canvas_text=: 3 : 0
+'fnt txt pos align rot und'=. y
+pos=. citemize pos
+txt=. ,each boxxopen txt
+txt=. pdfesc each txt
+
+fn=. 'show',align{' cr'
+
+select. rot
+case. 0 do.
+  res=. (<' moveto (') ,each txt ,each <') ',fn
+  res=. tolist (<"1 pfmt pos >. 0) ,each res
+case. 1 do.
+  r=. ''
+  for_i. i.#pos do.
+    s=. 'save ',(pfmt 0 >. i{pos), ' translate 90 rotate',LF
+    r=. r, <s, '0 0 moveto (' ,(i pick txt) , ') ',fn,' restore'
+  end.
+  res=. tolist r
+case. 2 do.
+  r=. ''
+  for_i. i.#pos do.
+    s=. 'save ',(pfmt 0 >. i{pos), ' translate 270 rotate',LF
+    r=. r, <s, '0 0 moveto (' ,(i pick txt) , ') ',fn,' restore'
+  end.
+  res=. tolist r
+end.
+
+if. -. und do. return. end.
+wid=. ,{. fnt pgetextent txt
+'off lwd'=. getunderline fnt
+res=. res, LF, (":lwd) ,' setlinewidth '
+
+select. rot
+case. 0 do.
+  bgn=. pos - (wid * -: align),.-off
+  end=. bgn + wid,.0
+case. 1 do.
+  bgn=. pos - off,.wid * -: align
+  end=. bgn + 0,.wid
+case. 2 do.
+  bgn=. pos + off,.wid * -: align
+  end=. bgn - 0,.wid
+end.
+
+bgn=. (": bgn >. 0) ,"1 ' moveto '
+end=. (": end >. 0) ,"1 ' lineto stroke'
+lin=. ,LF,.bgn,.end
+
+res,lin
+''
+
+)
+canvascircle=: 3 : 0
+''return.
+'v s f e c p'=. y
+if. isempty c do.
+  txt=. (pfmt p ,"1[ 0 360) ,"1 ' arc stroke'
+  if. is1color e do.
+    pbuf e canvas_pen v
+    pbuf txt
+  else.
+    pbuf (e canvas_pens v) ,. txt
+  end.
+else.
+  p=. citemize p
+  c=. p cmatch c
+  e=. p cmatch e
+  v=. p cmatch v
+  for_i. i.#p do.
+    pbuf (pfmt (i{p) ,"1[ 0 360) ,"1 ' arc'
+    pbuf 'gsave ',(1 canvas_color i{c),' fill grestore'
+    pbuf ((i{e) canvas_pen i{v),' stroke'
+  end.
+end.
+)
+canvasdot=: 3 : 0
+smoutput 'canvasdot'
+''return.
+'v s f e c p'=. y
+p=. citemize p
+v=. v * CANVAS_PENSCALE
+if. is1color e do.
+  pbuf 1 canvas_color e
+  pbuf (pfmt p,.v) ,"1 ' 0 360 arc fill'
+else.
+  e=. p cmatch e
+  for_c. p do.
+    pbuf 1 canvas_color c_index { e
+    pbuf (pfmt c,.v) ,"1 ' 0 360 arc fill'
+  end.
+end.
+)
+canvasfxywh=: 3 : 0
+''return.
+p=. _1 pick y
+if. #p do.
+  CLIP=: >: CLIP
+  'x y w h'=. p
+  rect=. canvas_makerect x,y,(x+w),y+h
+  pbuf 'gsave ',rect,' clip newpath'
+else.
+  if. CLIP do.
+    CLIP=: <: CLIP
+    pbuf 'grestore'
+  end.
+end.
+)
+canvasline=: 3 : 0
+'v s f e c p'=. y
+if. (is1color e) *. 1 = #s do.
+  pbuf e canvas_pen v
+  pbuf canvas_lines p
+else.
+  rws=. #p
+  e=. rws $ citemize e
+  v=. rws $ v
+  for_i. i. rws do.
+    pbuf (i{e) canvas_pen i{v
+    pbuf canvas_lines i{p
+  end.
+end.
+)
+canvasmarker=: 3 : 0
+''return.
+('canvasmark_',1 pick y)~ y
+)
+canvaspie=: 3 : 0
+''return.
+'v s f e c p'=. y
+pen=. e canvas_pen v
+p=. citemize p
+ctr=. 0 1 {"1 p
+rad=. 2 {"1 p
+ang=. 360 + _90 + 3 4 {"1 p
+clr=. cmatch c
+for_i. i.#p do.
+  pbuf 'ctx.beginPath();'
+  pbuf (pfmt i { ctr),~' ctx.moveto'
+  pbuf (pfmt (i { ctr),(i{rad),i{ang),' arc closepath'
+  pbuf 'gsave ',(1 canvas_color i{clr),' fill grestore'
+  pbuf pen,' stroke'
+end.
+)
+canvaspline=: 3 : 0
+''return.
+'v s f e c p'=. y
+if. *./ s = 0 do.
+  canvasline y return.
+end.
+s=. s { PENPATTERN
+if. (is1color e) *. 1 = #v do.
+  pos=. s linepattern"0 1 p
+  canvasline (<pos) _1 } y
+else.
+  rws=. #p
+  e=. rws $ citemize e
+  v=. rws $ v
+  s=. rws $ s
+  for_i. i.#p do.
+    pbuf e canvas_pens v
+    pos=. (i{s) linepattern i{p
+    canvasline (i{v);0;0;(i{e);0;pos
+  end.
+end.
+)
+canvaspoly=: 3 : 0
+'v s f e c p'=. y
+p=. citemize p
+if. v=0 do. e=. c end.
+c=. p cmatch c
+e=. p cmatch e
+if. +/v do.
+  v=. p cmatch v
+  for_i. i.#p do.
+    pbuf 'ctx.beginPath();'
+    pbuf canvas_makelines i{p
+    pbuf (1 canvas_color i{c)
+    pbuf ((i{e) canvas_pen i{v)
+    pbuf 'ctx.closePath();ctx.stroke();ctx.fill();'
+  end.
+else.
+  for_i. i.#p do.
+    pbuf 'ctx.beginPath();'
+    pbuf canvas_makelines i{p
+    pbuf (1 canvas_color i{c)
+    pbuf 'ctx.closePath();ctx.stroke();ctx.fill();'
+  end.
+end.
+)
+canvasrect=: 3 : 0
+''return.
+'v s f e c p'=. y
+p=. citemize p
+if. v=0 do. e=. c end.
+c=. p cmatch c
+e=. p cmatch e
+if. +/v do.
+  v=. p cmatch v
+  for_i. i.#p do.
+    pbuf canvas_makerect i{p
+    pbuf 'gsave ',(1 canvas_color i{c),' fill grestore'
+    pbuf ((i{e) canvas_pen i{v),' stroke'
+  end.
+else.
+  for_i. i.#p do.
+    pbuf canvas_makerect i{p
+    pbuf (1 canvas_color i{c),' fill'
+  end.
+end.
+)
+canvastext=: 3 : 0
+''return.
+'t f a e c p'=. y
+'fnx fst fsz fan und'=. f
+rot=. 3 | 0 90 270 i. fan
+asc=. pgetascender f
+fnm=. getfntname fnx,fst
+pbuf '/',fnm,' findfont'
+pbuf (": getplotfontsize f),' scalefont setfont'
+select. rot
+case. 0 do. p=. 0 >. p -"1 [ 0, asc
+case. 1 do. p=. p +"1 asc, 0
+case. 2 do. p=. p -"1 asc, 0
+end.
+if. is1color e do.
+  pbuf 1 canvas_color e
+  pbuf canvas_text f;t;p;a;rot;und
+else.
+  for_i. i.#e do.
+    pbuf 1 canvas_color i{e
+    pbuf canvas_text f;(i{t);(i{p);a;rot;und
+  end.
+end.
+)
+canvasmark_circle=: 3 : 0
+''return.
+'s m f e c p'=. y
+p=. citemize p
+v=. 8 * s * CANVAS_PENSCALE
+pbuf canvas_color e
+pbuf (pfmt {.p), ' moveto'
+pbuf (pfmt p,.v) ,"1 ' 0 360 arc fill'
+)
+canvasmark_diamond=: 3 : 0
+''return.
+'s m f e c p'=. y
+e=. canvas_color e
+p=. 8 $"1 citemize p
+d=. (3.5 * s) * _1 0 0 1 1 0 0 _1
+p=. p +"1 d
+for_i. i.#p do.
+  pbuf canvas_makelines i{p
+  pbuf e,' fill'
+end.
+)
+canvasmark_line=: 3 : 0
+''return.
+'s m f e c p'=. y
+e=. canvas_color e
+p=. ,p
+s=. -:KeyLen,KeyPen
+p=. (p - s) , p + s
+pbuf canvas_makerect p
+pbuf e,' fill'
+)
+canvasmark_plus=: 3 : 0
+''return.
+'s m f e c p'=. y
+s=. s * 4
+t=. s, 0
+pbuf e canvas_pen s
+p=. citemize p
+d=. (p -"1 t) ,. p +"1 t
+t=. |. t
+d=. d, (p -"1 t) ,. p +"1 t
+pbuf canvas_lines d
+)
+canvasmark_square=: 3 : 0
+''return.
+'s m f e c p'=. y
+e=. canvas_color e
+p=. citemize p
+s=. 3 * s
+p=. (p - s) ,"1 p + s
+for_i. i.#p do.
+  pbuf canvas_makerect i{p
+  pbuf e,' fill'
+end.
+)
+canvasmark_times=: 3 : 0
+''return.
+'s m f e c p'=. y
+pbuf e canvas_pen 4 * s
+t=. _1 + s * 3
+r=. (p - t) ,. p + t
+s=. (p +"1 t * 1 _1) ,. p +"1 t * _1 1
+pbuf canvas_lines r,s
+)
+canvasmark_triangle=: 3 : 0
+''return.
+'s m f e c p'=. y
+e=. canvas_color e
+p=. 6 $"1 citemize p
+d=. (4 * s) * , (sin,.cos) 2p1 * 0 1 2 % 3
+p=. p +"1 d
+for_i. i.#p do.
+  pbuf canvas_makelines i{p
+  pbuf e,' fill'
+end.
+)
+canvas_show=: 3 : 0
+'size file'=. canvas_getparms y
+make iCANVAS;0 0,size
+fns=. 'canvas'&, each 1 {"1 Plot
+dat=. 3 }."1 Plot
+buf=: ''
+CLIP=: 0 
+for_d. dat do.
+  (>d_index{fns)~d
+end.
+res=. canvas_build buf
+res canvas_write file
+)
 coclass 'jzplot'
 EPS_DEFSIZE=: 480 360
 EPS_DEFFILE=: jpath '~temp/plot.eps'
