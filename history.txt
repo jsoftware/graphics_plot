@@ -32,3 +32,6 @@ graphics/plot - change history
 == 1.0.12 ==
  * gl2 plot: bug fix
  * remove ijp
+
+== 1.0.13 ==
+ * canvas output pre-release
