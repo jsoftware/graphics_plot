@@ -162,10 +162,28 @@ TITLEFONT=: 'Sans 15'
 
 all=. all, IFWIN pick unx;w32
 
+3 : 0''
+if. 0 ~: 4!:0 <'IFTESTJHS' do. IFTESTJHS=: 0 end.
+)
+
 NB. =========================================================
 PlotDefaults=: 3 : 0 all
 if. -.IFJ6 do.
-  r=. 'OUTPUT=: ''gtk'''
+  if. IFJHS+.IFTESTJHS do.
+    r=. 'OUTPUT=: ''canvas'''
+  elseif. IFGTK do.
+    r=. 'OUTPUT=: ''gtk'''
+  elseif. UNAME -: 'Darwin' do.
+    r=. 'OUTPUT=: ''gtk'''
+  elseif. UNAME -: 'Linux' do.
+    if. 0 -: 2!:5 'DISPLAY' do.
+      r=. 'OUTPUT=: ''pdf'''
+    else.
+      r=. 'OUTPUT=: ''gtk'''
+    end.
+  elseif. do.
+    r=. 'OUTPUT=: ''pdf'''
+  end.
 else.
   if. IFCONSOLE do.
     if. UNAME -: 'Linux' do.

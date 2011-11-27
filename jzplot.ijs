@@ -1248,9 +1248,27 @@ TITLEFONT=: 'Sans 15'
 )
 
 all=. all, IFWIN pick unx;w32
+
+3 : 0''
+if. 0 ~: 4!:0 <'IFTESTJHS' do. IFTESTJHS=: 0 end.
+)
 PlotDefaults=: 3 : 0 all
 if. -.IFJ6 do.
-  r=. 'OUTPUT=: ''gtk'''
+  if. IFJHS+.IFTESTJHS do.
+    r=. 'OUTPUT=: ''canvas'''
+  elseif. IFGTK do.
+    r=. 'OUTPUT=: ''gtk'''
+  elseif. UNAME -: 'Darwin' do.
+    r=. 'OUTPUT=: ''gtk'''
+  elseif. UNAME -: 'Linux' do.
+    if. 0 -: 2!:5 'DISPLAY' do.
+      r=. 'OUTPUT=: ''pdf'''
+    else.
+      r=. 'OUTPUT=: ''gtk'''
+    end.
+  elseif. do.
+    r=. 'OUTPUT=: ''pdf'''
+  end.
 else.
   if. IFCONSOLE do.
     if. UNAME -: 'Linux' do.
@@ -4142,7 +4160,7 @@ PDgd=: 'gd'&, each ;: j
 PDGD=: 'GD'&, each ;: toupper j
 PDshow=: ;: 'eps gtk isi jpf pdf print show'
 PDcopy=: ;: 'clip save get'
-PDget=: ;: 'pdfr'
+PDget=: ;: 'pdfr canvasr'
 PDcmds=: ;: 'multi new use'
 boxcmd=: 3 : 0
 if. L. y do. y return. end.
@@ -4242,6 +4260,7 @@ v _1 } y
 )
 pd_eps=: eps_show
 pd_canvas=: canvas_show
+pd_canvasr=: canvas_get
 pd_gtk=: gtk_show
 pd_isi=: isi_show
 pd_pdf=: pdf_show
@@ -4301,14 +4320,9 @@ CANVAS_PENSCALE=: 0.4
 canvas_getparms=: 3 : 0
 (CANVAS_DEFSIZE;CANVAS_DEFFILE) output_parms y
 )
-getarcangles=: 3 : 0
-ang=. dfr arctan | %~/"1 y
-quad=. (#. y < 0) { 0 3 1 2
-(quad { 0 180 180 360) + ang * quad { 1 _1 1 _1
-)
 canvas_write=: 4 : 0
 dat=. x
-file=. y
+'file ctx'=. y
 while. _1 -: dat flwrites file do.
   msg=. 'Unable to write to file: ',file,LF,LF
   if. #d=. 1!:0 file do.
@@ -4317,21 +4331,29 @@ while. _1 -: dat flwrites file do.
   else.
     info msg,'The file name is invalid.' return. end.
 end.
-if. VISIBLE do.
+if. (VISIBLE > IFJHS) *. '<!DOCTYPE html>' -: 15{.x do.
   browse_j_ file
 end.
 )
 CANVAS_DEFS=: 0 : 0
-		function initPlot(ctx) {
-			ctx.lineWidth = "1.0";
-    }
+function initPlot<1>(ctx) {
+	ctx.lineWidth = "1.0";
+}
 )
-canvas_build=: 3 : 0
-canvas_wrap (canvas_header''),LF,'function drawPlot(ctx) {',LF,y,'}',LF
+canvas_build=: 4 : 0
+if. #x do.
+  (canvas_header x),LF,'function drawPlot_',x,'(ctx) {',LF,y,'}',LF
+else.
+  canvas_wrap (canvas_header''),LF,'function drawPlot(ctx) {',LF,y,'}',LF
+end.
 )
 canvas_header=: 3 : 0
-r=. ('80';(pfmt 0{Pxywh);'40';(pfmt 1{Pxywh)) stringreplace canvas_template
-r=. r, CANVAS_DEFS
+if. #y do.
+  r=. ('<1>';'_',y) stringreplace CANVAS_DEFS
+else.
+  r=. ('80';(pfmt 0{Pxywh);'40';(pfmt 1{Pxywh)) stringreplace canvas_template
+  r=. r, ('<1>';'') stringreplace CANVAS_DEFS
+end.
 )
 
 canvas_template=: 0 : 0
@@ -4343,9 +4365,9 @@ canvas_template=: 0 : 0
 	<style>
 		#canvas1 { margin-left:80px; margin-top:40px; }
 	</style>
-	
+
 	<script type="text/javascript">
-		function graph() {							
+		function graph() {
 			var graphCanvas = document.getElementById('canvas1');
 			// ensure that the element is available within the DOM
 			if (graphCanvas && graphCanvas.getContext) {
@@ -4363,8 +4385,8 @@ CANVAS_TRL=: 0 : 0
 </head>
 <body onLoad="graph();">
 	<article>
-		<h1>plot</h1>		
-		<canvas id="canvas1" width="800" height="400"></canvas>		
+		<h1>plot</h1>
+		<canvas id="canvas1" width="800" height="400"></canvas>
 	</article>
 </body>
 </html>
@@ -4407,34 +4429,32 @@ canvas_text=: 3 : 0
 'fnt txt pos align rot und'=. y
 pos=. citemize pos
 txt=. ,each boxxopen txt
-txt=. ('"'&,)@(,&'"') each txt
-
-fn=. 'ctx.textBaseline= "alphabetic";ctx.textAlign= "', (align{:: 'start';'center';'right'), '";'
+txt=. utf8@('"'&,)@(,&'"')@jsesc each txt
+fn=. 'ctx.textBaseline= "middle";ctx.textAlign= "', (align{:: 'start';'center';'right'), '";'
 
 select. rot
-case. do.
-  res=. tolist (<fn) ,each (<'ctx.fillText(') ,each txt ,each (<',') ,each (<("1) 0&pfmtjs flipxy pos >. 0) ,each <')'
+case. 0 do.
+  res=. tolist (<fn) ,each (<'ctx.fillText(') ,each txt ,each (<',') ,each (<("1) 0&pfmtjs flipxy pos >. 0) ,each <');', LF
 case. 1 do.
   r=. ''
   for_i. i.#pos do.
-    s=. 'save ',(pfmtjs 0 >. i{pos), ' translate 90 rotate',LF
-    r=. r, <s, '0 0 ctx.moveTo (' ,(i pick txt) , ') ',fn,' restore'
+    s=. 'ctx.save();ctx.translate', (pfmtjs flipxy 0 >. i{pos), ';ctx.rotate(-Math.PI/2);', LF
+    r=. r, <s, fn, 'ctx.fillText(' , (i pick txt), ',0,0);ctx.restore();', LF
   end.
   res=. tolist r
 case. 2 do.
   r=. ''
   for_i. i.#pos do.
-    s=. 'save ',(pfmtjs 0 >. i{pos), ' translate 270 rotate',LF
-    r=. r, <s, '0 0 ctx.moveTo (' ,(i pick txt) , ') ',fn,' restore'
+    s=. 'ctx.save();ctx.translate', (pfmtjs flipxy 0 >. i{pos), ';ctx.rotate(Math.PI/2);', LF
+    r=. r, <s, fn, 'ctx.fillText(' , (i pick txt), ',0,0);ctx.restore();', LF
   end.
   res=. tolist r
 end.
-return.
 
 if. -. und do. return. end.
 wid=. ,{. fnt pgetextent txt
 'off lwd'=. getunderline fnt
-res=. res, LF, (":lwd) ,' setlinewidth '
+res=. res, LF, 'ctx.lineWidth="', (":lwd) ,'";'
 
 select. rot
 case. 0 do.
@@ -4448,8 +4468,8 @@ case. 2 do.
   end=. bgn - 0,.wid
 end.
 
-bgn=. (": bgn >. 0) ,"1 ' ctx.moveTo '
-end=. (": end >. 0) ,"1 ' ctx.lineTo stroke'
+bgn=. 'ctx.beginPath();ctx.moveTo' ,"1 (pfmtjs flipxy bgn >. 0) ,"1 ';'
+end=. 'ctx.lineTo' ,"1 (pfmtjs flipxy end >. 0) ,"1 ';ctx.closePath();ctx.stroke();ctx.fill();'
 lin=. ,LF,.bgn,.end
 
 res,lin
@@ -4457,11 +4477,9 @@ res,lin
 
 )
 canvascircle=: 3 : 0
-smoutput 'canvascircle'
-''return.
 'v s f e c p'=. y
 if. isempty c do.
-  txt=. (pfmt p ,"1[ 0 360) ,"1 ' arc stroke'
+  txt=. 'ctx.beginPath();ctx.arc(' ,"1 (0&pfmtjs flipxy 2{."1 p) ,"1 ',' ,"1 (0&pfmtjs 2{"1 p) ,"1 ',0,2*Math.PI,1);ctx.stroke();ctx.fill();ctx.closePath();'
   if. is1color e do.
     pbuf e canvas_pen v
     pbuf txt
@@ -4474,31 +4492,28 @@ else.
   e=. p cmatch e
   v=. p cmatch v
   for_i. i.#p do.
-    pbuf (pfmt (i{p) ,"1[ 0 360) ,"1 ' arc'
-    pbuf 'gsave ',(1 canvas_color i{c),' fill grestore'
-    pbuf ((i{e) canvas_pen i{v),' stroke'
+    pbuf 'ctx.beginPath();ctx.arc(' , (0&pfmtjs flipxy 2{.i{p) , ',' , (0&pfmtjs 2{i{p) , ',0,2*Math.PI,1);'
+    pbuf (1 canvas_color i{c)
+    pbuf ((i{e) canvas_pen i{v), 'ctx.stroke();ctx.fill();ctx.closePath();'
   end.
 end.
 )
 canvasdot=: 3 : 0
-smoutput 'canvasdot'
-''return.
 'v s f e c p'=. y
 p=. citemize p
 v=. v * CANVAS_PENSCALE
 if. is1color e do.
   pbuf 1 canvas_color e
-  pbuf (pfmt p,.v) ,"1 ' 0 360 arc fill'
+  pbuf 'ctx.beginPath();ctx.arc(' ,"1 (0&pfmtjs flipxy p) ,"1 ',' ,"1 (0&pfmtjs v) ,"1 ',0,2*Math.PI,1);'
 else.
   e=. p cmatch e
   for_c. p do.
     pbuf 1 canvas_color c_index { e
-    pbuf (pfmt c,.v) ,"1 ' 0 360 arc fill'
+    pbuf 'ctx.beginPath();ctx.arc(' , (0&pfmtjs flipxy c) , ',' , (0&pfmtjs v) , ',0,2*Math.PI,1);'
   end.
 end.
 )
 canvasfxywh=: 3 : 0
-smoutput 'canvasfxywh'
 ''return.
 p=. _1 pick y
 if. #p do.
@@ -4529,31 +4544,25 @@ else.
 end.
 )
 canvasmarker=: 3 : 0
-smoutput 'canvasmarker'
-''return.
 ('canvasmark_',1 pick y)~ y
 )
 canvaspie=: 3 : 0
-smoutput 'canvaspie'
-''return.
 'v s f e c p'=. y
 pen=. e canvas_pen v
 p=. citemize p
 ctr=. 0 1 {"1 p
 rad=. 2 {"1 p
-ang=. 360 + _90 + 3 4 {"1 p
+ang=. 360 %~ 2p1 * 360 + 90 + - 3 4 {"1 p
 clr=. cmatch c
 for_i. i.#p do.
   pbuf 'ctx.beginPath();'
-  pbuf (pfmt i { ctr),~' ctx.moveto'
-  pbuf (pfmt (i { ctr),(i{rad),i{ang),' arc closepath'
-  pbuf 'gsave ',(1 canvas_color i{clr),' fill grestore'
-  pbuf pen,' stroke'
+  pbuf 'ctx.moveTo', (pfmtjs flipxy i { ctr), ';'
+  pbuf 'ctx.arc(', (0&pfmtjs flipxy (i { ctr) ,(i{rad)), ',', (0&pfmtjs 0{i{ang), ',', (0&pfmtjs 1{i{ang), ',1);'
+  pbuf (1 canvas_color i{clr)
+  pbuf pen,'ctx.stroke();ctx.fill();ctx.closePath();'
 end.
 )
 canvaspline=: 3 : 0
-smoutput 'canvaspline'
-''return.
 'v s f e c p'=. y
 if. *./ s = 0 do.
   canvasline y return.
@@ -4628,7 +4637,13 @@ canvastext=: 3 : 0
 rot=. 3 | 0 90 270 i. fan
 asc=. pgetascender f
 fnm=. getfntname fnx,fst
-pbuf 'ctx.font= "', fnm,' ', (": getplotfontsize f), 'pt ";'
+bold=. italic=. ''
+if. (1 e. '-Oblique' E. fnm)+.(1 e. '-Bold' E. fnm)+.(1 e. '-Italic' E. fnm) do.
+  bold=. (1 e. 'Blod' E. fnm)#'800 '
+  italic=. ((1 e. 'Oblique' E. fnm)+.(1 e. 'Italic' E. fnm))#'italic '
+  fnm=. ({.~ i:&'-') fnm
+end.
+pbuf 'ctx.font= "', italic, bold, (": getplotfontsize f), 'pt \"', fnm,'\"";'
 select. rot
 case. 0 do. p=. 0 >. p -"1 [ 0, asc
 case. 1 do. p=. p +"1 asc, 0
@@ -4645,38 +4660,36 @@ else.
 end.
 )
 canvasmark_circle=: 3 : 0
-''return.
 's m f e c p'=. y
 p=. citemize p
 v=. 8 * s * CANVAS_PENSCALE
-pbuf canvas_color e
-pbuf (pfmt {.p), ' moveto'
-pbuf (pfmt p,.v) ,"1 ' 0 360 arc fill'
+pbuf 1 canvas_color e
+pbuf 'ctx.moveTo', (pfmtjs flipxy {.p), ';'
+pbuf 'ctx.beginPath();ctx.arc(' ,"1 (0&pfmtjs flipxy p) ,"1 ',' ,"1 (0&pfmtjs v) ,"1 ',0,2*Math.PI,1);ctx.stroke();ctx.fill();ctx.closePath();'
 )
 canvasmark_diamond=: 3 : 0
-''return.
 's m f e c p'=. y
-e=. canvas_color e
+e=. 1 canvas_color e
 p=. 8 $"1 citemize p
 d=. (3.5 * s) * _1 0 0 1 1 0 0 _1
 p=. p +"1 d
+pbuf 'ctx.beginPath();'
 for_i. i.#p do.
   pbuf canvas_makelines i{p
-  pbuf e,' fill'
+  pbuf e,'ctx.fill();ctx.closePath();'
 end.
 )
 canvasmark_line=: 3 : 0
-''return.
 's m f e c p'=. y
-e=. canvas_color e
+e=. 1 canvas_color e
 p=. ,p
 s=. -:KeyLen,KeyPen
 p=. (p - s) , p + s
+pbuf 'ctx.beginPath();'
 pbuf canvas_makerect p
-pbuf e,' fill'
+pbuf e,'ctx.fill();ctx.closePath();'
 )
 canvasmark_plus=: 3 : 0
-''return.
 's m f e c p'=. y
 s=. s * 4
 t=. s, 0
@@ -4688,19 +4701,18 @@ d=. d, (p -"1 t) ,. p +"1 t
 pbuf canvas_lines d
 )
 canvasmark_square=: 3 : 0
-''return.
 's m f e c p'=. y
-e=. canvas_color e
+e=. 1 canvas_color e
 p=. citemize p
 s=. 3 * s
 p=. (p - s) ,"1 p + s
+pbuf 'ctx.beginPath();'
 for_i. i.#p do.
   pbuf canvas_makerect i{p
-  pbuf e,' fill'
+  pbuf e,'ctx.fill();ctx.closePath();'
 end.
 )
 canvasmark_times=: 3 : 0
-''return.
 's m f e c p'=. y
 pbuf e canvas_pen 4 * s
 t=. _1 + s * 3
@@ -4709,19 +4721,41 @@ s=. (p +"1 t * 1 _1) ,. p +"1 t * _1 1
 pbuf canvas_lines r,s
 )
 canvasmark_triangle=: 3 : 0
-''return.
 's m f e c p'=. y
-e=. canvas_color e
+e=. 1 canvas_color e
 p=. 6 $"1 citemize p
 d=. (4 * s) * , (sin,.cos) 2p1 * 0 1 2 % 3
 p=. p +"1 d
+pbuf 'ctx.beginPath();'
 for_i. i.#p do.
   pbuf canvas_makelines i{p
-  pbuf e,' fill'
+  pbuf e,'ctx.fill();ctx.closePath();'
 end.
 )
+JSESC0=: LF,CR,TAB,FF,(8{a.),'\''"'
+JSESC1=: 'nrtfb\''"'
+jsesc=: 3 : 0
+txt=. y
+msk=. txt e. JSESC0
+if. 1 e. msk do.
+  ndx=. , ((I. msk) + i. +/ msk) +/ 0 1
+  new=. ,'\',.JSESC1 {~ JSESC0 i. msk#txt
+  txt=. new ndx } (1 + msk) # txt
+end.
+
+txt
+)
+canvas_get=: 3 : 0
+'size file ctx'=. canvas_getparms y
+res=. canvas_make size;file;ctx
+)
 canvas_show=: 3 : 0
-'size file'=. canvas_getparms y
+'size file ctx'=. canvas_getparms y
+res=. canvas_make size;file;ctx
+res canvas_write file;ctx
+)
+canvas_make=: 3 : 0
+'size file ctx'=. y
 make iCANVAS;0 0,size
 fns=. 'canvas'&, each 1 {"1 Plot
 dat=. 3 }."1 Plot
@@ -4731,8 +4765,7 @@ CLIP=: 0
 for_d. dat do.
   (>d_index{fns)~d
 end.
-res=. canvas_build buf
-res canvas_write file
+ctx canvas_build buf
 )
 coclass 'jzplot'
 EPS_DEFSIZE=: 480 360
@@ -5108,7 +5141,7 @@ for_i. i.#p do.
 end.
 )
 eps_show=: 3 : 0
-'size file'=. eps_getparms y
+'size file ctx'=. eps_getparms y
 make iEPS;0 0,size
 fns=. 'eps'&, each 1 {"1 Plot
 dat=. 3 }."1 Plot
@@ -5145,6 +5178,7 @@ _2{.getGtkWidgetAllocation_jgtk_ canvas__PIdLoc
 )
 output_parms=: 4 : 0
 'size file'=. x
+ctx=. ''
 if. #y do.
   prm=. qchop y
   select. #prm
@@ -5159,13 +5193,21 @@ if. #y do.
       size=. 0 ". &> 2 {. prm
       file=. 2 pick prm
     end.
+  case. 4 do.
+    file=. 0 pick prm
+    size=. 0 ". &> _2 {. prm
+    if. 0 e. size do.
+      size=. 0 ". &> 2 {. prm
+      file=. 2 pick prm
+    end.
+    ctx=. 3 pick prm
   end.
 else.
   if. #sz=. gtk_getsize'' do.
     size=. sz
   end.
 end.
-size;file
+size;file;ctx
 )
 gtk_clip=: 3 : 0
 if. IFGTK < ifjwplot'' do. pdcmdclip=: 1 return. end.
@@ -6203,11 +6245,11 @@ p=. p +"1 d
 pbuf (pdf_makelines p) ,"1 ' b'
 )
 pdf_get=: 3 : 0
-'size file'=. pdf_getparms y
+'size file ctx'=. pdf_getparms y
 pdf_make size
 )
 pdf_jpf=: 3 : 0
-'size file'=. jpf_getparms y
+'size file ctx'=. jpf_getparms y
 txt=. pdf_make size
 size=. ":size
 fnt=. ; PDFFonts ,each ','
@@ -6219,7 +6261,7 @@ if. _1 -: res do.
 end.
 )
 pdf_show=: 3 : 0
-'size file'=. pdf_getparms y
+'size file ctx'=. pdf_getparms y
 res=. pdf_make size
 res=. pdf_build res
 res pdf_write file
