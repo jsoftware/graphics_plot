@@ -4314,7 +4314,7 @@ EMPTY
 )
 
 coclass 'jzplot'
-CANVAS_DEFSIZE=: 480 480
+CANVAS_DEFSIZE=: 480 360
 CANVAS_DEFFILE=: jpath '~temp/plot.htm'
 CANVAS_PENSCALE=: 0.4
 canvas_getparms=: 3 : 0
@@ -4352,6 +4352,7 @@ if. #y do.
   r=. ('<1>';'_',y) stringreplace CANVAS_DEFS
 else.
   r=. ('80';(pfmt 0{Pxywh);'40';(pfmt 1{Pxywh)) stringreplace canvas_template
+  r=. ('<1>';IFJHS{::'';'<!--[if lt IE 9]><script src="/~addons/ide/jhs/js/excanvas.js" type="text/javascript"></script><![endif]-->') stringreplace canvas_template
   r=. r, ('<1>';'') stringreplace CANVAS_DEFS
 end.
 )
@@ -4366,6 +4367,7 @@ canvas_template=: 0 : 0
 		#canvas1 { margin-left:80px; margin-top:40px; }
 	</style>
 
+  <1>
 	<script type="text/javascript">
 		function graph() {
 			var graphCanvas = document.getElementById('canvas1');
@@ -4430,7 +4432,7 @@ canvas_text=: 3 : 0
 pos=. citemize pos
 txt=. ,each boxxopen txt
 txt=. utf8@('"'&,)@(,&'"')@jsesc each txt
-fn=. 'ctx.textBaseline= "middle";ctx.textAlign= "', (align{:: 'start';'center';'right'), '";'
+fn=. 'ctx.textBaseline= "middle";ctx.textAlign= "', (align{:: 'start';'center';'end'), '";'
 
 select. rot
 case. 0 do.
