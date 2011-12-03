@@ -4426,7 +4426,7 @@ canvas_pen=: 4 : 0
 (0 canvas_color x) , 'ctx.lineWidth="',(":CANVAS_PENSCALE*y),'";'
 )
 canvas_lines=: 3 : 0
-'ctx.beginPath();' ,"1 (canvas_makelines y) ,"1 'ctx.closePath();ctx.stroke();'
+'ctx.beginPath();' ,"1 (canvas_makelines y) ,"1 'ctx.stroke();ctx.closePath();'
 )
 canvas_text=: 3 : 0
 'fnt txt pos align rot und'=. y
@@ -4472,7 +4472,7 @@ case. 2 do.
 end.
 
 bgn=. 'ctx.beginPath();ctx.moveTo' ,"1 (pfmtjs flipxy bgn >. 0) ,"1 ';'
-end=. 'ctx.lineTo' ,"1 (pfmtjs flipxy end >. 0) ,"1 ';ctx.closePath();ctx.stroke();ctx.fill();'
+end=. 'ctx.lineTo' ,"1 (pfmtjs flipxy end >. 0) ,"1 ';ctx.stroke();ctx.fill();ctx.closePath();'
 lin=. ,LF,.bgn,.end
 
 res,lin
@@ -4642,7 +4642,7 @@ asc=. pgetascender f
 fnm=. getfntname fnx,fst
 bold=. italic=. ''
 if. (1 e. '-Oblique' E. fnm)+.(1 e. '-Bold' E. fnm)+.(1 e. '-Italic' E. fnm) do.
-  bold=. (1 e. 'Blod' E. fnm)#'800 '
+  bold=. (1 e. 'Bold' E. fnm)#'bold '
   italic=. ((1 e. 'Oblique' E. fnm)+.(1 e. 'Italic' E. fnm))#'italic '
   fnm=. ({.~ i:&'-') fnm
 end.
