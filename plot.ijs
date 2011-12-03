@@ -4,6 +4,7 @@ NB.*pd v plot driver
 NB.*pdf v plot function driver
 NB.*plot v cover for pd
 NB.*plotf v cover for pdf
+NB.*plotdef v set default for canvas
 
 require 'jzplot'
 coclass 'jwplot'
@@ -30,4 +31,9 @@ caller_jwplot_=. coname''
 :
 caller_jwplot_=. coname''
 x plot_jwplot_ y
+)
+
+plotdef_z_=: 3 : 0
+'CANVAS_DEFSHOW_jzplot_ CANVAS_DEFSIZE_jzplot_'=: y
+i.0 0
 )

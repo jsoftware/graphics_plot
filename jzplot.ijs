@@ -4314,8 +4314,9 @@ EMPTY
 )
 
 coclass 'jzplot'
-CANVAS_DEFSIZE=: 480 360
-CANVAS_DEFFILE=: jpath '~temp/plot.htm'
+CANVAS_DEFSHOW=: 'show'
+CANVAS_DEFSIZE=: 400 300
+CANVAS_DEFFILE=: jpath '~temp/plot.html'
 CANVAS_PENSCALE=: 0.4
 canvas_getparms=: 3 : 0
 (CANVAS_DEFSIZE;CANVAS_DEFFILE) output_parms y
@@ -4755,6 +4756,12 @@ canvas_show=: 3 : 0
 'size file ctx'=. canvas_getparms y
 res=. canvas_make size;file;ctx
 res canvas_write file;ctx
+if. IFJHS do.
+  select. CANVAS_DEFSHOW
+  case. 'show' do. smoutput 'plot' jhsshow '~temp/plot.html'
+  case. 'link' do. smoutput 'plot' jhslink '~temp/plot.html'
+  end.
+end.
 )
 canvas_make=: 3 : 0
 'size file ctx'=. y
