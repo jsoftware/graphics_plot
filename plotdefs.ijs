@@ -35,6 +35,7 @@ EDGECOLOR=: BLACK
 EDGESIZE=: 1 NB. polygons etc
 FORECOLOR=: BLACK
 FONTSCALE=: 0.75 NB. 72%96
+FONTSIZEMIN=: 11 NB. minimum font size on firefox
 FRAME=: 1
 FRAMEBACKCOLOR=: '' NB. color of frame background (if different from BACKCOLOR)
 FRAMESTYLE=: '' NB. 'in|out', default choose from graph type

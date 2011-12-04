@@ -33,5 +33,5 @@ graphics/plot - change history
  * gl2 plot: bug fix
  * remove ijp
 
-== 1.0.13/18 ==
+== 1.0.13/19 ==
  * canvas output
