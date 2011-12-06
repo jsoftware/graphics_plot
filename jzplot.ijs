@@ -4327,8 +4327,8 @@ EMPTY
 )
 
 coclass 'jzplot'
-CANVAS_DEFSHOW=: 'show'
-CANVAS_DEFSIZE=: 400 300
+CANVAS_DEFSHOW=: 'jijx'
+CANVAS_DEFSIZE=: 400 200
 CANVAS_DEFFILE=: jpath '~temp/plot.html'
 CANVAS_PENSCALE=: 0.4
 canvas_getparms=: 3 : 0
@@ -4349,26 +4349,16 @@ if. (VISIBLE > IFJHS) *. '<!DOCTYPE html>' -: 15{.x do.
   browse_j_ file
 end.
 )
-CANVAS_DEFS=: 0 : 0
-function initPlot<1>(ctx) {
-	ctx.lineWidth = "1.0";
-}
-)
 canvas_build=: 4 : 0
 if. #x do.
-  (canvas_header x),LF,'function drawPlot_',x,'(ctx) {',LF,y,'}',LF
+  'function(ctx){',LF,y,'}',LF
 else.
   canvas_wrap (canvas_header''),LF,'function drawPlot(ctx) {',LF,y,'}',LF
 end.
 )
 canvas_header=: 3 : 0
-if. #y do.
-  r=. ('<1>';'_',y) stringreplace CANVAS_DEFS
-else.
-  r=. ('80';(pfmt 0{Pxywh);'40';(pfmt 1{Pxywh)) stringreplace canvas_template
-  r=. ('<1>';IFJHS{::'';'<!--[if lt IE 9]><script src="/~addons/ide/jhs/js/excanvas.js" type="text/javascript"></script><![endif]-->') stringreplace canvas_template
-  r=. r, ('<1>';'') stringreplace CANVAS_DEFS
-end.
+r=. ('80';(pfmt 0{Pxywh);'40';(pfmt 1{Pxywh)) stringreplace canvas_template
+r=. ('<1>';IFJHS{::'';'<!--[if lt IE 9]><script src="/~addons/ide/jhs/js/excanvas.js" type="text/javascript"></script><![endif]-->') stringreplace canvas_template
 )
 
 canvas_template=: 0 : 0
@@ -4389,8 +4379,6 @@ canvas_template=: 0 : 0
 			if (graphCanvas && graphCanvas.getContext) {
 				// open a 2D context within the canvas
 				var context = graphCanvas.getContext('2d');
-				// init
-				initPlot(context);
 				// draw
 				drawPlot(context);
 			}
@@ -4496,7 +4484,7 @@ res,lin
 canvascircle=: 3 : 0
 'v s f e c p'=. y
 if. isempty c do.
-  txt=. 'ctx.beginPath();ctx.arc(' ,"1 (0&pfmtjs flipxy 2{."1 p) ,"1 ',' ,"1 (0&pfmtjs 2{"1 p) ,"1 ',0,2*Math.PI,1);ctx.stroke();ctx.fill();ctx.closePath();'
+  txt=. 'ctx.beginPath();ctx.arc(' ,"1 (0&pfmtjs flipxy 2{."1 p) ,"1 ',' ,"1 (0&pfmtjs 2{"1 p) ,"1 ',0,2*Math.PI,1);ctx.stroke();ctx.closePath();'
   if. is1color e do.
     pbuf e canvas_pen v
     pbuf txt
@@ -4510,8 +4498,7 @@ else.
   v=. p cmatch v
   for_i. i.#p do.
     pbuf 'ctx.beginPath();ctx.arc(' , (0&pfmtjs flipxy 2{.i{p) , ',' , (0&pfmtjs 2{i{p) , ',0,2*Math.PI,1);'
-    pbuf (1 canvas_color i{c)
-    pbuf ((i{e) canvas_pen i{v), 'ctx.stroke();ctx.fill();ctx.closePath();'
+    pbuf (1 canvas_color i{c) ,((i{e) canvas_pen i{v), 'ctx.stroke();ctx.fill();ctx.closePath();'
   end.
 end.
 )
@@ -4521,12 +4508,12 @@ p=. citemize p
 v=. v * CANVAS_PENSCALE
 if. is1color e do.
   pbuf 1 canvas_color e
-  pbuf 'ctx.beginPath();ctx.arc(' ,"1 (0&pfmtjs flipxy p) ,"1 ',' ,"1 (0&pfmtjs v) ,"1 ',0,2*Math.PI,1);ctx.stroke();ctx.fill();ctx.closePath();'
+  pbuf 'ctx.beginPath();ctx.arc(' ,"1 (0&pfmtjs flipxy p) ,"1 ',' ,"1 (0&pfmtjs v) ,"1 ',0,2*Math.PI,1);ctx.fill();ctx.closePath();'
 else.
   e=. p cmatch e
   for_c. p do.
     pbuf 1 canvas_color c_index { e
-    pbuf 'ctx.beginPath();ctx.arc(' , (0&pfmtjs flipxy c) , ',' , (0&pfmtjs v) , ',0,2*Math.PI,1);ctx.stroke();ctx.fill();ctx.closePath();'
+    pbuf 'ctx.beginPath();ctx.arc(' , (0&pfmtjs flipxy c) , ',' , (0&pfmtjs v) , ',0,2*Math.PI,1);ctx.fill();ctx.closePath();'
   end.
 end.
 )
@@ -4574,8 +4561,7 @@ clr=. cmatch c
 for_i. i.#p do.
   pbuf 'ctx.beginPath();', 'ctx.moveTo', (pfmtjs flipxy i { ctr), ';'
   pbuf 'ctx.arc(', (0&pfmtjs flipxy (i { ctr) ,(i{rad)), ',', (0&pfmtjs 0{i{ang), ',', (0&pfmtjs 1{i{ang), ',1);'
-  pbuf (1 canvas_color i{clr)
-  pbuf pen,'ctx.stroke();ctx.fill();ctx.closePath();'
+  pbuf (1 canvas_color i{clr) ,pen,'ctx.stroke();ctx.fill();ctx.closePath();'
 end.
 )
 canvaspline=: 3 : 0
@@ -4608,7 +4594,7 @@ e=. p cmatch e
 if. +/v do.
   v=. p cmatch v
   for_i. i.#p do.
-    pbuf 'ctx.beginPath();', (canvas_makelines i{p), (0 canvas_color i{c), (1 canvas_color i{c), ((i{e) canvas_pen i{v), 'ctx.stroke();ctx.fill();ctx.closePath();'
+    pbuf 'ctx.beginPath();', (canvas_makelines i{p), (1 canvas_color i{c), ((i{e) canvas_pen i{v), 'ctx.stroke();ctx.fill();ctx.closePath();'
   end.
 else.
   for_i. i.#p do.
@@ -4625,16 +4611,11 @@ e=. p cmatch e
 if. +/v do.
   v=. p cmatch v
   for_i. i.#p do.
-    pbuf 'ctx.beginPath();', (canvas_makerect i{p)
-    pbuf (1 canvas_color i{c)
-    pbuf ((i{e) canvas_pen i{v)
-    pbuf 'ctx.stroke();ctx.fill();ctx.closePath();'
+    pbuf 'ctx.beginPath();', (canvas_makerect i{p) , (1 canvas_color i{c) ,((i{e) canvas_pen i{v) , 'ctx.stroke();ctx.fill();ctx.closePath();'
   end.
 else.
   for_i. i.#p do.
-    pbuf 'ctx.beginPath();', (canvas_makerect i{p)
-    pbuf (1 canvas_color i{c)
-    pbuf 'ctx.stroke();ctx.fill();ctx.closePath();'
+    pbuf 'ctx.beginPath();', (canvas_makerect i{p) ,(1 canvas_color i{c) ,'ctx.fill();ctx.closePath();'
   end.
 end.
 )
@@ -4760,12 +4741,8 @@ canvas_show=: 3 : 0
 'size file ctx'=. canvas_getparms y
 res=. canvas_make size;file;ctx
 res canvas_write file;ctx
-if. IFJHS do.
-  select. CANVAS_DEFSHOW
-  case. 'show' do. smoutput 'plot' jhsshow '~temp/plot.html'
-  case. 'link' do. smoutput 'plot' jhslink '~temp/plot.html'
-  end.
-end.
+if. IFJHS do. plotcanvas__'' end.
+i.0 0
 )
 canvas_make=: 3 : 0
 'size file ctx'=. y

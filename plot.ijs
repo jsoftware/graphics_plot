@@ -32,8 +32,3 @@ caller_jwplot_=. coname''
 caller_jwplot_=. coname''
 x plot_jwplot_ y
 )
-
-plotdef_z_=: 3 : 0
-'CANVAS_DEFSHOW_jzplot_ CANVAS_DEFSIZE_jzplot_'=: y
-i.0 0
-)
