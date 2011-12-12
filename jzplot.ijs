@@ -1255,10 +1255,10 @@ TITLEFONT=: 'Sans 15'
 all=. all, IFWIN pick unx;w32
 
 3 : 0''
-if. 0 ~: 4!:0 <'IFTESTPLOTCANVAS' do. IFTESTPLOTCANVAS=: 0 end.
-if. 0 ~: 4!:0 <'IFTESTPLOTCAIRO' do. IFTESTPLOTCAIRO=: 0 end.
+if. 0 ~: 4!:0 <'IFTESTPLOTCANVAS' do. IFTESTPLOTCANVAS_z_=: 0 end.
+if. 0 ~: 4!:0 <'IFTESTPLOTCAIRO' do. IFTESTPLOTCAIRO_z_=: 0 end.
 )
-PlotDefaults=: 3 : 0 all
+PlotDefaults=: 3 : 0
 if. -.IFJ6 do.
   if. IFTESTPLOTCANVAS do.
     r=. 'OUTPUT=: ''canvas'''
