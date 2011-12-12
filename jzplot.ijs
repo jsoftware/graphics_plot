@@ -634,7 +634,7 @@ Pxywh=: ''
 PStyle=: ''
 TypeRest=: ''    
 ('i',each ;: 'LEFT CENTER RIGHT')=: i. 3
-j=. ;: 'ISI EPS GTK PDF CANVAS'
+j=. ;: 'ISI EPS GTK PDF CANVAS CAIRO'
 ('i' ,each j)=: i.#j
 j=. 'i' ,each cutopen toupper 0 : 0
 background
@@ -1110,7 +1110,7 @@ MYCaption  Y caption (left and right)
 
 DefSizes=: 25 2 50 50 50 6 4 3 4 10 6 2 3 6 4 3 3
 setsizes=: 3 : 0
-s=. PDFScale ^ Poutput e. iEPS,iPDF,iCANVAS
+s=. PDFScale ^ Poutput e. iEPS,iPDF,iCANVAS,iCAIRO
 (Sizes)=: DefSizes * s
 MarkerScale=: s
 )
@@ -1255,12 +1255,19 @@ TITLEFONT=: 'Sans 15'
 all=. all, IFWIN pick unx;w32
 
 3 : 0''
-if. 0 ~: 4!:0 <'IFTESTJHS' do. IFTESTJHS=: 0 end.
+if. 0 ~: 4!:0 <'IFTESTPLOTCANVAS' do. IFTESTPLOTCANVAS=: 0 end.
+if. 0 ~: 4!:0 <'IFTESTPLOTCAIRO' do. IFTESTPLOTCAIRO=: 0 end.
 )
 PlotDefaults=: 3 : 0 all
 if. -.IFJ6 do.
-  if. IFJHS+.IFTESTJHS do.
+  if. IFTESTPLOTCANVAS do.
     r=. 'OUTPUT=: ''canvas'''
+  elseif. IFTESTPLOTCAIRO do.
+    r=. 'OUTPUT=: ''cairo'''
+  elseif. IFJHS do.
+    r=. 'OUTPUT=: ''canvas'''
+  elseif. IFTESTCAIRO do.
+    r=. 'OUTPUT=: ''cairo'''
   elseif. IFGTK do.
     r=. 'OUTPUT=: ''gtk'''
   elseif. UNAME -: 'Darwin' do.
@@ -2277,6 +2284,8 @@ if. Poutput = iGTK do.
   else.
     FontScale * getascender y
   end.
+elseif. Poutput = iCAIRO do.
+  FontScale * getascender y
 elseif. Poutput = iCANVAS do.
   FontScale * getascender (FontSizeMin >. 2{y) 2 } y
 elseif. do.
@@ -2288,6 +2297,8 @@ select. Poutput
 case. iGTK do.
   glfont gtkfontdesc x
   |: glqextent &> y
+case. iCAIRO do.
+  FontScale * fzskludge *  x getextent y
 case. iCANVAS do.
   FontScale * fzskludge * ((FontSizeMin >. 2{x) 2} x) getextent y
 case. do.
@@ -2344,7 +2355,7 @@ elseif. do.
   TitleFont=: TitleFontX
 end.
 
-FontScale=: (Poutput e. iEPS,iPDF) { 1,FONTSCALE
+FontScale=: (Poutput e. iEPS,iPDF,iCAIRO) { 1,FONTSCALE
 FontSizeMin=: (Poutput e. iCANVAS) { 0,FONTSIZEMIN
 )
 coclass 'jzplot'
@@ -4171,9 +4182,9 @@ PDDefs=: ;: toupper j
 j=. 'brushcolor end lines pen pencolor rect'
 PDgd=: 'gd'&, each ;: j
 PDGD=: 'GD'&, each ;: toupper j
-PDshow=: ;: 'eps gtk isi jpf pdf print show'
+PDshow=: ;: 'cairo canvas eps gtk isi jpf pdf print show'
 PDcopy=: ;: 'clip save get'
-PDget=: ;: 'pdfr canvasr'
+PDget=: ;: 'pdfr cairor canvasr'
 PDcmds=: ;: 'multi new use'
 boxcmd=: 3 : 0
 if. L. y do. y return. end.
@@ -4274,6 +4285,8 @@ v _1 } y
 pd_eps=: eps_show
 pd_canvas=: canvas_show
 pd_canvasr=: canvas_get
+pd_cairo=: cairo_show
+pd_cairor=: cairo_get
 pd_gtk=: gtk_show
 pd_isi=: isi_show
 pd_pdf=: pdf_show
@@ -4326,6 +4339,520 @@ fn~arg
 EMPTY
 )
 
+coclass 'jzplot'
+CAIRO_DEFSHOW=: 'jijx'
+CAIRO_DEFSIZE=: 400 200
+CAIRO_DEFFILE=: jpath '~temp/plot.png'
+CAIRO_PENSCALE=: 0.4
+
+gtkpl=: gtkcr=: 0
+cairo_getparms=: 3 : 0
+(CAIRO_DEFSIZE;CAIRO_DEFFILE) output_parms y
+)
+cairo_write=: 3 : 0
+'file ctx'=. y
+assert. 0~:gtkcr
+while. 0 ~: cairo_surface_write_to_png_jgtk_ (cairo_get_target_jgtk_ gtkcr) ; file do.
+
+  msg=. 'Unable to write to file: ',file,LF,LF
+  if. #d=. 1!:0 file do.
+    msg=. msg, 'If the file is open in a viewer, close the file and try again.'
+    if. 1 query msg do. return. end.
+  else.
+    info msg,'The file name is invalid.' return. end.
+end.
+if. (VISIBLE > IFJHS) do.
+  browse_j_ file
+end.
+EMPTY
+)
+plotdefcairo_z_=: 3 : 0
+'CAIRO_DEFSHOW_jzplot_ CAIRO_DEFWINDOW_jzplot_ CAIRO_DEFSIZE_jzplot_'=: y
+i.0 0
+)
+
+plotcairo_z_=: 3 : 0
+f=. '~temp/plot.png' 
+w=. CAIRO_DEFWINDOW_jzplot_
+select. CAIRO_DEFSHOW_jzplot_
+ case. 'show' do. w jhsshow f
+ case. 'link' do. w jhslink f
+end.
+i.0 0
+)
+cairo_color=: 4 : 0
+assert. 0~:gtkcr
+assert. 3=#,y
+cairo_set_source_rgb_jgtk_ gtkcr ; ;/ ,y%256
+EMPTY
+)
+cairo_makerect=: 3 : 0
+'x y r s'=. y
+cairo_drawline (_2 [\ flipxy x,y,x,s,r,s,r,y,x,y)
+EMPTY
+)
+cairo_drawline=: 3 : 0
+assert. 0~:gtkcr
+assert. 1<$$y
+cairo_move_to_jgtk_ gtkcr ; ;/ {.y
+for_p. }.y do.
+  cairo_line_to_jgtk_ gtkcr ; ;/ p
+end.
+EMPTY
+)
+cairo_makelines=: 3 : 0
+len=. -: {: $ y
+if. len = 0 do. i.0 0 return. end.
+if. 2 > #$y do.
+  cairo_drawline _2 [\ flipxy y
+else.
+  cairo_drawline "2 (_2 [\"1 flipxy y)
+end.
+EMPTY
+)
+cairo_pens=: 4 : 0
+assert. 0 [ 'cairo_pens not implemented'
+(0 cairo_color x) ,"1 'ctx.lineWidth="',"1 (":1>.CAIRO_PENSCALE*y),"1 '";'
+EMPTY
+)
+cairo_pen=: 4 : 0
+assert. 0~:gtkcr
+0 cairo_color x
+cairo_set_line_width_jgtk_ gtkcr ; (1>.CAIRO_PENSCALE*y)
+EMPTY
+)
+cairo_lines=: 3 : 0
+(cairo_stroke_jgtk_ bind gtkcr)@cairo_makelines"1 y
+EMPTY
+)
+cairo_text=: 3 : 0
+'fnt txt pos align rot und'=. y
+pos=. citemize pos
+txt=. ,each boxxopen txt
+txt=. utf8 each txt
+if. und +. align e. iCENTER, iRIGHT do.
+  len=. fnt pgetstringlen txt
+end.
+if. 1=#txt do. txt=. (#pos)#{.txt end.
+
+select. rot
+case. 0 do.
+  select. align
+  case. iCENTER do.
+    pos=. pos -"1 (-:len),.0
+  case. iRIGHT do.
+    pos=. pos -"1 len,.0
+  end.
+  for_i. i.#pos do.
+    cairo_move_to_jgtk_ gtkcr ; <"0 flipxy i{pos
+    pango_layout_set_text_jgtk_ gtkpl;(,>i{txt);#>i{txt
+    pango_cairo_show_layout_jgtk_ gtkcr, gtkpl
+  end.
+case. 1 do.
+  select. align
+  case. iCENTER do.
+    pos=. pos -"1 [ 0,.-:len
+  case. iRIGHT do.
+    pos=. pos -"1 [ 0,.len
+  end.
+  for_i. i.#pos do.
+    cairo_save_jgtk_ gtkcr
+    cairo_move_to_jgtk_ gtkcr ; <"0 flipxy i{pos
+    cairo_rotate_jgtk_ gtkcr ; - 0.5p1
+    pango_cairo_update_layout_jgtk_ gtkcr, gtkpl
+    pango_layout_set_text_jgtk_ gtkpl;(,>i{txt);#>i{txt
+    pango_cairo_show_layout_jgtk_ gtkcr, gtkpl
+    cairo_restore_jgtk_ gtkcr
+  end.
+case. 2 do.
+  select. align
+  case. iCENTER do.
+    pos=. pos +"1 [ 0,.-:len
+  case. iRIGHT do.
+    pos=. pos +"1 [ 0,.len
+  end.
+  for_i. i.#pos do.
+    cairo_save_jgtk_ gtkcr
+    cairo_move_to_jgtk_ gtkcr ; <"0 flipxy i{pos
+    cairo_rotate_jgtk_ gtkcr ; 0.5p1
+    pango_cairo_update_layout_jgtk_ gtkcr, gtkpl
+    pango_layout_set_text_jgtk_ gtkpl;(,>i{txt);#>i{txt
+    pango_cairo_show_layout_jgtk_ gtkcr, gtkpl
+    cairo_restore_jgtk_ gtkcr
+  end.
+end.
+
+if. -. und do. EMPTY return. end.
+pos=. citemize pos
+len=. , len
+
+'off lwd'=. getunderline fnt
+select. rot
+case. 0 do.
+  bgn=. 0 >. pos -"1 [ 0,.-off
+  end=. bgn + len,.0
+case. 1 do.
+  bgn=. 0 >. pos -"1 off,.0
+  end=. bgn + 0,.len
+case. 2 do.
+  bgn=. 0 >. pos +"1 off,.0
+  end=. bgn - 0,.len
+end.
+
+for_p. bgn,.end do.
+  cairo_makelines p
+  cairo_stroke_jgtk_ gtkcr
+end.
+
+EMPTY
+)
+cairocircle=: 3 : 0
+'v s f e c p'=. y
+if. isempty c do.
+  if. is1color e do.
+    e cairo_pen v
+    for_i. i.#p do.
+      cairo_new_sub_path_jgtk_ gtkcr
+      cairo_arc_jgtk_ gtkcr ; ;/ (flipxy 2{.i{p) , (2{i{p), 0, 2p1
+      cairo_stroke_jgtk_ gtkcr
+    end.
+  else.
+    for_i. i.#p do.
+      cairo_new_sub_path_jgtk_ gtkcr
+      cairo_arc_jgtk_ gtkcr ; ;/ (flipxy 2{.i{p) , (2{i{p), 0, 2p1
+      (i{e) cairo_pen (i{v)
+      cairo_stroke_jgtk_ gtkcr
+    end.
+  end.
+else.
+  p=. citemize p
+  c=. p cmatch c
+  e=. p cmatch e
+  v=. p cmatch v
+  for_i. i.#p do.
+    cairo_new_sub_path_jgtk_ gtkcr
+    cairo_arc_jgtk_ gtkcr ; ;/ (flipxy 2{.i{p) , (2{i{p), 0, 2p1
+    (i{e) cairo_pen (i{v)
+    cairo_stroke_preserve_jgtk_ gtkcr
+    1 cairo_color i{c
+    cairo_fill_jgtk_ gtkcr
+  end.
+end.
+)
+cairodot=: 3 : 0
+'v s f e c p'=. y
+p=. citemize p
+v=. v * CAIRO_PENSCALE
+if. is1color e do.
+  1 cairo_color e
+  for_i. i.#p do.
+    cairo_new_sub_path_jgtk_ gtkcr
+    cairo_arc_jgtk_ gtkcr ; ;/ (flipxy i{p) , v, 0, 2p1
+    cairo_fill_jgtk_ gtkcr
+  end.
+else.
+  e=. p cmatch e
+  for_i. i.#p do.
+    1 cairo_color i{e
+    cairo_new_sub_path_jgtk_ gtkcr
+    cairo_arc_jgtk_ gtkcr ; ;/ (flipxy i{p) , v, 0, 2p1
+    cairo_fill_jgtk_ gtkcr
+  end.
+end.
+)
+cairofxywh=: 3 : 0
+''return.
+p=. _1 pick y
+if. #p do.
+  CLIP=: >: CLIP
+  'x y w h'=. p
+  rect=. cairo_makerect x,y,(x+w),y+h
+  pbuf 'gsave ',rect,' clip newpath'
+else.
+  if. CLIP do.
+    CLIP=: <: CLIP
+    pbuf 'grestore'
+  end.
+end.
+)
+cairoline=: 3 : 0
+'v s f e c p'=. y
+if. (is1color e) *. 1 = #s do.
+  pbuf e cairo_pen v
+  pbuf cairo_lines p
+else.
+  rws=. #p
+  e=. rws $ citemize e
+  v=. rws $ v
+  for_i. i. rws do.
+    pbuf (i{e) cairo_pen i{v
+    pbuf cairo_lines i{p
+  end.
+end.
+)
+cairomarker=: 3 : 0
+('cairomark_',1 pick y)~ y
+)
+cairopie=: 3 : 0
+'v s f e c p'=. y
+pen=. e cairo_pen v
+p=. citemize p
+ctr=. 0 1 {"1 p
+rad=. 2 {"1 p
+ang=. 360 %~ 2p1 * 90 - 3 4 {"1 p
+clr=. cmatch c
+for_i. i.#p do.
+  cairo_move_to_jgtk_ gtkcr ; ;/ (flipxy i{ ctr)
+  cairo_arc_negative_jgtk_ gtkcr ; ;/ (flipxy i{ ctr) , (i{rad), (i{ang)
+  cairo_close_path_jgtk_ gtkcr
+  cairo_stroke_preserve_jgtk_ gtkcr
+  1 cairo_color i{clr
+  cairo_fill_jgtk_ gtkcr
+end.
+)
+cairopline=: 3 : 0
+'v s f e c p'=. y
+if. *./ s = 0 do.
+  cairoline y return.
+end.
+s=. s { PENPATTERN
+if. (is1color e) *. 1 = #v do.
+  pos=. s linepattern"0 1 p
+  cairoline (<pos) _1 } y
+else.
+  rws=. #p
+  e=. rws $ citemize e
+  v=. rws $ v
+  s=. rws $ s
+  for_i. i.#p do.
+    (i{e) cairo_pen i{v
+    pos=. (i{s) linepattern i{p
+    cairoline (i{v);0;0;(i{e);0;pos
+  end.
+end.
+)
+cairopoly=: 3 : 0
+'v s f e c p'=. y
+p=. citemize p
+if. v=0 do. e=. c end.
+c=. p cmatch c
+e=. p cmatch e
+if. +/v do.
+  v=. p cmatch v
+  for_i. i.#p do.
+    cairo_makelines i{p
+    cairo_close_path_jgtk_ gtkcr
+    (i{e) cairo_pen i{v
+    cairo_stroke_preserve_jgtk_ gtkcr
+    1 cairo_color i{c
+    cairo_fill_jgtk_ gtkcr
+  end.
+else.
+  for_i. i.#p do.
+    cairo_makelines i{p
+    cairo_close_path_jgtk_ gtkcr
+    1 cairo_color i{c
+    cairo_stroke_preserve_jgtk_ gtkcr
+    cairo_fill_jgtk_ gtkcr
+  end.
+end.
+)
+cairorect=: 3 : 0
+assert. 0~:gtkcr
+'v s f e c p'=. y
+p=. citemize p
+if. v=0 do. e=. c end.
+c=. p cmatch c
+e=. p cmatch e
+if. +/v do.
+  v=. p cmatch v
+  for_i. i.#p do.
+    cairo_makerect i{p
+    (i{e) cairo_pen i{v
+    cairo_stroke_preserve_jgtk_ gtkcr
+    1 cairo_color i{c
+    cairo_fill_jgtk_ gtkcr
+  end.
+else.
+  for_i. i.#p do.
+    cairo_makerect i{p
+    1 cairo_color i{c
+    cairo_fill_jgtk_ gtkcr
+  end.
+end.
+)
+cairotext=: 3 : 0
+'t f a e c p'=. y
+'fnx fst fsz fan und'=. f
+rot=. 3 | 0 90 270 i. fan
+asc=. _0.2 * pgetascender f
+fnm=. getfntname fnx,fst
+bold=. italic=. 0
+if. (1 e. '-Oblique' E. fnm)+.(1 e. '-Bold' E. fnm)+.(1 e. '-Italic' E. fnm) do.
+  bold=. (1 e. 'Bold' E. fnm)
+  italic=. ((1 e. 'Oblique' E. fnm)+.(1 e. 'Italic' E. fnm))
+  fnm=. ({.~ i:&'-') fnm
+end.
+
+gtkfontangle=: <.fan*10
+gtkunderline=: Underline
+fnt=. pango_font_description_from_string_jgtk_ <fnm
+if. bold do. pango_font_description_set_weight_jgtk_ fnt, PANGO_WEIGHT_BOLD_jgtk_ end.
+if. italic do. pango_font_description_set_style_jgtk_ fnt, PANGO_STYLE_ITALIC_jgtk_ end.
+pango_font_description_set_size_jgtk_ fnt, <.PANGO_SCALE_jgtk_ * getplotfontsize f
+pango_layout_set_font_description_jgtk_ gtkpl,fnt
+pango_font_description_free_jgtk_ fnt
+select. rot
+case. 0 do. p=. 0 >. p -"1 [ 0, asc
+case. 1 do. p=. p +"1 asc, 0
+case. 2 do. p=. p -"1 asc, 0
+end.
+if. is1color e do.
+  1 cairo_color e
+  for_i. i.#p do.
+    cairo_text f;t;p;a;rot;und
+  end.
+else.
+  for_i. i.#e do.
+    1 cairo_color i{e
+    cairo_text f;(i{t);(i{p);a;rot;und
+  end.
+end.
+)
+cairomark_circle=: 3 : 0
+'s m f e c p'=. y
+p=. citemize p
+v=. 8 * s * CAIRO_PENSCALE
+1 cairo_color e
+for_i. i.#p do.
+  cairo_new_sub_path_jgtk_ gtkcr
+  cairo_arc_jgtk_ gtkcr ; ;/ (flipxy i{p) , v, 0, 2p1
+  cairo_fill_jgtk_ gtkcr
+end.
+)
+cairomark_diamond=: 3 : 0
+'s m f e c p'=. y
+p=. 8 $"1 citemize p
+d=. (3.5 * s) * _1 0 0 1 1 0 0 _1
+p=. p +"1 d
+for_i. i.#p do.
+  cairo_makelines i{p
+  cairo_close_path_jgtk_ gtkcr
+  1 cairo_color e
+  cairo_fill_jgtk_ gtkcr
+end.
+)
+cairomark_line=: 3 : 0
+'s m f e c p'=. y
+p=. ,p
+s=. -:KeyLen,KeyPen
+p=. (p - s) , p + s
+cairo_makerect p
+cairo_close_path_jgtk_ gtkcr
+1 cairo_color e
+cairo_fill_jgtk_ gtkcr
+)
+cairomark_plus=: 3 : 0
+'s m f e c p'=. y
+s=. s * 4
+t=. s, 0
+e cairo_pen s
+p=. citemize p
+d=. (p -"1 t) ,. p +"1 t
+t=. |. t
+d=. d, (p -"1 t) ,. p +"1 t
+cairo_lines d
+)
+cairomark_square=: 3 : 0
+'s m f e c p'=. y
+p=. citemize p
+s=. 3 * s
+p=. (p - s) ,"1 p + s
+for_i. i.#p do.
+  cairo_makerect i{p
+  cairo_close_path_jgtk_ gtkcr
+  1 cairo_color e
+  cairo_fill_jgtk_ gtkcr
+end.
+)
+cairomark_times=: 3 : 0
+'s m f e c p'=. y
+e cairo_pen 4 * s
+t=. _1 + s * 3
+r=. (p - t) ,. p + t
+s=. (p +"1 t * 1 _1) ,. p +"1 t * _1 1
+cairo_lines r,s
+)
+cairomark_triangle=: 3 : 0
+'s m f e c p'=. y
+p=. 6 $"1 citemize p
+d=. (4 * s) * , (sin,.cos) 2p1 * 0 1 2 % 3
+p=. p +"1 d
+for_i. i.#p do.
+  cairo_makelines i{p
+  cairo_close_path_jgtk_ gtkcr
+  1 cairo_color e
+  cairo_fill_jgtk_ gtkcr
+end.
+)
+JSESC0=: LF,CR,TAB,FF,(8{a.),'\''"'
+JSESC1=: 'nrtfb\''"'
+jsesc=: 3 : 0
+txt=. y
+msk=. txt e. JSESC0
+if. 1 e. msk do.
+  ndx=. , ((I. msk) + i. +/ msk) +/ 0 1
+  new=. ,'\',.JSESC1 {~ JSESC0 i. msk#txt
+  txt=. new ndx } (1 + msk) # txt
+end.
+
+txt
+)
+cairo_get=: 3 : 0
+'size file ctx'=. cairo_getparms y
+res=. cairo_make size;file;ctx
+)
+cairo_show=: 3 : 0
+'size file ctx'=. cairo_getparms y
+res=. cairo_make size;file;ctx
+cairo_write file;ctx
+unrefcairo ''
+if. IFJHS do. plotcairo__'' end.
+i.0 0
+)
+cairo_make=: 3 : 0
+'size file ctx'=. y
+make iCAIRO;0 0,size
+fns=. 'cairo'&, each 1 {"1 Plot
+dat=. 3 }."1 Plot
+buf=: ''
+'Cw Ch'=: size
+CLIP=: 0 
+initcairo size
+for_d. dat do.
+  (>d_index{fns)~d
+end.
+EMPTY
+)
+
+initcairo=: 3 : 0
+require 'gtk'
+if. 0~:gtkpl do. gtkpl=: 0 [ g_object_unref_jgtk_ gtkpl end.
+if. 0~:gtkcr do. gtkcr=: 0 [ cairo_destroy_jgtk_ gtkcr end.
+gtkcr=: cairo_create_jgtk_ surface=. cairo_image_surface_create_jgtk_ CAIRO_FORMAT_RGB24_jgtk_,>.y
+cairo_surface_destroy_jgtk_ surface  
+gtkpl=: pango_cairo_create_layout_jgtk_ gtkcr
+cairo_set_source_rgb_jgtk_ gtkcr ; 1 ; 1 ; 1
+cairo_rectangle_jgtk_ gtkcr ; 0 ; 0 ; ;/ y
+cairo_fill_jgtk_ gtkcr
+EMPTY
+)
+
+unrefcairo=: 3 : 0
+if. 0~:gtkpl do. gtkpl=: 0 [ g_object_unref_jgtk_ gtkpl end.
+if. 0~:gtkcr do. gtkcr=: 0 [ cairo_destroy_jgtk_ gtkcr end.
+EMPTY
+)
 coclass 'jzplot'
 CANVAS_DEFSHOW=: 'jijx'
 CANVAS_DEFSIZE=: 400 200
@@ -4421,6 +4948,7 @@ else.
 end.
 )
 canvas_pens=: 4 : 0
+assert. 0 [ 'canvas_pens not implemented'
 (0 canvas_color x) ,"1 'ctx.lineWidth="',"1 (":1>.CANVAS_PENSCALE*y),"1 '";'
 )
 canvas_pen=: 4 : 0
@@ -4434,6 +4962,8 @@ canvas_text=: 3 : 0
 pos=. citemize pos
 txt=. ,each boxxopen txt
 txt=. utf8@('"'&,)@(,&'"')@jsesc each txt
+
+if. 1=#txt do. txt=. (#pos)#{.txt end.
 
 fn=. 'ctx.textBaseline= "middle";ctx.textAlign= "', (align{:: 'left';'center';'right'), '";'
 
@@ -4456,7 +4986,7 @@ case. 2 do.
   res=. tolist r
 end.
 
-if. -. und do. return. end.
+if. -. und do. res return. end.
 wid=. ,{. fnt pgetextent txt
 'off lwd'=. getunderline fnt
 res=. res, LF, 'ctx.lineWidth="', (":1>.lwd) ,'";'
@@ -4478,18 +5008,18 @@ end=. 'ctx.lineTo' ,"1 (pfmtjs flipxy end >. 0) ,"1 ';ctx.stroke();ctx.fill();ct
 lin=. ,LF,.bgn,.end
 
 res,lin
-''
-
 )
 canvascircle=: 3 : 0
 'v s f e c p'=. y
 if. isempty c do.
-  txt=. 'ctx.beginPath();ctx.arc(' ,"1 (0&pfmtjs flipxy 2{."1 p) ,"1 ',' ,"1 (0&pfmtjs 2{"1 p) ,"1 ',0,2*Math.PI,1);ctx.stroke();ctx.closePath();'
   if. is1color e do.
     pbuf e canvas_pen v
-    pbuf txt
+    pbuf 'ctx.beginPath();ctx.arc(' ,"1 (0&pfmtjs flipxy 2{."1 p) ,"1 ',' ,"1 (0&pfmtjs 2{"1 p) ,"1 ',0,2*Math.PI,1);ctx.stroke();ctx.closePath();'
   else.
-    pbuf (e canvas_pens v) ,. txt
+    for_i. i.#p do.
+      pbuf (i{e) canvas_pen i{v
+      pbuf 'ctx.beginPath();ctx.arc(' ,"1 (0&pfmtjs flipxy 2{.i{p) ,"1 ',' ,"1 (0&pfmtjs 2{i{p) ,"1 ',0,2*Math.PI,1);ctx.stroke();ctx.closePath();'
+    end.
   end.
 else.
   p=. citemize p
@@ -4579,7 +5109,7 @@ else.
   v=. rws $ v
   s=. rws $ s
   for_i. i.#p do.
-    pbuf e canvas_pens v
+    pbuf (i{e) canvas_pen i{v
     pos=. (i{s) linepattern i{p
     canvasline (i{v);0;0;(i{e);0;pos
   end.
@@ -6792,7 +7322,7 @@ plot_symbol=: 3 : 0
 dat=. getgrafmat y
 clr=. getitemcolor #dat
 font=. SymbolFont
-if. Poutput e. iISI,iGTK,iCANVAS do.
+if. Poutput e. iISI,iGTK,iCANVAS,iCAIRO do.
   sym=. utf8 each ucp text2utf8 SYMBOLS
 else.
   sym=. <&> text2ascii8 SYMBOLS

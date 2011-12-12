@@ -4,7 +4,6 @@ NB.*pd v plot driver
 NB.*pdf v plot function driver
 NB.*plot v cover for pd
 NB.*plotf v cover for pdf
-NB.*plotdef v set default for canvas
 
 require 'jzplot'
 coclass 'jwplot'

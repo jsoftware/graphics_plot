@@ -164,14 +164,21 @@ TITLEFONT=: 'Sans 15'
 all=. all, IFWIN pick unx;w32
 
 3 : 0''
-if. 0 ~: 4!:0 <'IFTESTJHS' do. IFTESTJHS=: 0 end.
+if. 0 ~: 4!:0 <'IFTESTPLOTCANVAS' do. IFTESTPLOTCANVAS=: 0 end.
+if. 0 ~: 4!:0 <'IFTESTPLOTCAIRO' do. IFTESTPLOTCAIRO=: 0 end.
 )
 
 NB. =========================================================
 PlotDefaults=: 3 : 0 all
 if. -.IFJ6 do.
-  if. IFJHS+.IFTESTJHS do.
+  if. IFTESTPLOTCANVAS do.
     r=. 'OUTPUT=: ''canvas'''
+  elseif. IFTESTPLOTCAIRO do.
+    r=. 'OUTPUT=: ''cairo'''
+  elseif. IFJHS do.
+    r=. 'OUTPUT=: ''canvas'''
+  elseif. IFTESTCAIRO do.
+    r=. 'OUTPUT=: ''cairo'''
   elseif. IFGTK do.
     r=. 'OUTPUT=: ''gtk'''
   elseif. UNAME -: 'Darwin' do.
