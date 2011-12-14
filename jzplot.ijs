@@ -3,19 +3,27 @@ require 'graphics/afm'
 require 'graphics/bmp'
 require 'graphics/color/colortab'
 require 'graphics/color/hues'
-require 'gui/gtk'
 
 3 : 0''
 if. -.IFJ6 do.
   wdinfo=: sminfo
   wd=: (i.0 0)"_
-  require 'graphics/gl2'
+  if. IFJHS +. -.IFGTK do.
+    if. 0 < #1!:0 jpath '~addons/gui/gtk/gtk.ijs' do.
+      require 'gui/gtk'
+    end.
+  else.
+    require 'gui/gtk graphics/gl2'
+    coinsert 'jgl2'
+  end.
+  coinsert 'jafm'
 else.
   require 'dll strings unicode'
+  require 'gui/gtk'
+  coinsert 'jafm jgl2'
 end.
 ''
 )
-coinsert 'jafm jgl2'
 NOAXES=: 'axes 0;boxed 0;frame 0;grids 0;labels 0;tics 0;'
 NOFRAME=: 'axes 1;frame 0'
 
@@ -1258,7 +1266,7 @@ all=. all, IFWIN pick unx;w32
 if. 0 ~: 4!:0 <'IFTESTPLOTCANVAS' do. IFTESTPLOTCANVAS_z_=: 0 end.
 if. 0 ~: 4!:0 <'IFTESTPLOTCAIRO' do. IFTESTPLOTCAIRO_z_=: 0 end.
 )
-PlotDefaults=: 3 : 0
+PlotDefaults=: 3 : 0 all
 if. -.IFJ6 do.
   if. IFTESTPLOTCANVAS do.
     r=. 'OUTPUT=: ''canvas'''
@@ -1266,20 +1274,24 @@ if. -.IFJ6 do.
     r=. 'OUTPUT=: ''cairo'''
   elseif. IFJHS do.
     r=. 'OUTPUT=: ''canvas'''
-  elseif. IFTESTCAIRO do.
-    r=. 'OUTPUT=: ''cairo'''
   elseif. IFGTK do.
     r=. 'OUTPUT=: ''gtk'''
-  elseif. UNAME -: 'Darwin' do.
-    r=. 'OUTPUT=: ''gtk'''
   elseif. UNAME -: 'Linux' do.
-    if. 0 -: 2!:5 'DISPLAY' do.
-      r=. 'OUTPUT=: ''pdf'''
+    if. 3 = 4!:0 <'gtkinit_jgtk_' do.
+      if. 0 -: 2!:5 'DISPLAY' do.
+        r=. 'OUTPUT=: ''cairo'''
+      else.
+        r=. 'OUTPUT=: ''gtk'''
+      end.
     else.
-      r=. 'OUTPUT=: ''gtk'''
+      r=. 'OUTPUT=: ''pdf'''
     end.
   elseif. do.
-    r=. 'OUTPUT=: ''pdf'''
+    if. 3 = 4!:0 <'gtkinit_jgtk_' do.
+      r=. 'OUTPUT=: ''gtk'''
+    else.
+      r=. 'OUTPUT=: ''pdf'''
+    end.
   end.
 else.
   if. IFCONSOLE do.
@@ -4836,7 +4848,6 @@ EMPTY
 )
 
 initcairo=: 3 : 0
-require 'gtk'
 if. 0~:gtkpl do. gtkpl=: 0 [ g_object_unref_jgtk_ gtkpl end.
 if. 0~:gtkcr do. gtkcr=: 0 [ cairo_destroy_jgtk_ gtkcr end.
 gtkcr=: cairo_create_jgtk_ surface=. cairo_image_surface_create_jgtk_ CAIRO_FORMAT_RGB24_jgtk_,>.y

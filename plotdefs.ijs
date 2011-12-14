@@ -169,7 +169,7 @@ if. 0 ~: 4!:0 <'IFTESTPLOTCAIRO' do. IFTESTPLOTCAIRO_z_=: 0 end.
 )
 
 NB. =========================================================
-PlotDefaults=: 3 : 0
+PlotDefaults=: 3 : 0 all
 if. -.IFJ6 do.
   if. IFTESTPLOTCANVAS do.
     r=. 'OUTPUT=: ''canvas'''
@@ -177,20 +177,24 @@ if. -.IFJ6 do.
     r=. 'OUTPUT=: ''cairo'''
   elseif. IFJHS do.
     r=. 'OUTPUT=: ''canvas'''
-  elseif. IFTESTCAIRO do.
-    r=. 'OUTPUT=: ''cairo'''
   elseif. IFGTK do.
     r=. 'OUTPUT=: ''gtk'''
-  elseif. UNAME -: 'Darwin' do.
-    r=. 'OUTPUT=: ''gtk'''
   elseif. UNAME -: 'Linux' do.
-    if. 0 -: 2!:5 'DISPLAY' do.
-      r=. 'OUTPUT=: ''pdf'''
+    if. 3 = 4!:0 <'gtkinit_jgtk_' do.
+      if. 0 -: 2!:5 'DISPLAY' do.
+        r=. 'OUTPUT=: ''cairo'''
+      else.
+        r=. 'OUTPUT=: ''gtk'''
+      end.
     else.
-      r=. 'OUTPUT=: ''gtk'''
+      r=. 'OUTPUT=: ''pdf'''
     end.
   elseif. do.
-    r=. 'OUTPUT=: ''pdf'''
+    if. 3 = 4!:0 <'gtkinit_jgtk_' do.
+      r=. 'OUTPUT=: ''gtk'''
+    else.
+      r=. 'OUTPUT=: ''pdf'''
+    end.
   end.
 else.
   if. IFCONSOLE do.
