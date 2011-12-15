@@ -6,9 +6,9 @@ require 'graphics/color/colortab'
 if. -.IFJ6 do.
   wdinfo=: sminfo
   wd=: (i.0 0)"_
-  if. 0 ~: 4!:0 <'IFTESTPLOTCANVAS' do. IFTESTPLOTCANVAS_z_=: 0 end.
-  if. 0 ~: 4!:0 <'IFTESTPLOTCAIRO' do. IFTESTPLOTCAIRO_z_=: 0 end.
-  if. IFTESTPLOTCAIRO +. IFTESTPLOTCANVAS +. IFJHS +. -.IFGTK do.
+  if. 0 ~: 4!:0 <'JHSOUTPUT' do. JHSOUTPUT=: 'canvas' end.
+  if. 0 ~: 4!:0 <'IFTESTPLOTJHS' do. IFTESTPLOTJHS_z_=: 0 end.
+  if. IFTESTPLOTJHS +. IFJHS +. -.IFGTK do.
     if. 0 < #1!:0 jpath '~addons/gui/gtk/gtk.ijs' do.
       require 'gui/gtk'
     end.
@@ -1266,12 +1266,8 @@ TITLEFONT=: 'Sans 15'
 all=. all, IFWIN pick unx;w32
 PlotDefaults=: 3 : 0 all
 if. -.IFJ6 do.
-  if. IFTESTPLOTCANVAS do.
-    r=. 'OUTPUT=: ''canvas'''
-  elseif. IFTESTPLOTCAIRO do.
-    r=. 'OUTPUT=: ''cairo'''
-  elseif. IFJHS do.
-    r=. 'OUTPUT=: ''canvas'''
+  if. IFTESTPLOTJHS +. IFJHS do.
+    r=. 'OUTPUT=: JHSOUTPUT'
   elseif. IFGTK do.
     r=. 'OUTPUT=: ''gtk'''
   elseif. UNAME -: 'Linux' do.
@@ -4375,20 +4371,6 @@ if. (VISIBLE > IFJHS) do.
   browse_j_ file
 end.
 EMPTY
-)
-plotdefcairo_z_=: 3 : 0
-'CAIRO_DEFSHOW_jzplot_ CAIRO_DEFWINDOW_jzplot_ CAIRO_DEFSIZE_jzplot_'=: y
-i.0 0
-)
-
-plotcairo_z_=: 3 : 0
-f=. '~temp/plot.png' 
-w=. CAIRO_DEFWINDOW_jzplot_
-select. CAIRO_DEFSHOW_jzplot_
- case. 'show' do. w jhsshow f
- case. 'link' do. w jhslink f
-end.
-i.0 0
 )
 cairo_color=: 4 : 0
 assert. 0~:gtkcr

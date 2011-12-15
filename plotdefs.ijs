@@ -166,12 +166,8 @@ all=. all, IFWIN pick unx;w32
 NB. =========================================================
 PlotDefaults=: 3 : 0 all
 if. -.IFJ6 do.
-  if. IFTESTPLOTCANVAS do.
-    r=. 'OUTPUT=: ''canvas'''
-  elseif. IFTESTPLOTCAIRO do.
-    r=. 'OUTPUT=: ''cairo'''
-  elseif. IFJHS do.
-    r=. 'OUTPUT=: ''canvas'''
+  if. IFTESTPLOTJHS +. IFJHS do.
+    r=. 'OUTPUT=: JHSOUTPUT'
   elseif. IFGTK do.
     r=. 'OUTPUT=: ''gtk'''
   elseif. UNAME -: 'Linux' do.
