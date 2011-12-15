@@ -1,23 +1,26 @@
 coclass 'jzplot'
 require 'graphics/afm'
-require 'graphics/bmp'
 require 'graphics/color/colortab'
-require 'graphics/color/hues'
 
 3 : 0''
 if. -.IFJ6 do.
   wdinfo=: sminfo
   wd=: (i.0 0)"_
-  if. IFJHS +. -.IFGTK do.
+  if. 0 ~: 4!:0 <'IFTESTPLOTCANVAS' do. IFTESTPLOTCANVAS_z_=: 0 end.
+  if. 0 ~: 4!:0 <'IFTESTPLOTCAIRO' do. IFTESTPLOTCAIRO_z_=: 0 end.
+  if. IFTESTPLOTCAIRO +. IFTESTPLOTCANVAS +. IFJHS +. -.IFGTK do.
     if. 0 < #1!:0 jpath '~addons/gui/gtk/gtk.ijs' do.
       require 'gui/gtk'
     end.
   else.
+    require 'graphics/bmp'
     require 'gui/gtk graphics/gl2'
     coinsert 'jgl2'
   end.
   coinsert 'jafm'
 else.
+  require 'graphics/bmp'
+  require 'graphics/color/hues'
   require 'dll strings unicode'
   require 'gui/gtk'
   coinsert 'jafm jgl2'
@@ -1261,11 +1264,6 @@ TITLEFONT=: 'Sans 15'
 )
 
 all=. all, IFWIN pick unx;w32
-
-3 : 0''
-if. 0 ~: 4!:0 <'IFTESTPLOTCANVAS' do. IFTESTPLOTCANVAS_z_=: 0 end.
-if. 0 ~: 4!:0 <'IFTESTPLOTCAIRO' do. IFTESTPLOTCAIRO_z_=: 0 end.
-)
 PlotDefaults=: 3 : 0 all
 if. -.IFJ6 do.
   if. IFTESTPLOTCANVAS do.
