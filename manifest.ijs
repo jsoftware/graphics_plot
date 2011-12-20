@@ -6,7 +6,7 @@ DESCRIPTION=: 0 : 0
 2D Plot
 )
 
-VERSION=: '1.0.26'
+VERSION=: '1.0.76'
 
 DEPENDS=: 0 : 0
 graphics/afm

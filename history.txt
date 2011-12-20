@@ -36,5 +36,5 @@ graphics/plot - change history
 == 1.0.13/20 ==
  * canvas output
 
-== 1.0.21/27 ==
+== 1.0.21/76 ==
  * cairo output
