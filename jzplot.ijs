@@ -7,15 +7,29 @@ if. -.IFJ6 do.
   wdinfo=: sminfo
   wd=: (i.0 0)"_
   if. 0 ~: 4!:0 <'JHSOUTPUT' do. JHSOUTPUT=: 'canvas' end.
+  if. 0 ~: 4!:0 <'CONSOLEOUTPUT' do. CONSOLEOUTPUT=: 'cairo' end.
   if. 0 ~: 4!:0 <'IFTESTPLOTJHS' do. IFTESTPLOTJHS_z_=: 0 end.
-  if. IFTESTPLOTJHS +. IFJHS +. -.IFGTK do.
+  if. IFTESTPLOTJHS +. IFJHS do.
     if. 0 < #1!:0 jpath '~addons/gui/gtk/gtk.ijs' do.
       require 'gui/gtk'
     end.
-  else.
+  elseif. IFGTK do.
     require 'graphics/bmp'
     require 'gui/gtk graphics/gl2'
     coinsert 'jgl2'
+  elseif. do.  
+    if. 0 < #1!:0 jpath '~addons/gui/gtk/gtk.ijs' do.
+      require 'gui/gtk'
+    end.
+    if. (UNAME -: 'Linux') *: (0 -: 2!:5 'DISPLAY') do.
+      if. 0 < #1!:0 jpath '~addons/graphics/gl2/gl2.ijs' do.
+        require 'graphics/gl2'
+        coinsert 'jgl2'
+      end.
+      if. 0 < #1!:0 jpath '~addons/graphics/bmp/bmp.ijs' do.
+        require 'graphics/bmp'
+      end.
+    end.
   end.
   coinsert 'jafm'
 else.
@@ -1270,20 +1284,12 @@ if. -.IFJ6 do.
     r=. 'OUTPUT=: JHSOUTPUT'
   elseif. IFGTK do.
     r=. 'OUTPUT=: ''gtk'''
-  elseif. UNAME -: 'Linux' do.
-    if. 3 = 4!:0 <'gtkinit_jgtk_' do.
-      if. 0 -: 2!:5 'DISPLAY' do.
-        r=. 'OUTPUT=: ''cairo'''
-      else.
-        r=. 'OUTPUT=: ''gtk'''
-      end.
-    else.
-      r=. 'OUTPUT=: ''pdf'''
-    end.
-  elseif. do.
-    if. 3 = 4!:0 <'gtkinit_jgtk_' do.
+  elseif. do.  
+    if. ('gtk' -: CONSOLEOUTPUT) *. (3 = 4!:0 <'gtkinit_jgtk_') *. (UNAME -: 'Linux') *: (0 -: 2!:5 'DISPLAY') do.
       r=. 'OUTPUT=: ''gtk'''
-    else.
+    elseif. (('cairo' -: CONSOLEOUTPUT) +. ('gtk' -: CONSOLEOUTPUT)) *. 3 = 4!:0 <'gtkinit_jgtk_' do.
+      r=. 'OUTPUT=: ''cairo'''
+    elseif. do.
       r=. 'OUTPUT=: ''pdf'''
     end.
   end.
