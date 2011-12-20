@@ -171,13 +171,7 @@ if. -.IFJ6 do.
   elseif. IFGTK do.
     r=. 'OUTPUT=: ''gtk'''
   elseif. do.  NB. jconsole
-    if. ('gtk' -: CONSOLEOUTPUT) *. (3 = 4!:0 <'gtkinit_jgtk_') *. (UNAME -: 'Linux') *: (0 -: 2!:5 'DISPLAY') do.
-      r=. 'OUTPUT=: ''gtk'''
-    elseif. (('cairo' -: CONSOLEOUTPUT) +. ('gtk' -: CONSOLEOUTPUT)) *. 3 = 4!:0 <'gtkinit_jgtk_' do.
-      r=. 'OUTPUT=: ''cairo'''
-    elseif. do.
-      r=. 'OUTPUT=: ''pdf'''
-    end.
+   r=. 'OUTPUT=: CONSOLEOUTPUT'
   end.
 else.
   if. IFCONSOLE do.

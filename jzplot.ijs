@@ -730,6 +730,18 @@ fcase. do.
   XMax=: YMax=: Y2Max=: ZMax=: Max3d=: __
   XMin=: YMin=: Y2Min=: ZMin=: Min3d=: _
 end.
+if. -.IFJ6 do.
+  if. -. IFTESTPLOTJHS +. IFJHS +. IFGTK do.
+    if. ('gtk' -: CONSOLEOUTPUT) *. (3 = 4!:0 <'gtkinit_jgtk_') *. (UNAME -: 'Linux') *: (0 -: 2!:5 'DISPLAY') do.
+      r=. 'OUTPUT=: ''gtk'''
+    elseif. (('cairo' -: CONSOLEOUTPUT) +. ('gtk' -: CONSOLEOUTPUT)) *. 3 = 4!:0 <'gtkinit_jgtk_' do.
+      r=. 'OUTPUT=: ''cairo'''
+    elseif. do.
+      r=. 'OUTPUT=: ''pdf'''
+    end.
+  end.
+end.
+EMPTY
 )
 opts=. ;: ;._2 (0 : 0)
 ASPECT N
@@ -1285,13 +1297,7 @@ if. -.IFJ6 do.
   elseif. IFGTK do.
     r=. 'OUTPUT=: ''gtk'''
   elseif. do.  
-    if. ('gtk' -: CONSOLEOUTPUT) *. (3 = 4!:0 <'gtkinit_jgtk_') *. (UNAME -: 'Linux') *: (0 -: 2!:5 'DISPLAY') do.
-      r=. 'OUTPUT=: ''gtk'''
-    elseif. (('cairo' -: CONSOLEOUTPUT) +. ('gtk' -: CONSOLEOUTPUT)) *. 3 = 4!:0 <'gtkinit_jgtk_' do.
-      r=. 'OUTPUT=: ''cairo'''
-    elseif. do.
-      r=. 'OUTPUT=: ''pdf'''
-    end.
+   r=. 'OUTPUT=: CONSOLEOUTPUT'
   end.
 else.
   if. IFCONSOLE do.
@@ -6151,6 +6157,7 @@ end.
 g_object_unref_jgtk_ buf
 )
 gtk_show=: 3 : 0
+coinsert 'jgl2'
 if. -.IFGTK do. gtkinit_jgtk_ '' end.
 popen''
 if. ifjwplot'' do.
