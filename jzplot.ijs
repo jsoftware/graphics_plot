@@ -17,7 +17,7 @@ if. -.IFJ6 do.
     require 'graphics/bmp'
     require 'gui/gtk graphics/gl2'
     coinsert 'jgl2'
-  elseif. do.  
+  elseif. do.
     if. 0 < #1!:0 jpath '~addons/gui/gtk/gtk.ijs' do.
       require 'gui/gtk'
     end.
@@ -289,9 +289,9 @@ unquot=: 3 : 0
 )
 rectcenter=: 2&{. + -:@(2 3&{)
 angle2=: [: r.^:_1 *@(j./)"1
-g0=. }:"1                            
-g1=. (1 2&{ - 0 0&{)"2               
-g2=. 0: < -/"1 @: ({. * |. @: {:)"2  
+g0=. }:"1
+g1=. (1 2&{ - 0 0&{)"2
+g2=. 0: < -/"1 @: ({. * |. @: {:)"2
 facing=: g2 @: g1 @: g0 f.
 boxrs2wh=: 3 : 0
 a=. 2 {."1 y
@@ -358,14 +358,14 @@ else.
 end.
 )
 linepattern=: 4 : 0
-nap=. ,`[@.('' -: ])`]@.('' -: [)  
+nap=. ,`[@.('' -: ])`]@.('' -: [)
 x=. > x
 y=. _2 [\ y
 if. x -: 1 0 do.
   <. 2 ,\ y
 else.
   a=. ; 2 < @ (x&linepattern1) \ }: y
-  <. _2 ,\ a nap x linepattern2 _2 {. y  
+  <. _2 ,\ a nap x linepattern2 _2 {. y
 end.
 )
 logcheck=: 4 : 0
@@ -638,26 +638,26 @@ steps=: {. + (1&{ - {.) * (i.@>: % ])@{:
 coclass 'jzplot'
 create=: pdreset
 destroy=: codestroy
-FontScale=: 1    
-FontSizeMin=: 0  
+FontScale=: 1
+FontSizeMin=: 0
 MaxAxisInt=: 0.9
 MaxData=: _
 PCmd=: ''
 Data=: ''
 PForm=: 'plot'
-Ch=: Cw=: 0      
+Ch=: Cw=: 0
 PId=: 'gs'
 Plot=: i. 0 0
-PFormhwnd=: 0['' 
-Poutput=: _1     
-Printer=: 0      
-PReset=: 0       
+PFormhwnd=: 0[''
+Poutput=: _1
+Printer=: 0
+PReset=: 0
 PText=: ''
 PTop=: 0
-PShow=: 0        
-Pxywh=: ''       
+PShow=: 0
+Pxywh=: ''
 PStyle=: ''
-TypeRest=: ''    
+TypeRest=: ''
 ('i',each ;: 'LEFT CENTER RIGHT')=: i. 3
 j=. ;: 'ISI EPS GTK PDF CANVAS CAIRO'
 ('i' ,each j)=: i.#j
@@ -1000,7 +1000,7 @@ end.
 plotdefverbm=: 4 : 0
 locale=. x
 if. 32 ~: 3!:0 gerund=. y do.
-  boxs=. <@('`'"_^:(-.@*@#));._1@('`'&,) y  
+  boxs=. <@('`'"_^:(-.@*@#));._1@('`'&,) y
   specs=. (<@;;.1~ (1&(0}))@(*. |.!.0)@:(#@$@>)) boxs
   gerund=. plotconvertstringtogerund__locale specs
 end.
@@ -1009,7 +1009,7 @@ locale ,&< gerund
 plotdefverbd=: 4 : 0
 locale=. x
 if. 32 ~: 3!:0 gerund=. y do.
-  boxs=. <@('`'"_^:(-.@*@#));._1@('`'&,) y  
+  boxs=. <@('`'"_^:(-.@*@#));._1@('`'&,) y
   specs=. (<@;;.1~ (1&(0}))@(*. |.!.0)@:(#@$@>)) boxs
   gerund=. '' plotconvertstringtogerund__locale specs
 end.
@@ -1027,7 +1027,7 @@ if. 2 = #y do.
   for_n. gerund do.
     plotf_userverb_z_=: (; # (((%~,[) #) ($,) ]) (n`:6))
     d=. plotfn y
-    if. (1 < #d) *. 0 = #YRANGE do.  
+    if. (1 < #d) *. 0 = #YRANGE do.
       mtone1=. (<./@:((i.&0@:(2&(<:/\)) >. i.&0@:(2&(>:/\)))"1))@(1&{::)"1 d
       mtonen=. (>./@:((i:&0@:(0&,)@:(2&(<:/\)) <. i:&0@:(0&,)@:(2&(>:/\)))"1))@(1&{::)"1 d
       quintiles=. ((((+ {.)~ i.&1@:<: [) , ((-~ {:)~ i:&1@:>: [)) %&(1.01 >. SINGTOLER)@({:-{.))@(0&{::)"1 d
@@ -1042,7 +1042,7 @@ if. 2 = #y do.
     end.
     res=. res , < 2 {."1 d
   end.
-else.   
+else.
   x=. boxopen"1^:(3:<{:@$) 0 {:: y
   y=. boxopen"1^:(3:<{:@$) 1 {:: y
   pfmodx=: ]`(^.) @. XLOG
@@ -1074,9 +1074,9 @@ y=. <@(pfmody^:_1)@:steps@(pfmody@(2&{.) , {.@(,&25)@(2&}.))"1^:(0:=L.) y
 plotfiy=: 3 : 0 ("1)
 if. 0 < 2 { y,0 do.
   (plotf_userverb__origlocale pfmody^:_1 steps y) , <0 0
-else.  
-  pfrngz=: $ 0  
-  pfrngy=: 2 {. y  
+else.
+  pfrngz=: $ 0
+  pfrngy=: 2 {. y
   plotfintvl (2 {. y),100
 end.
 )
@@ -1124,7 +1124,7 @@ gpinit''
 make ''
 gtk_show 1
 )
-PDFScale=: 0.5   
+PDFScale=: 0.5
 Sizes=: ([:<i.&' '{.]);._2 (0 : 0)
 KeyLen     key length
 KeyPen     key pensize
@@ -1157,7 +1157,7 @@ AXES=: 0
 AXISCOLOR=: BLACK
 BACKCOLOR=: WHITE
 BANDCOLOR=: RGCLR
-BARWIDTH=: 0.75 
+BARWIDTH=: 0.75
 BORDER=: 0
 BORDERSIZE=: 8
 BOXED=: 1
@@ -1165,48 +1165,48 @@ CAPTIONCOLOR=: BLACK
 CLEAR=: 1
 CONTOURLEVELS=: 20
 EDGECOLOR=: BLACK
-EDGESIZE=: 1 
+EDGESIZE=: 1
 FORECOLOR=: BLACK
-FONTSCALE=: 0.75 
-FONTSIZEMIN=: 11 
+FONTSCALE=: 0.75
+FONTSIZEMIN=: 11
 FRAME=: 1
-FRAMEBACKCOLOR=: '' 
-FRAMESTYLE=: '' 
-GRAPHBACKCOLOR=: '' 
+FRAMEBACKCOLOR=: ''
+FRAMESTYLE=: ''
+GRAPHBACKCOLOR=: ''
 GRIDCOLOR=: SILVER
-GRIDPATTERN=: 1 0 0 
+GRIDPATTERN=: 1 0 0
 GRIDS=: 1
-GUIDESIZE=: 0.5 
+GUIDESIZE=: 0.5
 ITEMCOLOR=: STDCLR
 KEY=: ''
-KEYCOLOR=: ''   
-KEYMARKERS=: '' 
-KEYPOS=: ''     
-KEYSTYLE=: ''   
+KEYCOLOR=: ''
+KEYMARKERS=: ''
+KEYPOS=: ''
+KEYSTYLE=: ''
 KEYTITLE=: ''
 LABELCOLOR=: BLACK
 LABELS=: 1
-MARKERS=: '' 
-MARKERSIZE=: 1 
+MARKERS=: ''
+MARKERSIZE=: 1
 MESH=: 1
 ORIENTATION=: 2
-ORIGINXLABEL=: 0 
+ORIGINXLABEL=: 0
 PENPATTERN=: 1 0;12 6;2 4;12 6 2 4;12 6 2 4 2 4
-PENSIZE=: 1 
+PENSIZE=: 1
 PENSTYLE=: 0
-PIEPERCENT=: 0 
+PIEPERCENT=: 0
 PLOTCAPTION=: 'Plot'
 POLAR=: 0
-PRINTMARGIN=: 1440 
-PRINTWINDOW=: '' 
-PSHOW=: '' 
+PRINTMARGIN=: 1440
+PRINTWINDOW=: ''
+PSHOW=: ''
 RTIC=: ''
 RULECOLOR=: BLACK
 RULESIZE=: 1
 SEPARATOR=: '|'
-SHOWBOXES=: 0 
+SHOWBOXES=: 0
 SINGTOLER=: 10
-SUBTITLE=: '' 
+SUBTITLE=: ''
 SUBTITLECOLOR=: BLACK
 SUBTITLESTYLE=: ''
 SYMBOLCOLOR=: BLACK
@@ -1215,7 +1215,7 @@ TEXTCOLOR=: BLACK
 TICMAJOR=: 7
 TICMINOR=: 4
 TICS=: 1
-TICSTYLE=: '' 
+TICSTYLE=: ''
 TITLE=: ''
 TITLECOLOR=: BLACK
 TITLESTYLE=: ''
@@ -1296,7 +1296,7 @@ if. -.IFJ6 do.
     r=. 'OUTPUT=: JHSOUTPUT'
   elseif. IFGTK do.
     r=. 'OUTPUT=: ''gtk'''
-  elseif. do.  
+  elseif. do.
    r=. 'OUTPUT=: CONSOLEOUTPUT'
   end.
 else.
@@ -1776,7 +1776,7 @@ if. 0=2{LABELS do. '' return. end.
 if. 0=#ZLabel do. return. end.
 
 zpos=. ZTics
-xpos=. - (TICMAJOR + 1 + TicOut) % Gh 
+xpos=. - (TICMAJOR + 1 + TicOut) % Gh
 ndx=. Box3dL firstin 0 5 7 11
 if. ndx e. 7 11 do. xpos=. -<:xpos end.
 
@@ -1968,7 +1968,7 @@ case. 0 1 do.
   'xmax y2max zmax'=. >./ max
   ymin=. y2min
   ymax=. y2max
-case. 1 1 do.  
+case. 1 1 do.
   lmsk=. -.y2msk
   rmsk=. y2msk
 
@@ -2044,8 +2044,8 @@ box=. (Box3d scalepos XYZDiff) movepos XYZMin
 box=. project box
 zbox=. {:"1 box
 box=. }:"1 box
-Box3dX=: /: _2 +/\ zbox 
-j=. <Box3dX /: 3#1 0 0 1  
+Box3dX=: /: _2 +/\ zbox
+j=. <Box3dX /: 3#1 0 0 1
 Box3dL=: j firstin &> 2 6 4 9 ;1 8 3 10 ;0 5 7 11
 box=. fitgrafxy3d box
 box=. 12 4$,box
@@ -2226,7 +2226,7 @@ try.
       pdcmdclip=: 0
     end.
     if. pdcmdprint do.
-      pdcmdprint=: 0       
+      pdcmdprint=: 0
       print''
     end.
   end.
@@ -2896,7 +2896,7 @@ getouterboxes''
 getouterkeybox''
 )
 getlayout=: 3 : 0
-TicOut=: 'o' e. TICSTYLE 
+TicOut=: 'o' e. TICSTYLE
 getouterlayout''
 getlabelbox''
 getaxes''
@@ -3411,7 +3411,7 @@ IfBand=: 1 e. types e. BandTypes
 IfPie=: 1 e. types e. PieTypes
 )
 makedata_init=: 3 : 0
-DataNdx=: 0  
+DataNdx=: 0
 getlayout''
 drawbackground''
 drawtrims''
@@ -4117,11 +4117,11 @@ if. bSub = {. {. pcmd do.
     ndx=. val i. ','
     val=. (0 ". ndx {. val) ; 0 ". (ndx + 1) }. val
     smat=. Sxywh makesubshape val
-    sxywh=. {. smat 
+    sxywh=. {. smat
   else.
     if. 2 = # 0 ". val do.
       smat=. Sxywh makesubshape (0 ". val) # each 1
-      sxywh=. {. smat 
+      sxywh=. {. smat
     else.
       smat=. ''
       sxywh=. Sxywh makepos_xywh val
@@ -4831,7 +4831,7 @@ fns=. 'cairo'&, each 1 {"1 Plot
 dat=. 3 }."1 Plot
 buf=: ''
 'Cw Ch'=: size
-CLIP=: 0 
+CLIP=: 0
 initcairo size
 for_d. dat do.
   (>d_index{fns)~d
@@ -4843,7 +4843,7 @@ initcairo=: 3 : 0
 if. 0~:gtkpl do. gtkpl=: 0 [ g_object_unref_jgtk_ gtkpl end.
 if. 0~:gtkcr do. gtkcr=: 0 [ cairo_destroy_jgtk_ gtkcr end.
 gtkcr=: cairo_create_jgtk_ surface=. cairo_image_surface_create_jgtk_ CAIRO_FORMAT_RGB24_jgtk_,>.y
-cairo_surface_destroy_jgtk_ surface  
+cairo_surface_destroy_jgtk_ surface
 gtkpl=: pango_cairo_create_layout_jgtk_ gtkcr
 cairo_set_source_rgb_jgtk_ gtkcr ; 1 ; 1 ; 1
 cairo_rectangle_jgtk_ gtkcr ; 0 ; 0 ; ;/ y
@@ -5284,7 +5284,7 @@ fns=. 'canvas'&, each 1 {"1 Plot
 dat=. 3 }."1 Plot
 buf=: ''
 'Cw Ch'=: size
-CLIP=: 0 
+CLIP=: 0
 for_d. dat do.
   (>d_index{fns)~d
 end.
@@ -5669,7 +5669,7 @@ make iEPS;0 0,size
 fns=. 'eps'&, each 1 {"1 Plot
 dat=. 3 }."1 Plot
 buf=: ''
-CLIP=: 0 
+CLIP=: 0
 for_d. dat do.
   (>d_index{fns)~d
 end.
@@ -5766,8 +5766,8 @@ gpfliplast=: 3 : 0
 gpinit=: 3 : 0
 buf=: bufdef=: $0
 r=. ''
-r=. r,3 2003 1 
-r=. r,3 2071 1 
+r=. r,3 2003 1
+r=. r,3 2071 1
 gpapply''
 )
 gpbrushnull=: 3 : '2 2005'
@@ -5865,18 +5865,18 @@ p=. xy ,. wh
 gtkdot=: 3 : 0
 'v s f e c p'=. y
 select. v
-case. 1 do.  
+case. 1 do.
   gppixel y
-case. 2 do.  
+case. 2 do.
   p=. gpflip p
   p=. (p-1) ,"1 [ 2 2
   dat=. 1;0;0;e;e;p
   2031 gppshape dat
-case. 3 do.  
+case. 3 do.
   h=. (p-"1[1 0) ,. p+"1[2 0
   v=. (p-"1[0 1) ,. p+"1[0 2
   gtkline 1;0;0;e;e;h,v
-case. do.    
+case. do.
   o=. >. -: v
   p=. p ,"1 v,.v
   gtkcircle 1;0;0;e;e;p
@@ -6086,7 +6086,7 @@ glemfclose''
 )
 gtk_jpg=: 3 : 0
 file=. ''
-qual=. 85  
+qual=. 85
 if. #y do.
   arg=. qchop y
   num=. __ ". &.> arg
@@ -6100,7 +6100,7 @@ rgb saveimg 'jpeg';file;'quality';":qual
 )
 gtk_png=: 3 : 0
 file=. ''
-comp=. 5   
+comp=. 5
 if. #y do.
   arg=. qchop y
   num=. __ ". &.> arg
@@ -6202,7 +6202,7 @@ JPF_DEFFILE=: jpath '~temp/plot.jpf'
 PDF_PENSCALE=: 0.4
 
 CIDFONTS=: 'MSung-Light';'STSong-Light'
-endian=. ({.a.)={. 1&(3!:4) 1  
+endian=. ({.a.)={. 1&(3!:4) 1
 toucodem=: ''&,@(1&(3!:4))@(3&u:)@u:
 toucoder=: ''&,@:,@:(|."1@(_2: ]\ 1&(3!:4)))@(3&u:)@u:
 toucode1=: toucodem`toucoder@.(-.endian) f.
@@ -6482,7 +6482,7 @@ pdf_lines=: 3 : 0
 (pdf_makelines y) ,"1 ' S'
 )
 pdf_text=: 4 : 0
-0 pdf_text y  
+0 pdf_text y
 :
 'fnt clr txt pos align rot und'=. y
 
@@ -6796,7 +6796,7 @@ fns=. 'pdf'&, each 1 {"1 Plot
 dat=. 3 }."1 Plot
 buf=: ''
 PDFFonts=: ,<'Helvetica'
-PDFClip=: 0 
+PDFClip=: 0
 for_d. dat do.
   (>d_index{fns)~d
 end.
@@ -6916,7 +6916,7 @@ end.
 'r c'=. $y
 wid=. BARWIDTH
 w=. Gw * wid % c
-t=. Gw * -: (-.wid) % c 
+t=. Gw * -: (-.wid) % c
 h=. Gh * y % YMax
 y=. Gy + ,+/\ h
 x=. Gx + ($y) $ t + Gw * }: int01 c
@@ -6963,7 +6963,7 @@ contri=: 3 : 0
 pts=. i { CONPTS
 min=. <./ l0,l1,l2
 max=. >./ l0,l1,l2
-lvl=. min + 1 + i. max-min    
+lvl=. min + 1 + i. max-min
 ndx=. (#. lvl >:/ v0,v1,v2) { 0 0 1 2 2 1 0 3
 res=. i.0 5
 for_lv. lvl do.
@@ -7093,7 +7093,7 @@ for_d. dat do.
 end.
 )
 plot_pie=: 3 : 0
-YCaption=: ; YCAPTION 
+YCaption=: ; YCAPTION
 'x y'=. 2 {. y { Data
 if. 1 = #y do.
   plot_pied y
