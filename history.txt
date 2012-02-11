@@ -39,5 +39,5 @@ graphics/plot - change history
 == 1.0.21/76 ==
  * cairo output
 
-== 1.0.77 ==
+== 1.0.77/78 ==
  * isi output

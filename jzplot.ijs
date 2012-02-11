@@ -4930,7 +4930,7 @@ end.
 txt
 )
 cairo_get=: 3 : 0
-'size file ctx'=. cairo_getparms y
+'size file ctx'=. 3{. cairo_getparms y
 res=. cairo_make size;file;ctx
 )
 cairo_show=: 3 : 0
@@ -5384,7 +5384,7 @@ end.
 txt
 )
 canvas_get=: 3 : 0
-'size file ctx'=. canvas_getparms y
+'size file ctx'=. 3{. canvas_getparms y
 res=. canvas_make size;file;ctx
 )
 canvas_show=: 3 : 0
@@ -5781,7 +5781,7 @@ for_i. i.#p do.
 end.
 )
 eps_show=: 3 : 0
-'size file ctx'=. eps_getparms y
+'size file ctx'=. 3{. eps_getparms y
 make iEPS;0 0,size
 fns=. 'eps'&, each 1 {"1 Plot
 dat=. 3 }."1 Plot
@@ -7439,7 +7439,7 @@ p=. p +"1 d
 pbuf (pdf_makelines p) ,"1 ' b'
 )
 pdf_get=: 3 : 0
-'size file ctx'=. pdf_getparms y
+'size file ctx'=. 3{. pdf_getparms y
 pdf_make size
 )
 pdf_jpf=: 3 : 0
@@ -7455,7 +7455,7 @@ if. _1 -: res do.
 end.
 )
 pdf_show=: 3 : 0
-'size file ctx'=. pdf_getparms y
+'size file ctx'=. 3{. pdf_getparms y
 res=. pdf_make size
 res=. pdf_build res
 res pdf_write file
