@@ -4,10 +4,9 @@ require 'graphics/color/colortab'
 
 3 : 0''
 if. -.IFJ6 do.
-  wdinfo=: sminfo
-  wd=: (i.0 0)"_
   if. 0 ~: 4!:0 <'JHSOUTPUT' do. JHSOUTPUT=: 'canvas' end.
   if. 0 ~: 4!:0 <'CONSOLEOUTPUT' do. CONSOLEOUTPUT=: 'cairo' end.
+  if. 0 ~: 4!:0 <'GTKOUTPUT' do. GTKOUTPUT=: 'gtk' end.
   if. 0 ~: 4!:0 <'IFTESTPLOTJHS' do. IFTESTPLOTJHS_z_=: 0 end.
   if. IFTESTPLOTJHS +. IFJHS do.
     if. 0 < #1!:0 jpath '~addons/gui/gtk/gtk.ijs' do.
@@ -16,6 +15,9 @@ if. -.IFJ6 do.
   elseif. IFGTK do.
     require 'graphics/bmp'
     require 'gui/gtk graphics/gl2'
+    if. GTKOUTPUT -: 'isi' do.
+      require 'gui/gtkwd'
+    end.
     coinsert 'jgl2'
   elseif. do.
     if. 0 < #1!:0 jpath '~addons/gui/gtk/gtk.ijs' do.
@@ -733,7 +735,11 @@ end.
 if. -.IFJ6 do.
   if. -. IFTESTPLOTJHS +. IFJHS +. IFGTK do.
     if. ('gtk' -: CONSOLEOUTPUT) *. (3 = 4!:0 <'gtkinit_jgtk_') *. (UNAME -: 'Linux') *: (0 -: 2!:5 'DISPLAY') do.
-      r=. 'OUTPUT=: ''gtk'''
+      if. 'isi' -: GTKOUTPUT do.
+        r=. 'OUTPUT=: ''isi'''
+      else.
+        r=. 'OUTPUT=: ''gtk'''
+      end.
     elseif. (('cairo' -: CONSOLEOUTPUT) +. ('gtk' -: CONSOLEOUTPUT)) *. 3 = 4!:0 <'gtkinit_jgtk_' do.
       r=. 'OUTPUT=: ''cairo'''
     elseif. do.
@@ -1295,9 +1301,13 @@ if. -.IFJ6 do.
   if. IFTESTPLOTJHS +. IFJHS do.
     r=. 'OUTPUT=: JHSOUTPUT'
   elseif. IFGTK do.
-    r=. 'OUTPUT=: ''gtk'''
+    if. 'isi' -: GTKOUTPUT do.
+      r=. 'OUTPUT=: ''isi'''
+    else.
+      r=. 'OUTPUT=: ''gtk'''
+    end.
   elseif. do.
-   r=. 'OUTPUT=: CONSOLEOUTPUT'
+    r=. 'OUTPUT=: CONSOLEOUTPUT'
   end.
 else.
   if. IFCONSOLE do.
@@ -2213,7 +2223,7 @@ else.
   gtk_window_set_default_size_jgtk_ y,2}.cxywh_jwplot_
 end.
 )
-pclose=: 3 : 0
+pclose_gtk=: 3 : 0
 try.
   if. ifjwplot'' do.
     wpsave PFormhwnd
@@ -2237,7 +2247,7 @@ catch. end.
 if. (ifjwplot'') *. -.IFGTK do. gtk_main_quit_jgtk_ '' end.
 0
 )
-popen=: 3 : 0
+popen_gtk=: 3 : 0
 if. 0~:PFormhwnd do.
   if. 0= gtk_widget_get_parent_window_jgtk_ PFormhwnd do.
     gtk_window_present_with_time_jgtk_ PFormhwnd,GDK_CURRENT_TIME_jgtk_
@@ -2275,27 +2285,119 @@ Pxywh=: ''
 PShow=: 0
 1
 )
-ppaint=: 3 : 0
+ppaint_gtk=: 3 : 0
 if. newsize__PIdLoc do.
   gtk_show ''
   newsize__PIdLoc=: 0
 end.
 0
 )
-psize=: 3 : 0
+psize_gtk=: 3 : 0
 if. #Plot do.
   ppaint''
 end.
 )
-ptop=: 3 : 0
+ptop_gtk=: 3 : 0
 PTop=: -. PTop
 gtk_window_set_keep_above_jgtk_ PFormhwnd, PTop
 0
 )
 
+pclose=: 3 : 'pclose_gtk`pclose_isi@.((_1=Poutput){(iISI=Poutput),GTKOUTPUT-:''isi'') y'
+popen=: 3 : 'popen_gtk`popen_isi@.((_1=Poutput){(iISI=Poutput),GTKOUTPUT-:''isi'') y'
+ppaint=: 3 : 'ppaint_gtk`ppaint_isi@.((_1=Poutput){(iISI=Poutput),GTKOUTPUT-:''isi'') y'
+psize=: 3 : 'psize_gtk`psize_isi@.((_1=Poutput){(iISI=Poutput),GTKOUTPUT-:''isi'') y'
+ptop=: 3 : 'ptop_gtk`ptop_isi@.((_1=Poutput){(iISI=Poutput),GTKOUTPUT-:''isi'') y'
+PMenu=: 0 : 0
+menupop "&File";
+menu clip "&Clip" "" "" "";
+menusep;
+menu saveeps "&Save EPS" "" "" "";
+menusep;
+menu savepdf "&Save PDF" "" "" "";
+menusep;
+menu print "&Print" "" "" "";
+menusep;
+menu exit "E&xit" "" "" "";
+menupopz;
+menupop "&Help";
+menu help "&Plot Help" "" "" "";
+menusep;
+menu about "&About" "" "" "";
+menupopz;
+)
+pclose_isi=: 3 : 0
+try.
+  wd 'psel ',PFormhwnd
+  if. ifjwplot'' do.
+    wpsave_j_ :: 0: PForm
+  end.
+  wd 'pclose'
+  pd 'reset'
+catch. end.
+)
+popen_isi=: 3 : 0
+if. ifparent PFormhwnd do.
+  wd 'psel ',PFormhwnd
+  wd 'pactive'
+  glsel PId
+  0 return.
+end.
+wd 'pc ',PForm
+PFormhwnd=: wd 'qhwndp'
+wd 'pn *',PLOTCAPTION
+wd 'xywh 0 0 240 180'
+wd 'cc ',PId,' isigraph rightmove bottommove'
+wd 'pas 0 0'
+
+if. ifjwplot'' do.
+  wpset_j_ :: 0: PForm
+else.
+  wdmove _1 0
+end.
+wdfit ''
+
+fm=. PForm,'_'
+id=. fm,PId,'_'
+(fm,'close')=: pclose
+(fm,'cancel')=: pclose
+(fm,'tctrl_fkey')=: ptop
+(id,'paint')=: ppaint
+(id,'size')=: ppaint
+(id,'mmove')=: ]
+
+(fm,'f10_fkey')=: pd bind 'eps'
+(fm,'f11_fkey')=: pd bind 'pdf'
+
+Pxywh=: ''
+PShow=: 0
+)
+ppaint_isi=: 3 : 0
+cwh=. glqwh''
+if. -. cwh -: Cw,Ch do.
+  isi_show ''
+end.
+)
+psize_isi=: 3 : 0
+if. #Plot do.
+  ppaint''
+end.
+)
+ptop_isi=: 3 : 0
+PTop=: -. PTop
+wd 'ptop ',":PTop
+)
+
 fzskludge=: 4%3
 pgetascender=: 3 : 0
-if. Poutput = iGTK do.
+if. Poutput = iISI do.
+  if. GL2Backend_jgl2_ e. 3 4 do.
+    glfont y
+    1 { glqtextmetrics''
+  else.
+    FontScale * getascender y
+  end.
+elseif. Poutput = iGTK do.
   if. GL2Backend_jgl2_ e. 3 4 do.
     CF gtkfontdesc y
     1 { glqtextmetrics''
@@ -2312,6 +2414,9 @@ end.
 )
 pgetextent=: 4 : 0
 select. Poutput
+case. iISI do.
+  glfont x
+  |: glqextent &> y
 case. iGTK do.
   glfont gtkfontdesc x
   |: glqextent &> y
@@ -2329,6 +2434,9 @@ if. LF e. y do.
   (>./{."1 r),+/{:"1 r return.
 end.
 select. Poutput
+case. iISI do.
+  glfont x
+  glqextent y
 case. iGTK do.
   glfont gtkfontdesc x
   glqextent y
@@ -2357,7 +2465,14 @@ SubTitleFontX=: getfontid SUBTITLEFONT
 SymbolFontX=: getfontid SYMBOLFONT
 TitleFontX=: getfontid TITLEFONT
 
-if. Poutput e. iGTK do.
+if. Poutput = iISI do.
+  CaptionFont=: getisifontid CaptionFontX
+  KeyFont=: getisifontid KeyFontX
+  LabelFont=: getisifontid LabelFontX
+  SubTitleFont=: getisifontid SubTitleFontX
+  SymbolFont=: getisifontid SymbolFontX
+  TitleFont=: getisifontid TitleFontX
+elseif. Poutput e. iGTK do.
   CaptionFont=: getgtkfontid CaptionFontX
   KeyFont=: getgtkfontid KeyFontX
   LabelFont=: getgtkfontid LabelFontX
@@ -4158,7 +4273,9 @@ for_p. Text do.
     text=. towords 2 }. arg
     align=. TextTypes i. cmd
     font=. getfontid TEXTFONT
-    if. Poutput e. iGTK do.
+    if. Poutput e. iISI do.
+      font=. getisifontid font
+    elseif. Poutput e. iGTK do.
       font=. getgtkfontid font
     end.
 
@@ -5736,8 +5853,8 @@ gtk_clip=: 3 : 0
 if. IFGTK < ifjwplot'' do. pdcmdclip=: 1 return. end.
 0
 )
-gpcount=: ,"1~ 1 + [: {: 1 , $
-gpcut=: 3 : 0
+gtk_gpcount=: ,"1~ 1 + [: {: 1 , $
+gtk_gpcut=: 3 : 0
 r=. ''
 while. #y do.
   n=. {. y
@@ -5751,127 +5868,127 @@ while. #y do.
 end.
 r
 )
-gpbuf=: 3 : 0
+gtk_gpbuf=: 3 : 0
 assert. 2 > #$y
 buf=: buf,y
 )
-gpapply=: 3 : 0
+gtk_gpapply=: 3 : 0
 glcmds buf
 buf=: $0
 )
-gpflip=: flipxy @ rndint
-gpfliplast=: 3 : 0
-(<gpflip _1 pick y) _1 } y
+gtk_gpflip=: flipxy @ rndint
+gtk_gpfliplast=: 3 : 0
+(<gtk_gpflip _1 pick y) _1 } y
 )
-gpinit=: 3 : 0
+gtk_gpinit=: 3 : 0
 buf=: bufdef=: $0
 r=. ''
 r=. r,3 2003 1
 r=. r,3 2071 1
-gpapply''
+gtk_gpapply''
 )
-gpbrushnull=: 3 : '2 2005'
-gppens=: 4 : 0
+gtk_gpbrushnull=: 3 : '2 2005'
+gtk_gppens=: 4 : 0
 y=. rndint y
 5 2032,"1 x,"1 [ 4 2022,"1 y,.5*y=0
 )
-gppen=: 4 : 0
+gtk_gppen=: 4 : 0
 y=. rndint y
 5 2032,(,x),4 2022,y,5*y=0
 )
-gppens1=: 3 : 0
+gtk_gppens1=: 3 : 0
 5 2032,"1 y,"1 [ 4 2022 1 0
 )
-gppen1=: 3 : 0
+gtk_gppen1=: 3 : 0
 5 2032,(,y),4 2022 1 0
 )
-gppenbrush1=: 3 : 0
+gtk_gppenbrush1=: 3 : 0
 5 2032,(,y),4 2022 1 0 2 2004
 )
-gppixel=: 3 : 0
+gtk_gppixel=: 3 : 0
 's t f e c p'=. y
-p=. gpcount 2024 ,"1 gpflip p
+p=. gtk_gpcount 2024 ,"1 gtk_gpflip p
 if. is1color e do.
-  gpbuf e gppen 1
-  gpbuf ,p
+  gtk_gpbuf e gtk_gppen 1
+  gtk_gpbuf ,p
 else.
   rws=. #p
   e=. rws $ citemize e
-  pen=. e gppens 1
-  gpbuf ,pen ,. p
+  pen=. e gtk_gppens 1
+  gtk_gpbuf ,pen ,. p
 end.
 )
-gppline=: 4 : 0
+gtk_gppline=: 4 : 0
 's t f e c p'=. y
 if. (is1color e) *. 1 = #s do.
-  gpbuf (,e) gppen s
-  gpbuf ,gpcount x,"1 p
+  gtk_gpbuf (,e) gtk_gppen s
+  gtk_gpbuf ,gtk_gpcount x,"1 p
 else.
   rws=. #p
   e=. rws $ citemize e
   s=. rws $ s
-  pen=. e gppens s
-  gpbuf ,pen ,. gpcount x,"1 p
+  pen=. e gtk_gppens s
+  gtk_gpbuf ,pen ,. gtk_gpcount x,"1 p
 end.
 )
-gppshape=: 4 : 0
+gtk_gppshape=: 4 : 0
 'v s f e c p'=. y
 
 if. v=0 do. e=. c end.
 
 if. is1color e do.
-  gpbuf e gppen v
+  gtk_gpbuf e gtk_gppen v
   if. isempty c do.
-    gpbuf gpbrushnull''
-    gpbuf ,gpcount x,"1 p
+    gtk_gpbuf gtk_gpbrushnull''
+    gtk_gpbuf ,gtk_gpcount x,"1 p
   elseif. is1color c do.
-    gpbuf 5 2032,(,c),2 2004
-    gpbuf ,gpcount x,"1 p
+    gtk_gpbuf 5 2032,(,c),2 2004
+    gtk_gpbuf ,gtk_gpcount x,"1 p
   elseif. do.
     c=. (#p) $ c
     clr=. 5 2032 ,"1 c ,"1 [ 2 2004
-    gpbuf , clr ,. gpcount x,"1 p
+    gtk_gpbuf , clr ,. gtk_gpcount x,"1 p
   end.
 else.
   e=. (#p) $ e
-  e=. e gppens v
+  e=. e gtk_gppens v
   if. isempty c do.
-    gpbuf gpbrushnull''
-    gpbuf , e ,. gpcount x,"1 p
+    gtk_gpbuf gtk_gpbrushnull''
+    gtk_gpbuf , e ,. gtk_gpcount x,"1 p
   elseif. is1color c do.
-    gpbuf 5 2032,(,c),2 2004
-    gpbuf , e ,. gpcount x,"1 p
+    gtk_gpbuf 5 2032,(,c),2 2004
+    gtk_gpbuf , e ,. gtk_gpcount x,"1 p
   elseif. do.
     c=. (#p) $ c
     clr=. 5 2032 ,"1 c ,"1 [ 2 2004
-    gpbuf , e ,. clr ,. gpcount x,"1 p
+    gtk_gpbuf , e ,. clr ,. gtk_gpcount x,"1 p
   end.
 
 end.
 )
-gtkarc=: 3 : '2001 gppline gpfliplast y'
-gtkline=: 3 : '2015 gppline gpfliplast y'
-gtkpie=: 3 : '2023 gppshape gpfliplast y'
-gtkpoly=: 3 : '2029 gppshape gpfliplast y'
+gtkarc=: 3 : '2001 gtk_gppline gtk_gpfliplast y'
+gtkline=: 3 : '2015 gtk_gppline gtk_gpfliplast y'
+gtkpie=: 3 : '2023 gtk_gppshape gtk_gpfliplast y'
+gtkpoly=: 3 : '2029 gtk_gppshape gtk_gpfliplast y'
 gtkcircle=: 3 : 0
 p=. _1 pick y
-ctr=. gpflip 0 1 {"1 p
+ctr=. gtk_gpflip 0 1 {"1 p
 rad=. rndint 2 {"1 p
 xy=. ctr - rad
 wh=. +: rad ,. rad
 p=. xy ,. wh
-2008 gppshape (<p) _1 } y
+2008 gtk_gppshape (<p) _1 } y
 )
 gtkdot=: 3 : 0
 'v s f e c p'=. y
 select. v
 case. 1 do.
-  gppixel y
+  gtk_gppixel y
 case. 2 do.
-  p=. gpflip p
+  p=. gtk_gpflip p
   p=. (p-1) ,"1 [ 2 2
   dat=. 1;0;0;e;e;p
-  2031 gppshape dat
+  2031 gtk_gppshape dat
 case. 3 do.
   h=. (p-"1[1 0) ,. p+"1[2 0
   v=. (p-"1[0 1) ,. p+"1[0 2
@@ -5888,20 +6005,20 @@ if. #p do.
   'x y w h'=. p
   xy=. _1 + <. x,Ch-y+h
   wh=. 2 + >. w,h
-  gpbuf 6 2078,xy,wh
+  gtk_gpbuf 6 2078,xy,wh
 else.
-  gpbuf 2 2079
+  gtk_gpbuf 2 2079
 end.
 )
 gtkmarker=: 3 : 0
 's m f e c p'=. y
-p=. gpflip p
-gpbuf gppenbrush1 e
+p=. gtk_gpflip p
+gtk_gpbuf gtk_gppenbrush1 e
 s ('gtkmark_',m)~ p
 )
 gtkpie=: 3 : 0
 p=. _1 pick y
-ctr=. gpflip 0 1 {"1 p
+ctr=. gtk_gpflip 0 1 {"1 p
 rad=. 2 {"1 p
 ang=. 3 4 {"1 p
 xy=. ctr - rad
@@ -5909,42 +6026,42 @@ wh=. +: rad ,. rad
 tx=. ({."1 ctr) + rad * sind ang
 ty=. ({:"1 ctr) + rad * cosd ang
 p=. rndint xy ,. wh ,. ,"2 tx ,"0 ty
-2023 gppshape (<p) _1 } y
+2023 gtk_gppshape (<p) _1 } y
 )
 gtkpline=: 3 : 0
 's t f e c p'=. y
 if. *./ t = 0 do.
   gtkline y return.
 end.
-p=. gpflip p
+p=. gtk_gpflip p
 t=. t { PENPATTERN
 if. (is1color e) *. 1 = #s do.
-  gpbuf 5 2032,(,e),4 2022,s,0
+  gtk_gpbuf 5 2032,(,e),4 2022,s,0
   pos=. t linepattern"0 1 p
-  gpbuf ,gpcount 2015,"1 pos
+  gtk_gpbuf ,gtk_gpcount 2015,"1 pos
 else.
   rws=. #p
   e=. rws $ citemize e
   s=. rws $ s
   t=. rws $ t
-  pen=. e gppens s
+  pen=. e gtk_gppens s
   for_i. i.#p do.
-    gpbuf i{pen
+    gtk_gpbuf i{pen
     pos=. (i{t) linepattern i{p
-    gpbuf ,gpcount 2015,"1 pos
+    gtk_gpbuf ,gtk_gpcount 2015,"1 pos
   end.
 end.
 )
 gtkrect=: 3 : 0
-p=. boxrs2wh gpflip _1 pick y
+p=. boxrs2wh gtk_gpflip _1 pick y
 y=. (<p) _1 } y
-2031 gppshape y
+2031 gtk_gppshape y
 )
 gtktext=: 3 : 0
 't f a e c p'=. y
 
 f=. getisifontid f
-p=. gpflip p
+p=. gtk_gpflip p
 t=. text2utf8 each boxopen t
 if. a do.
   glfont f
@@ -5958,22 +6075,22 @@ if. a do.
   end.
 end.
 'face size style degree'=. parseFontSpec f
-gpbuf gpcount 2312,(<.size*10),style,(<.degree*10),alfndx,face
+gtk_gpbuf gtk_gpcount 2312,(<.size*10),style,(<.degree*10),alfndx,face
 if. is1color e do.
-  gpbuf 5 2032,(,e),2 2040
+  gtk_gpbuf 5 2032,(,e),2 2040
   if. rank01 p do.
-    gpbuf gpcount 2056,p
-    gpbuf gpcount 2038,alfndx,>t
+    gtk_gpbuf gtk_gpcount 2056,p
+    gtk_gpbuf gtk_gpcount 2038,alfndx,>t
   else.
-    t=. gpcount each 2038 ,each alfndx each t
-    t=. (<"1 gpcount 2056 ,"1 p) ,each t
-    gpbuf ; t
+    t=. gtk_gpcount each 2038 ,each alfndx each t
+    t=. (<"1 gtk_gpcount 2056 ,"1 p) ,each t
+    gtk_gpbuf ; t
   end.
 else.
-  t=. gpcount each 2038 ,each alfndx each t
-  t=. t ,each <"1 gpcount 2056 ,"1 p
+  t=. gtk_gpcount each 2038 ,each alfndx each t
+  t=. t ,each <"1 gtk_gpcount 2056 ,"1 p
   t=. (<"1 (5 2032 ,"1 e) ,"1 [ 2 2040) ,each t
-  gpbuf ; t
+  gtk_gpbuf ; t
 end.
 )
 parseFontname=: 3 : 0
@@ -5999,30 +6116,30 @@ face;size;style;degree
 gtkmark_circle=: 4 : 0
 s=. rndint x * 3
 p=. (y - s) ,"1 >: +: s,s
-gpbuf ,gpcount 2008 ,"1 p
+gtk_gpbuf ,gtk_gpcount 2008 ,"1 p
 )
 gtkmark_diamond=: 4 : 0
 s=. rndint x * 4
 'x y'=. |: y
 p=. (x-s),.y,.x,.(y+s),.(x+s),.y,.x,.y-s
-gpbuf ,gpcount 2029 ,"1 p
+gtk_gpbuf ,gtk_gpcount 2029 ,"1 p
 )
 gtkmark_line=: 4 : 0
 'x y'=. , y
 p=. >.(x--:KeyLen),(y--:KeyPen),<:KeyLen,KeyPen
-gpbuf ,gpcount 2031 ,p
+gtk_gpbuf ,gtk_gpcount 2031 ,p
 )
 gtkmark_plus=: 4 : 0
 s=. rndint 4 1 * x
 p=. (y -"1 s) ,"1 +: s
 s=. |. s
 p=. p , (y -"1 s) ,"1 +: s
-gpbuf ,gpcount 2031 ,"1 p
+gtk_gpbuf ,gtk_gpcount 2031 ,"1 p
 )
 gtkmark_square=: 4 : 0
 s=. rndint x * 3
 p=. (y - s) ,"1 +: s,s
-gpbuf ,gpcount 2031 ,"1 p
+gtk_gpbuf ,gtk_gpcount 2031 ,"1 p
 )
 gtkmark_times=: 4 : 0
 if. x = 1 do.
@@ -6030,14 +6147,14 @@ if. x = 1 do.
   q=. (y - "1 [ 3 _3) ,. y +"1 [ 4 _4
   p=. p, (p +"1 [ 0 1 _1 0), p + "1 [ 1 0 0 _1
   q=. q, (q +"1 [ 0 _1 _1 0), q +"1 [ 1 0 0 1
-  gpbuf ,gpcount 2015 ,"1 p,q
+  gtk_gpbuf ,gtk_gpcount 2015 ,"1 p,q
 else.
   s=. rndint _1 + 3 * x
   n=. rndint 2 * x
   p=. (y - s) ,. y + s
   q=. (y - "1 s * 1 _1) ,. y +"1 s * 1 _1
-  gpbuf 4 2022,n,0
-  gpbuf ,gpcount 2015 ,"1 p,q
+  gtk_gpbuf 4 2022,n,0
+  gtk_gpbuf ,gtk_gpcount 2015 ,"1 p,q
 end.
 )
 gtkmark_triangle=: 4 : 0
@@ -6045,7 +6162,7 @@ s=. rndint 2 * x
 t=. rndint 4 * x
 'x y'=. |: y
 p=. rndint (x-t),.(y+s),.(x+t),.(y+s),.x,.y-t
-gpbuf ,gpcount 2029 ,"1 p
+gtk_gpbuf ,gtk_gpcount 2029 ,"1 p
 )
 gtk_print=: 3 : 0
 if. IFGTK < ifjwplot'' do. pdcmdprint=: 1 return. end.
@@ -6159,7 +6276,7 @@ g_object_unref_jgtk_ buf
 gtk_show=: 3 : 0
 coinsert 'jgl2'
 if. -.IFGTK do. gtkinit_jgtk_ '' end.
-popen''
+popen_gtk''
 if. ifjwplot'' do.
   (PForm,'_',PId,'_paint')=: gtk_paint
 end.
@@ -6184,7 +6301,7 @@ glsel PIdLoc
 gtk_paintit 0 0,Cw,Ch
 )
 gtk_paintit=: 3 : 0
-gpinit''
+gtk_gpinit''
 make iGTK;y
 ids=. 1 {"1 Plot
 fns=. 'gtk'&, each ids
@@ -6192,7 +6309,560 @@ dat=. 3 }."1 Plot
 for_d. dat do.
   (>d_index{fns)~d
 end.
-gpapply''
+gtk_gpapply''
+)
+
+coclass 'jzplot'
+ISI_DEFFILE=: '~temp/plot'
+fext=: 4 : 0
+f=. deb y
+f, (-. x -: (-#x) {. f) # x
+)
+gettemp=: 3 : 0
+p=. jpath '~temp/'
+d=. 1!:0 p,'*.',y
+a=. 0, {.@:(0&".)@> _4 }. each {."1 d
+a=. ": {. (i. >: #a) -. a
+p,a,'.',y
+)
+isi_getsize=: 3 : 0
+if. -. wdishandle :: 0: PFormhwnd do. '' return. end.
+wd 'psel ',PFormhwnd
+s=. wd :: 0: 'qchildxywhx ',PId
+if. s -: 0 do. '' return. end.
+2 3 { 0 ". s
+)
+output_parms=: 4 : 0
+'size file'=. x
+if. #y do.
+  prm=. qchop y
+  select. #prm
+  case. 1 do.
+    file=. 0 pick prm
+  case. 2 do.
+    size=. 0 ".&> prm
+  case. 3 do.
+    file=. 0 pick prm
+    size=. 0 ". &> _2 {. prm
+    if. 0 e. size do.
+      size=. 0 ". &> 2 {. prm
+      file=. 2 pick prm
+    end.
+  end.
+else.
+  if. #sz=. isi_getsize'' do.
+    size=. sz
+  end.
+end.
+size;file
+)
+isi_clip=: 3 : 0
+if. -. IFWIN do.
+  info 'Save plot to clipboard is only available in Windows'
+  return.
+end.
+f=. gettemp 'emf'
+isi_emf dquote f
+wd 'clipcopyx enhmetafile ',dquote f
+1!:55 <f
+)
+isi_gpcount=: ,"1~ 1 + [: {: 1 , $
+isi_gpcut=: 3 : 0
+r=. ''
+while. #y do.
+  n=. {. y
+  if. n=0 do.
+    info 'zero length segment at: ',":#;r
+    r
+    return.
+  end.
+  r=. r, < n {. y
+  y=. n }. y
+end.
+r
+)
+isi_gpbuf=: 3 : 0
+assert. 2 > #$y
+buf=: buf,y
+)
+isi_gpapply=: 3 : 0
+glcmds buf
+buf=: $0
+)
+isi_gpflip=: flipxy @ rndint
+isi_gpfliplast=: 3 : 0
+(<isi_gpflip _1 pick y) _1 } y
+)
+isi_gpinit=: 3 : 0
+buf=: bufdef=: $0
+r=. ''
+r=. r,3 2003 1
+r=. r,3 2071 1
+isi_gpapply''
+)
+isi_gpbrushnull=: 3 : '2 2005'
+isi_gppens=: 4 : 0
+y=. rndint y
+5 2032,"1 x,"1 [ 4 2022,"1 y,.5*y=0
+)
+isi_gppen=: 4 : 0
+y=. rndint y
+5 2032,(,x),4 2022,y,5*y=0
+)
+isi_gppens1=: 3 : 0
+5 2032,"1 y,"1 [ 4 2022 1 0
+)
+isi_gppen1=: 3 : 0
+5 2032,(,y),4 2022 1 0
+)
+isi_gppenbrush1=: 3 : 0
+5 2032,(,y),4 2022 1 0 2 2004
+)
+isi_gppixel=: 3 : 0
+'s t f e c p'=. y
+p=. isi_gpcount 2024 ,"1 isi_gpflip p
+if. is1color e do.
+  isi_gpbuf e isi_gppen 1
+  isi_gpbuf ,p
+else.
+  rws=. #p
+  e=. rws $ citemize e
+  pen=. e isi_gppens 1
+  isi_gpbuf ,pen ,. p
+end.
+)
+isi_gppline=: 4 : 0
+'s t f e c p'=. y
+if. (is1color e) *. 1 = #s do.
+  isi_gpbuf (,e) isi_gppen s
+  isi_gpbuf ,isi_gpcount x,"1 p
+else.
+  rws=. #p
+  e=. rws $ citemize e
+  s=. rws $ s
+  pen=. e isi_gppens s
+  isi_gpbuf ,pen ,. isi_gpcount x,"1 p
+end.
+)
+isi_gppshape=: 4 : 0
+'v s f e c p'=. y
+
+if. v=0 do. e=. c end.
+
+if. is1color e do.
+  isi_gpbuf e isi_gppen v
+  if. isempty c do.
+    isi_gpbuf isi_gpbrushnull''
+    isi_gpbuf ,isi_gpcount x,"1 p
+  elseif. is1color c do.
+    isi_gpbuf 5 2032,(,c),2 2004
+    isi_gpbuf ,isi_gpcount x,"1 p
+  elseif. do.
+    c=. (#p) $ c
+    clr=. 5 2032 ,"1 c ,"1 [ 2 2004
+    isi_gpbuf , clr ,. isi_gpcount x,"1 p
+  end.
+else.
+  e=. (#p) $ e
+  e=. e isi_gppens v
+  if. isempty c do.
+    isi_gpbuf isi_gpbrushnull''
+    isi_gpbuf , e ,. isi_gpcount x,"1 p
+  elseif. is1color c do.
+    isi_gpbuf 5 2032,(,c),2 2004
+    isi_gpbuf , e ,. isi_gpcount x,"1 p
+  elseif. do.
+    c=. (#p) $ c
+    clr=. 5 2032 ,"1 c ,"1 [ 2 2004
+    isi_gpbuf , e ,. clr ,. isi_gpcount x,"1 p
+  end.
+
+end.
+)
+isiarc=: 3 : '2001 isi_gppline isi_gpfliplast y'
+isiline=: 3 : '2015 isi_gppline isi_gpfliplast y'
+isipie=: 3 : '2023 isi_gppshape isi_gpfliplast y'
+isipoly=: 3 : '2029 isi_gppshape isi_gpfliplast y'
+isicircle=: 3 : 0
+p=. _1 pick y
+ctr=. isi_gpflip 0 1 {"1 p
+rad=. rndint 2 {"1 p
+xy=. ctr - rad
+wh=. +: rad ,. rad
+p=. xy ,. wh
+2008 isi_gppshape (<p) _1 } y
+)
+isidot=: 3 : 0
+'v s f e c p'=. y
+select. v
+case. 1 do.
+  isi_gppixel y
+case. 2 do.
+  p=. isi_gpflip p
+  p=. (p-1) ,"1 [ 2 2
+  dat=. 1;0;0;e;e;p
+  2031 isi_gppshape dat
+case. 3 do.
+  h=. (p-"1[1 0) ,. p+"1[2 0
+  v=. (p-"1[0 1) ,. p+"1[0 2
+  isiline 1;0;0;e;e;h,v
+case. do.
+  o=. >. -: v
+  p=. p ,"1 v,.v
+  isicircle 1;0;0;e;e;p
+end.
+)
+isifxywh=: 3 : 0
+p=. _1 pick y
+if. #p do.
+  'x y w h'=. p
+  xy=. _1 + <. x,Ch-y+h
+  wh=. 2 + >. w,h
+  isi_gpbuf 6 2078,xy,wh
+else.
+  isi_gpbuf 2 2079
+end.
+)
+isimarker=: 3 : 0
+'s m f e c p'=. y
+p=. isi_gpflip p
+isi_gpbuf isi_gppenbrush1 e
+s ('isimark_',m)~ p
+)
+isipie=: 3 : 0
+p=. _1 pick y
+ctr=. isi_gpflip 0 1 {"1 p
+rad=. 2 {"1 p
+ang=. 3 4 {"1 p
+xy=. ctr - rad
+wh=. +: rad ,. rad
+tx=. ({."1 ctr) + rad * sind ang
+ty=. ({:"1 ctr) + rad * cosd ang
+p=. rndint xy ,. wh ,. ,"2 tx ,"0 ty
+2023 isi_gppshape (<p) _1 } y
+)
+isipline=: 3 : 0
+'s t f e c p'=. y
+if. *./ t = 0 do.
+  isiline y return.
+end.
+p=. isi_gpflip p
+t=. t { PENPATTERN
+if. (is1color e) *. 1 = #s do.
+  isi_gpbuf 5 2032,(,e),4 2022,s,0
+  pos=. t linepattern"0 1 p
+  isi_gpbuf ,isi_gpcount 2015,"1 pos
+else.
+  rws=. #p
+  e=. rws $ citemize e
+  s=. rws $ s
+  t=. rws $ t
+  pen=. e isi_gppens s
+  for_i. i.#p do.
+    isi_gpbuf i{pen
+    pos=. (i{t) linepattern i{p
+    isi_gpbuf ,isi_gpcount 2015,"1 pos
+  end.
+end.
+)
+isirect=: 3 : 0
+p=. boxrs2wh isi_gpflip _1 pick y
+if. IFJAVA do.
+  if. 0 = 1 pick y do.
+    p=. 1 1 _2 _2 +"1 p
+  end.
+end.
+y=. (<p) _1 } y
+2031 isi_gppshape y
+)
+isitext=: 3 : 0
+'t f a e c p'=. y
+
+p=. isi_gpflip p
+t=. text2utf8 each boxopen t
+if. a do.
+  glfont f
+  off=. <. -: a * {."1 glqextent &> t
+  if. 1 e. 'angle900' E. f do.
+    p=. p +"1 [ 0,.off
+  elseif. 1 e. 'angle2700' E. f do.
+    p=. p -"1 [ 0,.off
+  elseif. do.
+    p=. p -"1 off,.0
+  end.
+end.
+'face size style degree'=. parseFontSpec f
+isi_gpbuf isi_gpcount 2312,(<.size*10),style,(<.degree*10),alfndx,face
+if. is1color e do.
+  isi_gpbuf 5 2032,(,e),2 2040
+  if. rank01 p do.
+    isi_gpbuf isi_gpcount 2056,p
+    isi_gpbuf isi_gpcount 2038,alfndx,>t
+  else.
+    t=. isi_gpcount each 2038 ,each alfndx each t
+    t=. (<"1 isi_gpcount 2056 ,"1 p) ,each t
+    isi_gpbuf ; t
+  end.
+else.
+  t=. isi_gpcount each 2038 ,each alfndx each t
+  t=. t ,each <"1 isi_gpcount 2056 ,"1 p
+  t=. (<"1 (5 2032 ,"1 e) ,"1 [ 2 2040) ,each t
+  isi_gpbuf ; t
+end.
+)
+isimark_circle=: 4 : 0
+s=. rndint x * 3
+p=. (y - s) ,"1 >: +: s,s
+isi_gpbuf ,isi_gpcount 2008 ,"1 p
+)
+isimark_diamond=: 4 : 0
+s=. rndint x * 4
+'x y'=. |: y
+p=. (x-s),.y,.x,.(y+s),.(x+s),.y,.x,.y-s
+isi_gpbuf ,isi_gpcount 2029 ,"1 p
+)
+isimark_line=: 4 : 0
+'x y'=. , y
+p=. >.(x--:KeyLen),(y--:KeyPen),<:KeyLen,KeyPen
+isi_gpbuf ,isi_gpcount 2031 ,p
+)
+isimark_plus=: 4 : 0
+s=. rndint 4 1 * x
+p=. (y -"1 s) ,"1 +: s
+s=. |. s
+p=. p , (y -"1 s) ,"1 +: s
+isi_gpbuf ,isi_gpcount 2031 ,"1 p
+)
+isimark_square=: 4 : 0
+s=. rndint x * 3
+p=. (y - s) ,"1 +: s,s
+isi_gpbuf ,isi_gpcount 2031 ,"1 p
+)
+isimark_times=: 4 : 0
+if. x = 1 do.
+  p=. (y - 3) ,. y + 4
+  q=. (y - "1 [ 3 _3) ,. y +"1 [ 4 _4
+  p=. p, (p +"1 [ 0 1 _1 0), p + "1 [ 1 0 0 _1
+  q=. q, (q +"1 [ 0 _1 _1 0), q +"1 [ 1 0 0 1
+  isi_gpbuf ,isi_gpcount 2015 ,"1 p,q
+else.
+  s=. rndint _1 + 3 * x
+  n=. rndint 2 * x
+  p=. (y - s) ,. y + s
+  q=. (y - "1 s * 1 _1) ,. y +"1 s * 1 _1
+  isi_gpbuf 4 2022,n,0
+  isi_gpbuf ,isi_gpcount 2015 ,"1 p,q
+end.
+)
+isimark_triangle=: 4 : 0
+s=. rndint 2 * x
+t=. rndint 4 * x
+'x y'=. |: y
+p=. rndint (x-t),.(y+s),.(x+t),.(y+s),.x,.y-t
+isi_gpbuf ,isi_gpcount 2029 ,"1 p
+)
+PRINTP=: ''
+isi_print=: 3 : 0
+if. #PRINTP do. wd 'psel ',PRINTP,';pclose' end.
+wd 'pc print;cc g isigraph'
+PRINTP=: wd 'qhwndp'
+PRINTED=: 0
+opt=. '"" "" "" orientation ',":ORIENTATION
+glprint opt
+)
+print_g_print=: 3 : 0
+'page pass'=. ". sysdata
+select. pass
+case. _1 do.
+  PRINTP=: PRINTPXYWH=: ''
+  wd 'pclose'
+case. 0 do.
+  glprintmore -.PRINTED
+case. do.
+  'Cw Ch'=: glqprintwh''
+  isi_paintit isi_printwin''
+  PRINTED=: 1
+end.
+)
+isi_printwin=: 3 : 0
+'pw ph mw mh'=. 4 {. glqprintpaper''
+mrg=. 0 >. PRINTMARGIN - mw,(ph - mh + Ch),(pw - mw + Cw),mh
+xywh=. (0 0,Cw,Ch) shrinkrect mrg
+if. 0 = #PRINTWINDOW do.
+  xywh
+else.
+  if. 4 ~: #PRINTWINDOW do.
+    info 'PRINTWINDOW should be of form: x y wh' return.
+  end.
+  'x y w h'=. xywh
+  'px py pw ph'=. PRINTWINDOW%1000
+  fx=. x + px * w
+  fy=. y + py * h
+  fw=. (x-fx) + pw * w
+  fh=. (y-fy) + ph * h
+  fx,fy,fw,fh
+end.
+)
+isi_bmp=: 3 : 0
+if. #y do.
+  arg=. qchop y
+  num=. __ ". &.> arg
+  msk=. __ e. &> num
+  file=. > {. msk # arg
+  wh=. >(-.msk) # num
+  if. -. (#wh) e. 0 2 do.
+    info 'invalid [w h] parameter in save bmp' return.
+  end.
+else.
+  wh=. file=. ''
+end.
+file=. file,(0=#file)#ISI_DEFFILE
+file=. jpath '.bmp' fext file
+if. (2 = #wh) > wh -: Pw,Ph do.
+  a=. cocreate''
+  coinsert__a (,copath) coname''
+  bmp=. isi_getbmpwh__a wh
+  coerase a
+else.
+  bmp=. isi_getbmp''
+end.
+bmp writebmp file
+)
+isi_def=: 4 : 0
+type=. x
+file=. jpath ('.',type) fext (;qchop y),(0=#y) # ISI_DEFFILE
+(isi_getrgb'') writeimg file
+)
+isi_defstr=: 4 : 0
+type=. x
+(isi_getrgb'') putimg type
+)
+isi_emf=: 3 : 0
+file=. jpath '.emf' fext (;qchop y),(0=#y) # ISI_DEFFILE
+wd 'psel ',PFormhwnd
+glsel PId
+glfile file
+glemfopen''
+isi_paint''
+glemfclose''
+)
+isi_getbmp=: 3 : 0
+wd 'psel ',PFormhwnd
+glsel PId
+box=. 0 ". wd 'qchildxywhx ',PId
+res=. glqpixels box
+(3 2 { box) $ res
+)
+isi_getbmpwh=: 3 : 0
+wd 'pc a owner;xywh 0 0 240 200;cc g isigraph rightmove bottommove;pas 0 0'
+PFormhwnd=: wd 'qhwndp'
+PId=: 'g'
+wd 'setxywhx g 0 0 ',":y
+isi_paint''
+glpaint''
+res=. isi_getbmp''
+wd 'pclose'
+res
+)
+isi_getrgb=: 3 : 0
+wd 'psel ',PFormhwnd
+glsel PId
+box=. 0 ". wd 'qchildxywhx ',PId
+(3 2 { box) $ 256 256 256 #: glqpixels box
+)
+isi_jpg=: 3 : 0
+file=. ''
+qual=. 100
+if. #y do.
+  arg=. qchop y
+  num=. __ ". &.> arg
+  msk=. +./ &> num = &.> __
+  file=. > {. msk # arg
+  qual=. <. {. (>(-.msk) # num),qual
+end.
+file=. jpath '.jpg' fext file,(0=#file) # ISI_DEFFILE
+rgb=. isi_getrgb''
+rgb writeimg file
+)
+isi_png=: 3 : 0
+file=. ''
+comp=. 9
+if. #y do.
+  arg=. qchop y
+  num=. __ ". &.> arg
+  msk=. +./ &> num = &.> __
+  file=. > {. msk # arg
+  comp=. <. {. (>(-.msk) # num),comp
+end.
+file=. jpath '.png' fext file,(0=#file) # ISI_DEFFILE
+rgb=. isi_getrgb''
+rgb writeimg file
+)
+isi_save=: 3 : 0
+if. Poutput ~: iISI do.
+  msg=. 'First display an isigraph Plot.'
+  info msg return.
+end.
+if. 0=#y do.
+  isi_clip'' return.
+end.
+type=. tolower firstword y
+if. (<type) e. ;: 'gif jpg png tif gifr jpgr pngr tifr' do.
+  af=. jpath '~addons/media/platimg/platimg.ijs'
+  if. -. flexist af do.
+    info 'Save to ',type,' requires the platimg addon.' return.
+  end.
+  require af
+end.
+('isi_',type)~ (1+#type) }. y
+)
+
+isi_get=: 3 : 0
+if. #y do.
+  type=. tolower firstword y
+  if. (<type) e. ;: 'gif jpg png tif' do.
+    y=. type,'r ', (#type)}. y
+  end.
+end.
+isi_save y
+)
+isi_gif=: 'gif' & isi_def
+isi_tif=: 'tif' & isi_def
+isi_pngr=: 'png' & isi_defstr
+isi_jpgr=: 'jpg' & isi_defstr
+isi_gifr=: 'gif' & isi_defstr
+isi_tifr=: 'tif' & isi_defstr
+isi_show=: 3 : 0
+popen_isi''
+(PForm,'_',PId,'_paint')=: isi_paint
+isi_paint''
+if. PShow=0 do.
+  if. VISIBLE do.
+    wd 'pshow ',PSHOW
+  else.
+    wd 'pshow sw_hide'
+  end.
+  wd 'ptop ',":PTop
+  PShow=: 1
+else.
+  glpaint''
+end.
+)
+isi_paint=: 3 : 0
+glsel PId
+'Cw Ch'=: glqwh''
+isi_paintit 0 0,Cw,Ch
+)
+isi_paintit=: 3 : 0
+isi_gpinit''
+make iISI;y
+ids=. 1 {"1 Plot
+fns=. 'isi'&, each ids
+dat=. 3 }."1 Plot
+for_d. dat do.
+  (>d_index{fns)~d
+end.
+isi_gpapply''
 )
 
 coclass 'jzplot'

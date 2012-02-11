@@ -169,9 +169,13 @@ if. -.IFJ6 do.
   if. IFTESTPLOTJHS +. IFJHS do.
     r=. 'OUTPUT=: JHSOUTPUT'
   elseif. IFGTK do.
-    r=. 'OUTPUT=: ''gtk'''
+    if. 'isi' -: GTKOUTPUT do.
+      r=. 'OUTPUT=: ''isi'''
+    else.
+      r=. 'OUTPUT=: ''gtk'''
+    end.
   elseif. do.  NB. jconsole
-   r=. 'OUTPUT=: CONSOLEOUTPUT'
+    r=. 'OUTPUT=: CONSOLEOUTPUT'
   end.
 else.
   if. IFCONSOLE do.
