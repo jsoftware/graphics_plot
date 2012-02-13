@@ -2271,9 +2271,9 @@ end.
 
 fm=. PForm,'_'
 id=. fm,PId,'_'
-(fm,'close')=: pclose
-(fm,'cancel')=: pclose
-(fm,'tctrl_fkey')=: ptop
+(fm,'close')=: pclose_gtk
+(fm,'cancel')=: pclose_gtk
+(fm,'tctrl_fkey')=: ptop_gtk
 (id,'paint')=: ppaint
 (id,'size')=: ppaint
 (id,'mmove')=: ]
@@ -2328,7 +2328,7 @@ menupopz;
 )
 pclose_isi=: 3 : 0
 try.
-  wd 'psel ',PFormhwnd
+  wd 'psel ',": PFormhwnd
   if. ifjwplot'' do.
     wpsave_j_ :: 0: PForm
   end.
@@ -2337,14 +2337,14 @@ try.
 catch. end.
 )
 popen_isi=: 3 : 0
-if. ifparent PFormhwnd do.
-  wd 'psel ',PFormhwnd
+if. ifparent ": PFormhwnd do.
+  wd 'psel ',": PFormhwnd
   wd 'pactive'
   glsel PId
   0 return.
 end.
 wd 'pc ',PForm
-PFormhwnd=: wd 'qhwndp'
+PFormhwnd=: 0". wd 'qhwndp'
 wd 'pn *',PLOTCAPTION
 wd 'xywh 0 0 240 180'
 wd 'cc ',PId,' isigraph rightmove bottommove'
@@ -2359,8 +2359,8 @@ wdfit ''
 
 fm=. PForm,'_'
 id=. fm,PId,'_'
-(fm,'close')=: pclose
-(fm,'cancel')=: pclose
+(fm,'close')=: pclose_isi
+(fm,'cancel')=: pclose_isi
 (fm,'tctrl_fkey')=: ptop
 (id,'paint')=: ppaint
 (id,'size')=: ppaint
@@ -6326,7 +6326,7 @@ a=. ": {. (i. >: #a) -. a
 p,a,'.',y
 )
 isi_getsize=: 3 : 0
-if. -. wdishandle :: 0: PFormhwnd do. '' return. end.
+if. -. wdishandle :: 0: ": PFormhwnd do. '' return. end.
 wd 'psel ',PFormhwnd
 s=. wd :: 0: 'qchildxywhx ',PId
 if. s -: 0 do. '' return. end.
@@ -6739,7 +6739,7 @@ type=. x
 )
 isi_emf=: 3 : 0
 file=. jpath '.emf' fext (;qchop y),(0=#y) # ISI_DEFFILE
-wd 'psel ',PFormhwnd
+wd 'psel ',": PFormhwnd
 glsel PId
 glfile file
 glemfopen''
@@ -6747,7 +6747,7 @@ isi_paint''
 glemfclose''
 )
 isi_getbmp=: 3 : 0
-wd 'psel ',PFormhwnd
+wd 'psel ',": PFormhwnd
 glsel PId
 box=. 0 ". wd 'qchildxywhx ',PId
 res=. glqpixels box
@@ -6755,7 +6755,7 @@ res=. glqpixels box
 )
 isi_getbmpwh=: 3 : 0
 wd 'pc a owner;xywh 0 0 240 200;cc g isigraph rightmove bottommove;pas 0 0'
-PFormhwnd=: wd 'qhwndp'
+PFormhwnd=: 0 ". wd 'qhwndp'
 PId=: 'g'
 wd 'setxywhx g 0 0 ',":y
 isi_paint''
@@ -6765,7 +6765,7 @@ wd 'pclose'
 res
 )
 isi_getrgb=: 3 : 0
-wd 'psel ',PFormhwnd
+wd 'psel ',": PFormhwnd
 glsel PId
 box=. 0 ". wd 'qchildxywhx ',PId
 (3 2 { box) $ 256 256 256 #: glqpixels box
