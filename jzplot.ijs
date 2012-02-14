@@ -4934,7 +4934,7 @@ cairo_get=: 3 : 0
 res=. cairo_make size;file;ctx
 )
 cairo_show=: 3 : 0
-'size file ctx'=. cairo_getparms y
+'size file ctx'=. 3{. cairo_getparms y
 res=. cairo_make size;file;ctx
 cairo_write file;ctx
 unrefcairo ''
@@ -5388,7 +5388,7 @@ canvas_get=: 3 : 0
 res=. canvas_make size;file;ctx
 )
 canvas_show=: 3 : 0
-'size file ctx'=. canvas_getparms y
+'size file ctx'=. 3{. canvas_getparms y
 res=. canvas_make size;file;ctx
 res canvas_write file;ctx
 if. IFJHS do. plotcanvas__'' end.
@@ -7443,7 +7443,7 @@ pdf_get=: 3 : 0
 pdf_make size
 )
 pdf_jpf=: 3 : 0
-'size file ctx'=. jpf_getparms y
+'size file ctx'=. 3{. jpf_getparms y
 txt=. pdf_make size
 size=. ":size
 fnt=. ; PDFFonts ,each ','

@@ -41,3 +41,6 @@ graphics/plot - change history
 
 == 1.0.77/78 ==
  * isi output
+
+== 1.0.79/80 ==
+ * getparms bugfix
