@@ -16,7 +16,7 @@ if. -.IFJ6 do.
     require 'graphics/bmp'
     require 'gui/gtk graphics/gl2'
     if. GTKOUTPUT -: 'isi' do.
-      require 'gui/gtkwd'
+      require 'gtkwd'
     end.
     coinsert 'jgl2'
   elseif. do.
