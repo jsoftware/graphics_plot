@@ -45,3 +45,6 @@ graphics/plot - change history
 == 1.0.79/81 ==
  * getparms bugfix
  * PFormhwnd
+
+== 1.0.82 ==
+ * gl2 plot: gl2 backend

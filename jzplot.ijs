@@ -2391,14 +2391,14 @@ wd 'ptop ',":PTop
 fzskludge=: 4%3
 pgetascender=: 3 : 0
 if. Poutput = iISI do.
-  if. GL2Backend_jgl2_ e. 3 4 do.
+  if. 1=GL2Backend_jgl2_ do.
     glfont y
     1 { glqtextmetrics''
   else.
     FontScale * getascender y
   end.
 elseif. Poutput = iGTK do.
-  if. GL2Backend_jgl2_ e. 3 4 do.
+  if. 1=GL2Backend_jgl2_ do.
     CF gtkfontdesc y
     1 { glqtextmetrics''
   else.
@@ -6280,6 +6280,7 @@ popen_gtk''
 if. ifjwplot'' do.
   (PForm,'_',PId,'_paint')=: gtk_paint
 end.
+gtk_paint''
 if. PShow=0 do.
   if. VISIBLE do.
     gtk_widget_show_all_jgtk_ (0&". ::]) PFormhwnd
@@ -6288,11 +6289,7 @@ if. PShow=0 do.
   end.
   PShow=: 1
   gtk_window_set_keep_above_jgtk_ ((0&". ::]) PFormhwnd),PTop
-  gtk_paint''
-else.
-  gtk_paint''
 end.
-glpaintx''
 if. (ifjwplot'') *. -.IFGTK do. gtk_main_jgtk_ '' end.
 )
 gtk_paint=: 3 : 0
@@ -6758,7 +6755,8 @@ wd 'pc a owner;xywh 0 0 240 200;cc g isigraph rightmove bottommove;pas 0 0'
 PFormhwnd=: 0 ". wd 'qhwndp'
 PId=: 'g'
 wd 'setxywhx g 0 0 ',":y
-isi_paint''
+wd 'pshow'
+isi_paintx''
 glpaint''
 res=. isi_getbmp''
 wd 'pclose'
@@ -6844,8 +6842,6 @@ if. PShow=0 do.
   end.
   wd 'ptop ',":PTop
   PShow=: 1
-else.
-  glpaint''
 end.
 )
 isi_paint=: 3 : 0
