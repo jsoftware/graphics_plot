@@ -2249,8 +2249,10 @@ if. (ifjwplot'') *. -.IFGTK do. gtk_main_quit_jgtk_ '' end.
 )
 popen_gtk=: 3 : 0
 if. 0~: (0&". ::]) PFormhwnd do.
-  if. 0= gtk_widget_get_parent_window_jgtk_ (0&". ::]) PFormhwnd do.
-    gtk_window_present_with_time_jgtk_ ((0&". ::]) PFormhwnd),GDK_CURRENT_TIME_jgtk_
+  if. gtk_widget_is_toplevel_jgtk_ (0&". ::]) PFormhwnd do.
+    if. 0= gtk_window_has_toplevel_focus_jgtk_ ((0&". ::]) PFormhwnd) do.
+      gtk_window_present_with_time_jgtk_ ((0&". ::]) PFormhwnd),GDK_CURRENT_TIME_jgtk_
+    end.
     glsel PIdLoc
     0 return.
   end.
@@ -6290,6 +6292,7 @@ if. PShow=0 do.
   PShow=: 1
   gtk_window_set_keep_above_jgtk_ ((0&". ::]) PFormhwnd),PTop
 end.
+if. VISIBLE do. glpaintx'' end.
 if. (ifjwplot'') *. -.IFGTK do. gtk_main_jgtk_ '' end.
 )
 gtk_paint=: 3 : 0
@@ -6843,6 +6846,7 @@ if. PShow=0 do.
   wd 'ptop ',":PTop
   PShow=: 1
 end.
+if. VISIBLE do. glpaintx'' end.
 )
 isi_paint=: 3 : 0
 glsel PId
