@@ -6292,7 +6292,7 @@ if. PShow=0 do.
   PShow=: 1
   gtk_window_set_keep_above_jgtk_ ((0&". ::]) PFormhwnd),PTop
 end.
-if. VISIBLE do. glpaintx'' end.
+if. VISIBLE do. glpaint'' end.
 if. (ifjwplot'') *. -.IFGTK do. gtk_main_jgtk_ '' end.
 )
 gtk_paint=: 3 : 0
@@ -6846,7 +6846,7 @@ if. PShow=0 do.
   wd 'ptop ',":PTop
   PShow=: 1
 end.
-if. VISIBLE do. glpaintx'' end.
+if. VISIBLE do. glpaint'' end.
 )
 isi_paint=: 3 : 0
 glsel PId
