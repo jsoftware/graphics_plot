@@ -106,7 +106,10 @@ nc=: 4!:0
 packs=: (, ,&< ".) &>
 pdefs=: 3 : '0 $ ({."1 y)=: {:"1 y'
 pbuf=: 3 : 'buf=: buf,,y,"1 LF'
-pforms=: [: <;._2 &> [: <;._2 wd bind 'qpx'
+pforms=: 3 : 0
+if. 0=# z=. <;._2;._2 @ wd 'qpx' do. z=. 0 6$<'' end.
+z
+)
 pick=: >@{
 pickf=: 2 : 'u @ > @ (n&{)'
 pow10=: 10&^
@@ -6276,13 +6279,11 @@ end.
 g_object_unref_jgtk_ buf
 )
 gtk_show=: 3 : 0
-coinsert 'jgl2'
 if. -.IFGTK do. gtkinit_jgtk_ '' end.
 popen_gtk''
 if. ifjwplot'' do.
   (PForm,'_',PId,'_paint')=: gtk_paint
 end.
-gtk_paint''
 if. PShow=0 do.
   if. VISIBLE do.
     gtk_widget_show_all_jgtk_ (0&". ::]) PFormhwnd
@@ -6292,8 +6293,9 @@ if. PShow=0 do.
   PShow=: 1
   gtk_window_set_keep_above_jgtk_ ((0&". ::]) PFormhwnd),PTop
 end.
-if. VISIBLE do. glpaint'' end.
-if. (ifjwplot'') *. -.IFGTK do. gtk_main_jgtk_ '' end.
+gtk_paint''
+glpaint''
+if. -.gtkMainLoop_jgtk_ do. gtk_main_jgtk_ '' end.
 )
 gtk_paint=: 3 : 0
 glsel PIdLoc
@@ -6836,7 +6838,6 @@ isi_tifr=: 'tif' & isi_defstr
 isi_show=: 3 : 0
 popen_isi''
 (PForm,'_',PId,'_paint')=: isi_paint
-isi_paint''
 if. PShow=0 do.
   if. VISIBLE do.
     wd 'pshow ',PSHOW
@@ -6846,7 +6847,9 @@ if. PShow=0 do.
   wd 'ptop ',":PTop
   PShow=: 1
 end.
-if. VISIBLE do. glpaint'' end.
+isi_paint''
+glpaint''
+wdloop^:(-.IFJ6)''
 )
 isi_paint=: 3 : 0
 glsel PId
