@@ -6193,7 +6193,7 @@ type=. 'bmp'
 file=. jpath ('.',type) fext (;qchop y),(0=#y) # GTK_DEFFILE
 rgb=. gtk_getrgb''
 if. IFWIN do.
-  ((1 0{rgb) $ flip_rgb 2}.rgb) writebmp file
+  ((1 0{rgb) $ flip_rgb_jgtk_ 2}.rgb) writebmp file
 else.
   rgb saveimg type;file
 end.
@@ -6254,12 +6254,6 @@ end.
 )
 
 OR=: 23 b./
-
-flip_rgb=: 3 : 0
-d=. ((#y),4)$2 (3!:4) y
-d=. 2 1 0 3{"1 d
-_2(3!:4),d
-)
 
 saveimg=: 4 : 0
 'type fl'=. 2{.y
