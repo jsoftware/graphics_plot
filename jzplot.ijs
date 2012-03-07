@@ -5437,12 +5437,7 @@ while. _1 -: dat flwrites file do.
 end.
 if. 0 = 4!:0 <'EPSReader_j_' do.
   if. check_EPSReader EPSReader_j_ do.
-    cmd=. (dquote EPSReader_j_),' ',dquote file
-    if. IFUNIX do.
-      2!:1 cmd,'&'
-    else.
-      fork_jtask_ cmd
-    end.
+    fork_jtask_ (dquote EPSReader_j_),' ',dquote file
   else.
     info 'File written: ',file
   end.
@@ -6933,11 +6928,7 @@ if. VISIBLE do.
   else.
     if. 0 = 4!:0 <'PDFReader_j_' do.
       if. #PDFReader_j_ do.
-        if. IFUNIX do.
-          2!:1 (dquote PDFReader_j_),' ',(dquote file), '&'
-        else.
-          fork_jtask_ (dquote PDFReader_j_),' ',dquote file
-        end.
+        fork_jtask_ (dquote PDFReader_j_),' ',dquote file
       end.
     end.
   end.
