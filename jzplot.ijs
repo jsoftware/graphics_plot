@@ -5435,9 +5435,14 @@ while. _1 -: dat flwrites file do.
   else.
     info msg,'The file name is invalid.' return. end.
 end.
-if. 0 = 4!:0 <'EPSREADER_j_' do.
-  if. check_epsreader EPSREADER_j_ do.
-    wd 'winexec *',EPSREADER_j_,' ',file
+if. 0 = 4!:0 <'EPSReader_j_' do.
+  if. check_EPSReader EPSReader_j_ do.
+    cmd=. (dquote EPSReader_j_),' ',dquote file
+    if. IFUNIX do.
+      2!:1 cmd,'&'
+    else.
+      fork_jtask_ cmd
+    end.
   else.
     info 'File written: ',file
   end.
@@ -6922,15 +6927,17 @@ while. _1 -: dat flwrite file do.
   else.
     info msg,'The file name is invalid.' return. end.
 end.
-if. VISIBLE *. 0 = 4!:0 <'PDFReader_j_' do.
-  if. #PDFReader_j_ do.
-    if. -.IFJ6 do.
-      fork_jtask_ (dquote PDFReader_j_),' ',dquote file
-    else.
-      if. IFUNIX *. IFCONSOLE do.
-        hostcmd (dquote PDFReader_j_),' ',dquote file
-      else.
-        wd 'winexec *',PDFReader_j_,' ',dquote file
+if. VISIBLE do.
+  if. -.IFJ6 do.
+    viewpdf_j_ file
+  else.
+    if. 0 = 4!:0 <'PDFReader_j_' do.
+      if. #PDFReader_j_ do.
+        if. IFUNIX do.
+          2!:1 (dquote PDFReader_j_),' ',(dquote file), '&'
+        else.
+          fork_jtask_ (dquote PDFReader_j_),' ',dquote file
+        end.
       end.
     end.
   end.
