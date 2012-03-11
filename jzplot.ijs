@@ -6843,7 +6843,7 @@ if. PShow=0 do.
 end.
 isi_paint''
 glpaint''
-wdloop^:(-.IFJ6)''
+evtloop^:(-.IFJ6)''
 )
 isi_paint=: 3 : 0
 glsel PId
