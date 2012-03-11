@@ -292,6 +292,15 @@ steps=: {. + (1&{ - {.) * (i.@>: % ])@{:
 unquot=: 3 : 0
 '" ' charsub y
 )
+selectpid=: 3 : 0
+if. 0~:PIdhwnd do.
+  glsel PIdhwnd
+elseif. #PIdLoc do.
+  glsel canvas__PIdLoc
+elseif. #PId do.
+  glsel PId
+end.
+)
 rectcenter=: 2&{. + -:@(2 3&{)
 angle2=: [: r.^:_1 *@(j./)"1
 g0=. }:"1
@@ -652,6 +661,8 @@ Data=: ''
 PForm=: 'plot'
 Ch=: Cw=: 0
 PId=: 'gs'
+PIdhwnd=: 0
+PIdLoc=: 0$<''
 Plot=: i. 0 0
 PFormhwnd=: 0[''
 Poutput=: _1
@@ -1128,7 +1139,7 @@ subres
 )
 plotshow=: 3 : 0
 gtk_window_present_with_time_jgtk_ ((0&". ::]) PFormhwnd),GDK_CURRENT_TIME_jgtk_
-glsel PIdLoc
+selectpid''
 gpinit''
 make ''
 gtk_show 1
@@ -2256,7 +2267,7 @@ if. 0~: (0&". ::]) PFormhwnd do.
     if. 0= gtk_window_has_toplevel_focus_jgtk_ ((0&". ::]) PFormhwnd) do.
       gtk_window_present_with_time_jgtk_ ((0&". ::]) PFormhwnd),GDK_CURRENT_TIME_jgtk_
     end.
-    glsel PIdLoc
+    selectpid''
     0 return.
   end.
 end.
@@ -2264,7 +2275,8 @@ PFormhwnd=: window=. gtk_window_new_jgtk_ GTK_WINDOW_TOPLEVEL_jgtk_
 'Cw Ch'=: 480 360
 gtk_window_set_title_jgtk_ window;PLOTCAPTION
 gtk_widget_set_name_jgtk_ window;PForm
-PIdLoc=: glcanvas_jgl2_ PForm;PId;(Cw,Ch);coname''
+PIdLoc=: glcanvas_jgl2_ (Cw,Ch);coname''
+PIdhwnd=: canvas__PIdLoc
 box=. gtk_vbox_new_jgtk_ 0 0
 gtk_container_add_jgtk_ window,box
 gtk_box_pack_start_jgtk_ box, canvas__PIdLoc, 1 1 0
@@ -6172,7 +6184,7 @@ gtk_gpbuf ,gtk_gpcount 2029 ,"1 p
 gtk_print=: 3 : 0
 if. IFGTK < ifjwplot'' do. pdcmdprint=: 1 return. end.
 window=. gtk_window_new_jgtk_ GTK_WINDOW_TOPLEVEL_jgtk_
-gloc=. glcanvas_jgl2_ '';'';540 400;coname''
+gloc=. glcanvas_jgl2_ 540 400;coname''
 print__gloc''
 if. -.IFGTK do. gtk_main_jgtk_ '' end.
 )
@@ -6184,7 +6196,7 @@ file=. jpath ('.',type) fext (;qchop y),(0=#y) # GTK_DEFFILE
 gtk_emf=: 0:
 gtk_gif=: 0:
 gtk_getrgb=: 3 : 0
-glsel PIdLoc
+selectpid''
 box=. 0 0,glqwh''
 (2}.box),glqpixels box
 )
@@ -6200,7 +6212,7 @@ end.
 )
 gtk_emf=: 3 : 0
 file=. jpath '.emf' fext (;qchop y),(0=#y) # GTK_DEFFILE
-glsel PIdLoc
+glsel canvas__PIdLoc
 glfile file
 glemfopen''
 gtk_paint''
@@ -6292,7 +6304,7 @@ glpaint''
 if. -.gtkMainLoop_jgtk_ do. gtk_main_jgtk_ '' end.
 )
 gtk_paint=: 3 : 0
-glsel PIdLoc
+selectpid''
 'Cw Ch'=: glqwh''
 gtk_paintit 0 0,Cw,Ch
 )
