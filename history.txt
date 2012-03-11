@@ -52,7 +52,8 @@ graphics/plot - change history
 == 1.0.83 ==
  * plot: bugfix gtk_show, isi_show
 
-== 1.0.84/85 ==
+== 1.0.84/86 ==
  * plot: swap glpaint and glpaintx
  * plot: run gtkwd from jconsole
  * plot: bugfix gtk_show, isi_show
+ * plot: glsel
