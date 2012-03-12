@@ -15,7 +15,7 @@ if. -.IFJ6 do.
   elseif. IFGTK do.
     require 'graphics/bmp'
     require 'gui/gtk graphics/gl2'
-    if. GTKOUTPUT -: 'isi' do.
+    if. 0[ GTKOUTPUT -: 'isi' do.
       require 'gtkwd'
     end.
     coinsert 'jgl2'
@@ -749,7 +749,7 @@ end.
 if. -.IFJ6 do.
   if. -. IFTESTPLOTJHS +. IFJHS +. IFGTK do.
     if. ('gtk' -: CONSOLEOUTPUT) *. (3 = 4!:0 <'gtkinit_jgtk_') *. (UNAME -: 'Linux') *: (0 -: 2!:5 'DISPLAY') do.
-      if. 'isi' -: GTKOUTPUT do.
+      if. 0[ 'isi' -: GTKOUTPUT do.
         r=. 'OUTPUT=: ''isi'''
       else.
         r=. 'OUTPUT=: ''gtk'''
@@ -1315,7 +1315,7 @@ if. -.IFJ6 do.
   if. IFTESTPLOTJHS +. IFJHS do.
     r=. 'OUTPUT=: JHSOUTPUT'
   elseif. IFGTK do.
-    if. 'isi' -: GTKOUTPUT do.
+    if. 0[ 'isi' -: GTKOUTPUT do.
       r=. 'OUTPUT=: ''isi'''
     else.
       r=. 'OUTPUT=: ''gtk'''
@@ -2319,12 +2319,11 @@ PTop=: -. PTop
 gtk_window_set_keep_above_jgtk_ ((0&". ::]) PFormhwnd), PTop
 0
 )
-
-pclose=: 3 : 'pclose_gtk`pclose_isi@.((_1=Poutput){(iISI=Poutput),GTKOUTPUT-:''isi'') y'
-popen=: 3 : 'popen_gtk`popen_isi@.((_1=Poutput){(iISI=Poutput),GTKOUTPUT-:''isi'') y'
-ppaint=: 3 : 'ppaint_gtk`ppaint_isi@.((_1=Poutput){(iISI=Poutput),GTKOUTPUT-:''isi'') y'
-psize=: 3 : 'psize_gtk`psize_isi@.((_1=Poutput){(iISI=Poutput),GTKOUTPUT-:''isi'') y'
-ptop=: 3 : 'ptop_gtk`ptop_isi@.((_1=Poutput){(iISI=Poutput),GTKOUTPUT-:''isi'') y'
+pclose=: pclose_gtk
+popen=: popen_gtk
+ppaint=: ppaint_gtk
+psize=: psize_gtk
+ptop=: ptop_gtk
 PMenu=: 0 : 0
 menupop "&File";
 menu clip "&Clip" "" "" "";
