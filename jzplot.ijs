@@ -293,10 +293,8 @@ unquot=: 3 : 0
 '" ' charsub y
 )
 selectpid=: 3 : 0
-if. 0~:PIdhwnd do.
+if. 0~: (0&". ::]) PIdhwnd do.
   glsel PIdhwnd
-elseif. #PIdLoc do.
-  glsel canvas__PIdLoc
 elseif. #PId do.
   glsel PId
 end.
@@ -662,7 +660,6 @@ PForm=: 'plot'
 Ch=: Cw=: 0
 PId=: 'gs'
 PIdhwnd=: 0
-PIdLoc=: 0$<''
 Plot=: i. 0 0
 PFormhwnd=: 0[''
 Poutput=: _1
@@ -2275,11 +2272,10 @@ PFormhwnd=: window=. gtk_window_new_jgtk_ GTK_WINDOW_TOPLEVEL_jgtk_
 'Cw Ch'=: 480 360
 gtk_window_set_title_jgtk_ window;PLOTCAPTION
 gtk_widget_set_name_jgtk_ window;PForm
-PIdLoc=: glcanvas_jgl2_ (Cw,Ch);coname''
-PIdhwnd=: canvas__PIdLoc
+PIdhwnd=: glcanvas_jgl2_ (Cw,Ch);coname''
 box=. gtk_vbox_new_jgtk_ 0 0
 gtk_container_add_jgtk_ window,box
-gtk_box_pack_start_jgtk_ box, canvas__PIdLoc, 1 1 0
+gtk_box_pack_start_jgtk_ box, PIdhwnd, 1 1 0
 consig_jgtk_ window;'destroy';'pclose';coname''
 
 if. ifjwplot'' do.
@@ -2303,9 +2299,10 @@ PShow=: 0
 1
 )
 ppaint_gtk=: 3 : 0
-if. newsize__PIdLoc do.
+l=. glgetloc PIdhwnd
+if. newsize__l do.
   gtk_show ''
-  newsize__PIdLoc=: 0
+  newsize__l=: 0
 end.
 0
 )
@@ -5830,7 +5827,7 @@ sty=. (bld#' bold'),(ita#' italic'),und#' underline'
 )
 gtk_getsize=: 3 : 0
 if. 0=(0&". ::]) PFormhwnd do. '' return. end.
-_2{.getGtkWidgetAllocation_jgtk_ canvas__PIdLoc
+_2{.getGtkWidgetAllocation_jgtk_ (0&". ::]) PIdhwnd
 )
 output_parms=: 4 : 0
 'size file'=. x
@@ -6211,7 +6208,7 @@ end.
 )
 gtk_emf=: 3 : 0
 file=. jpath '.emf' fext (;qchop y),(0=#y) # GTK_DEFFILE
-glsel canvas__PIdLoc
+glsel PIdhwnd
 glfile file
 glemfopen''
 gtk_paint''
