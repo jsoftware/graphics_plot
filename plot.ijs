@@ -31,3 +31,25 @@ caller_jwplot_=. coname''
 caller_jwplot_=. coname''
 x plot_jwplot_ y
 )
+
+NB. =========================================================
+gtkwidget_event=: 4 : 0
+evt=. >@{.y
+syshandler=. PForm, '_handler'
+sysevent=. PForm,'_',PId,'_', evt
+sysdefault=. PForm, '_default'
+if. 1=#y do.
+  wdd=. ;: 'syshandler sysevent sysdefault'
+elseif. 2=#y do.
+  sysdata=. ": >1{y
+  wdd=. ;: 'syshandler sysevent sysdefault sysdata'
+elseif. 3=#y do.
+  sysdata=. ": >1{y
+  sysmodifiers=. ": >2{y
+  wdd=. ;: 'syshandler sysevent sysdefault sysdata sysmodifiers'
+end.
+wdqdata=. (wdd ,. ".&.>wdd)
+evthandler wdqdata
+0
+)
+
