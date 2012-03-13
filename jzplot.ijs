@@ -2287,8 +2287,8 @@ id=. fm,PId,'_'
 (fm,'close')=: pclose_gtk
 (fm,'cancel')=: pclose_gtk
 (fm,'tctrl_fkey')=: ptop_gtk
-(id,'paint')=: ppaint
-(id,'size')=: ppaint
+(id,'paint')=: ppaint_gtk
+(id,'size')=: ppaint_gtk
 (id,'mmove')=: ]
 
 (fm,'f10_fkey')=: pd bind 'eps'
@@ -2321,6 +2321,25 @@ popen=: popen_gtk
 ppaint=: ppaint_gtk
 psize=: psize_gtk
 ptop=: ptop_gtk
+gtkwidget_event=: 4 : 0
+evt=. >@{.y
+syshandler=. PForm, '_handler'
+sysevent=. PForm,'_',PId,'_', evt
+sysdefault=. PForm, '_default'
+if. 1=#y do.
+  wdd=. ;: 'syshandler sysevent sysdefault'
+elseif. 2=#y do.
+  sysdata=. ": >1{y
+  wdd=. ;: 'syshandler sysevent sysdefault sysdata'
+elseif. 3=#y do.
+  sysdata=. ": >1{y
+  sysmodifiers=. ": >2{y
+  wdd=. ;: 'syshandler sysevent sysdefault sysdata sysmodifiers'
+end.
+wdqdata=. (wdd ,. ".&.>wdd)
+evthandler wdqdata
+0
+)
 PMenu=: 0 : 0
 menupop "&File";
 menu clip "&Clip" "" "" "";
