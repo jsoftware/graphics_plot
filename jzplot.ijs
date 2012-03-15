@@ -2255,7 +2255,13 @@ try.
   PFormhwnd=: 0
   pd 'reset'
 catch. end.
-if. (ifjwplot'') *. -.IFGTK do. gtk_main_quit_jgtk_ '' end.
+if. (ifjwplot'') *. -.IFGTK do.
+  f=. 1
+  if. (0: <: 18!:0) <'gtkwd' do.
+    if. 0~: #windowList_gtkwd_ do. f=. 0 end.
+  end.
+  if. f do. gtk_main_quit_jgtk_'' [ gtkMainLoop_jgtk_=: 0 end.
+end.
 0
 )
 popen_gtk=: 3 : 0
@@ -6182,7 +6188,7 @@ if. IFGTK < ifjwplot'' do. pdcmdprint=: 1 return. end.
 window=. gtk_window_new_jgtk_ GTK_WINDOW_TOPLEVEL_jgtk_
 gloc=. glcanvas_jgl2_ 540 400;coname''
 print__gloc''
-if. -.IFGTK do. gtk_main_jgtk_ '' end.
+evtloop_jgtk_''
 )
 gtk_def=: 4 : 0
 type=. x
@@ -6297,7 +6303,7 @@ if. PShow=0 do.
 end.
 gtk_paint''
 glpaint''
-if. -.gtkMainLoop_jgtk_ do. gtk_main_jgtk_ '' end.
+evtloop_jgtk_''
 )
 gtk_paint=: 3 : 0
 selectpid''

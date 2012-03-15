@@ -58,3 +58,6 @@ graphics/plot - change history
  * plot: bugfix gtk_show, isi_show
  * plot: glsel
  * plot: gtkwidget_event
+
+== 1.0.90 ==
+ * plot: evtloop
