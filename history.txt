@@ -61,3 +61,6 @@ graphics/plot - change history
 
 == 1.0.90 ==
  * plot: evtloop
+
+== 1.0.91 ==
+ * plot: gl2 api change

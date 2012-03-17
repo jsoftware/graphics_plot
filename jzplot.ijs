@@ -6186,8 +6186,9 @@ gtk_gpbuf ,gtk_gpcount 2029 ,"1 p
 gtk_print=: 3 : 0
 if. IFGTK < ifjwplot'' do. pdcmdprint=: 1 return. end.
 window=. gtk_window_new_jgtk_ GTK_WINDOW_TOPLEVEL_jgtk_
-gloc=. glcanvas_jgl2_ 540 400;coname''
-print__gloc''
+canvas=. glcanvas_jgl2_ 540 400;coname''
+l=. glgetloc_jgl2_ canvas
+print__l''
 evtloop_jgtk_''
 )
 gtk_def=: 4 : 0
