@@ -64,3 +64,6 @@ graphics/plot - change history
 
 == 1.0.91 ==
  * plot: gl2 api change
+
+== 1.0.92 ==
+ * plot: move gtkwidget_event to jzplot locale
