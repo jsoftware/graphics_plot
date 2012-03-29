@@ -67,3 +67,6 @@ graphics/plot - change history
 
 == 1.0.92 ==
  * plot: move gtkwidget_event to jzplot locale
+
+== 1.0.93 ==
+ * plot: android
