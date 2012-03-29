@@ -6898,8 +6898,8 @@ isi_gpapply''
 
 coclass 'jzplot'
 PDF_DEFSIZE=: 480 360
-PDF_DEFFILE=: (IFDEF'android'){::'sdcard/plot.pdf;~ jpath '~temp/plot.pdf'
-JPF_DEFFILE=: (IFDEF'android'){::'sdcard/plot.jpf;~ jpath '~temp/plot.jpf'
+PDF_DEFFILE=: (IFDEF'android'){::'sdcard/plot.pdf';~ jpath '~temp/plot.pdf'
+JPF_DEFFILE=: (IFDEF'android'){::'sdcard/plot.jpf';~ jpath '~temp/plot.jpf'
 PDF_PENSCALE=: 0.4
 
 CIDFONTS=: 'MSung-Light';'STSong-Light'
