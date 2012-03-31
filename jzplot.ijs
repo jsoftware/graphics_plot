@@ -5,7 +5,7 @@ require 'graphics/color/colortab'
 3 : 0''
 if. -.IFJ6 do.
   if. 0 ~: 4!:0 <'JHSOUTPUT' do. JHSOUTPUT=: 'canvas' end.
-  if. 0 ~: 4!:0 <'CONSOLEOUTPUT' do. CONSOLEOUTPUT=: (IFDEF'android'){::'cairo';'pdf' end.
+  if. 0 ~: 4!:0 <'CONSOLEOUTPUT' do. CONSOLEOUTPUT=: (UNAME-:'Android'){::'cairo';'pdf' end.
   if. 0 ~: 4!:0 <'GTKOUTPUT' do. GTKOUTPUT=: 'gtk' end.
   if. 0 ~: 4!:0 <'IFTESTPLOTJHS' do. IFTESTPLOTJHS_z_=: 0 end.
   if. IFTESTPLOTJHS +. IFJHS do.
@@ -6898,8 +6898,8 @@ isi_gpapply''
 
 coclass 'jzplot'
 PDF_DEFSIZE=: 480 360
-PDF_DEFFILE=: (IFDEF'android'){::'/sdcard/plot.pdf';~ jpath '~temp/plot.pdf'
-JPF_DEFFILE=: (IFDEF'android'){::'/sdcard/plot.jpf';~ jpath '~temp/plot.jpf'
+PDF_DEFFILE=: (UNAME-:'Android'){::'/sdcard/plot.pdf';~ jpath '~temp/plot.pdf'
+JPF_DEFFILE=: (UNAME-:'Android'){::'/sdcard/plot.jpf';~ jpath '~temp/plot.jpf'
 PDF_PENSCALE=: 0.4
 
 CIDFONTS=: 'MSung-Light';'STSong-Light'
