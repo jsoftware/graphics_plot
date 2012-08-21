@@ -20,6 +20,8 @@ if. -.IFJ6 do.
       require 'gtkwd'
     end.
     coinsert 'jgl2'
+  elseif. (UNAME -: 'Android') do.
+    require 'gui/android'
   elseif. do.
     if. 0 < #1!:0 jpath '~addons/gui/gtk/gtk.ijs' do.
       require 'gui/gtk'
@@ -4591,9 +4593,9 @@ buf=: buf,y
 )
 android_gpapply=: 3 : 0
 if. 1=GL2ExtGlcmds_j_ do.
-  if. #buf do. android_glcmds 2 2007, buf end.
+  if. #buf do. android_glcmds buf=: <.2 2007, buf end.
 else.
-  if. #buf do. android_glcmds2 2 2007, buf end.
+  if. #buf do. android_glcmds2 buf=: <.2 2007, buf end.
 end.
 buf=: $0
 )
@@ -5050,29 +5052,24 @@ android_show=: 3 : 0
 popen_android''
 )
 android_paint=: 3 : 0
-coinsert 'ja'
+coinsert 'jni'
 
 paint=: 'android.graphics.Paint' jniNewObject~ ''
-
-FILL=: ('FILL Landroid/graphics/Paint$Style;' jniStaticField) 'android/graphics/Paint$Style'
-FILL_AND_STROKE=: ('FILL_AND_STROKE Landroid/graphics/Paint$Style;' jniStaticField) 'android/graphics/Paint$Style'
-STROKE=: ('STROKE Landroid/graphics/Paint$Style;' jniStaticField) 'android/graphics/Paint$Style'
 
 paint ('setAntiAlias (Z)V' jniMethod)~ 1
 
 jnicheck canvas=: GetObjectArrayElement (3{y);0
 
-w=. canvas ('getWidth ()I' jniMethod)~ ''
-h=. canvas ('getHeight ()I' jniMethod)~ ''
+Cw=: canvas ('getWidth ()I' jniMethod)~ ''
+Ch=: canvas ('getHeight ()I' jniMethod)~ ''
 
-'Cw Ch'=: w,h
+log_d_ja_ 'JJNI';'before paintit'
 android_paintit 0 0,Cw,Ch
+log_d_ja_ 'JJNI';'afer paintit'
 
-DeleteLocalRef <FILL
-DeleteLocalRef <FILL_AND_STROKE
-DeleteLocalRef <STROKE
 DeleteLocalRef <paint
 DeleteLocalRef <canvas
+log_d_ja_ 'JJNI';'finish paint'
 0
 )
 android_paintit=: 3 : 0
@@ -5089,9 +5086,7 @@ android_gpapply''
 
 android_glcmds=: 3 : 0
 
-buf=. y
 if. 0=#buf do. 0 return. end.
-buf=. <.buf
 jbuf=. NewIntArray <#buf
 SetIntArrayRegion jbuf; 0; (#buf); buf
 andw=: Cw [ andh=: Ch
@@ -5154,9 +5149,12 @@ rect,ang2,360|ang1-ang2
 )
 
 android_glcmds2=: 3 : 0
-buf=. y
 if. 0=#buf do. 0 return. end.
-buf=. <.buf
+
+FILL=. ('FILL Landroid/graphics/Paint$Style;' jniStaticField) 'android/graphics/Paint$Style'
+FILL_AND_STROKE=. ('FILL_AND_STROKE Landroid/graphics/Paint$Style;' jniStaticField) 'android/graphics/Paint$Style'
+STROKE=. ('STROKE Landroid/graphics/Paint$Style;' jniStaticField) 'android/graphics/Paint$Style'
+
 andw=: Cw [ andh=: Ch
 ipar=. andclipped,andw,andh,andrgb,andtextxy,andunderline,andfontangle,andpenrgb,andbrushrgb,andtextrgb,andbrushnull,andorgx,andorgy
 assert. 14=#ipar
@@ -5214,6 +5212,7 @@ while. p<ncnt do.
     DeleteLocalRef <rectf
   case. 2015 do.
     androidcolor paint, andpenrgb
+    paint ('setStyle (Landroid/graphics/Paint$Style;)V' jniMethod)~ STROKE
     c=. <.2%~cnt-2
     pt=. (2 3+p){buf
     path ('reset ()V' jniMethod)~ ''
@@ -5327,9 +5326,12 @@ DeleteLocalRef <path
 andclipped=: clip [ andrgb=: rgb [ andtextxy=: tx,ty [ andunderline=: underline [ andfontangle=: angle
 andpenrgb=: penrgb [ andbrushrgb=: brushrgb [ andtextrgb=: textrgb [ andbrushnull=: brushnull [ andorgx=: orgx ] andorgy=: orgy
 
+DeleteLocalRef <FILL
+DeleteLocalRef <FILL_AND_STROKE
+DeleteLocalRef <STROKE
+
 errcnt
 )
-load 'gui/android'
 pclose_android=: 3 : 0
 0
 )
