@@ -5059,7 +5059,7 @@ EMPTY
 )
 
 view_onTouch=: 3 : 0
-this_plotactivity_ ('finish ()V' jniMethod)~ ''
+if. this_plotactivity_ do. this_plotactivity_ ('finish ()V' jniMethod)~ '' end.
 1
 )
 android_paint=: 3 : 0
@@ -5069,7 +5069,7 @@ paint=: 'android.graphics.Paint' jniNewObject~ ''
 
 paint ('setAntiAlias (Z)V' jniMethod)~ 1
 
-jnicheck canvas=: GetObjectArrayElement (3{y);0
+jniCheck canvas=: GetObjectArrayElement (3{y);0
 
 Cw=: canvas ('getWidth ()I' jniMethod)~ ''
 Ch=: canvas ('getHeight ()I' jniMethod)~ ''
@@ -5362,25 +5362,33 @@ android_show ''
 coclass 'plotactivity'
 coinsert 'jni'
 
+jniImport ::0: (0 : 0)
+android.content.Context
+android.view.View
+android.view.View$OnTouchListener
+android.view.Window
+)
+
+this=: 0
+
 onCreate=: 3 : 0
-this=: NewGlobalRef <2{y
+jniCheck this=: NewGlobalRef <2{y
 japparg=. ('japparg Ljava/lang/String;' jniField) this
-capparg=. GetStringUTFChars japparg;<<0
-assert. 0~:capparg
-apparg=. memr capparg,0,_1
-ReleaseStringUTFChars japparg;<<capparg
+apparg=. jniToJString japparg
+DeleteLocalRef <japparg
+
 ('andclipped_',apparg,'_')=: ('andw_',apparg,'_')=: ('andh_',apparg,'_')=: ('andrgb_',apparg,'_')=: ('andunderline_',apparg,'_')=: ('andfontangle_',apparg,'_')=: ('andpenrgb_',apparg,'_')=: ('andbrushrgb_',apparg,'_')=: ('andtextrgb_',apparg,'_')=: ('andbrushnull_',apparg,'_')=: ('andorgx_',apparg,'_')=: ('andorgy_',apparg,'_')=: 0
 ('andtextxy_',apparg,'_')=: 0 0
 this ('requestWindowFeature (I)Z' jniMethod)~ Window_FEATURE_NO_TITLE_ja_
-win=. this ('getWindow ()Landroid/view/Window;' jniMethod)~ ''
+win=. this ('getWindow ()LWindow;' jniMethod)~ ''
 win ('setFlags (II)V' jniMethod)~ WindowManager_LayoutParams_FLAG_FULLSCREEN_ja_;WindowManager_LayoutParams_FLAG_FULLSCREEN_ja_
 DeleteLocalRef <win
 
-jnicheck thisview=. this jniOverride 'org.dykman.jn.android.view.View Landroid/content/Context;' ; apparg ; 'view' ; 'onDraw'
-jnicheck listener=. '' jniOverride 'org.dykman.jn.android.view.View$OnTouchListener' ; apparg ; 'view'
-jnicheck thisview ('setOnTouchListener (Landroid/view/View$OnTouchListener;)V' jniMethod)~ listener
-jnicheck this ('setContentView (Landroid/view/View;)V' jniMethod)~ thisview
-jnicheck thisview ('requestFocus ()Z' jniMethod)~ ''
+jniCheck thisview=. this jniOverride 'org.dykman.jn.android.view.View LContext;' ; apparg ; 'view' ; 'onDraw'
+jniCheck listener=. '' jniOverride 'org.dykman.jn.android.view.View$OnTouchListener' ; apparg ; 'view'
+jniCheck thisview ('setOnTouchListener (LView$OnTouchListener;)V' jniMethod)~ listener
+jniCheck this ('setContentView (LView;)V' jniMethod)~ thisview
+jniCheck thisview ('requestFocus ()Z' jniMethod)~ ''
 DeleteLocalRef <listener
 DeleteLocalRef <thisview
 
@@ -5388,7 +5396,8 @@ DeleteLocalRef <thisview
 )
 
 onDestroy=: 3 : 0
-DeleteGlobalRef <this
+if. this do. DeleteGlobalRef <this end.
+this=: 0
 0
 )
 coclass 'jzplot'
