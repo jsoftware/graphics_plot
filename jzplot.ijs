@@ -706,7 +706,7 @@ Pxywh=: ''
 PStyle=: ''
 TypeRest=: ''
 ('i',each ;: 'LEFT CENTER RIGHT')=: i. 3
-j=. ;: 'ISI EPS GTK PDF CANVAS CAIRO ANDROID'
+j=. ;: 'ISI EPS GTK PDF CANVAS CAIRO ANDROID QT'
 ('i' ,each j)=: i.#j
 j=. 'i' ,each cutopen toupper 0 : 0
 background
@@ -2481,12 +2481,47 @@ end.
 )
 
 3 : 0''
-if. 'Android'-:UNAME do.
+if. ('Android'-:UNAME) > IFQT do.
   pclose=: pclose_android
   popen=: popen_android
   ppaint=: ppaint_android
   psize=: psize_android
   ptop=: ptop_android
+end.
+EMPTY
+)
+pclose_qt=: 3 : 0
+0
+)
+popen_qt=: 3 : 0
+if. (-.ifjwplot'') *. 0~: (0&". ::]) PFormhwnd do.
+    selectpid''
+    0 return.
+end.
+fm=. PForm,'_'
+id=. fm,PId,'_'
+(fm,'close')=: pclose_qt
+(id,'paint')=: ppaint
+(id,'mmove')=: ]
+
+Pxywh=: ''
+PShow=: 0
+StartActivity_ja_ (>coname'');'onDestroy'
+)
+ppaint_qt=: 3 : 0
+cwh=. glqwh''
+if. 1[ cwh -.@-: Cw,Ch do.
+  qt_show ''
+end.
+)
+
+3 : 0''
+if. IFQT do.
+  pclose=: pclose_qt
+  popen=: popen_qt
+  ppaint=: ppaint_qt
+  psize=: psize_qt
+  ptop=: ptop_qt
 end.
 EMPTY
 )
@@ -2513,6 +2548,13 @@ elseif. Poutput = iANDROID do.
   else.
     FontScale * getascender y
   end.
+elseif. Poutput = iQT do.
+  if. 1 [ 1=GL2Backend_jgl2_ do.
+    glfont andfontdesc y
+    1 { glqtextmetrics''
+  else.
+    FontScale * getascender y
+  end.
 elseif. Poutput = iCAIRO do.
   FontScale * getascender y
 elseif. Poutput = iCANVAS do.
@@ -2530,6 +2572,9 @@ case. iGTK do.
   glfont gtkfontdesc^:(0={.0#x) x
   |: glqextent &> y
 case. iANDROID do.
+  glfont andfontdesc^:(0={.0#x) x
+  |: glqextent &> y
+case. iQT do.
   glfont andfontdesc^:(0={.0#x) x
   |: glqextent &> y
 case. iCAIRO do.
@@ -2553,6 +2598,9 @@ case. iGTK do.
   glfont gtkfontdesc^:(0={.0#x) x
   glqextent y
 case. iANDROID do.
+  glfont andfontdesc^:(0={.0#x) x
+  glqextent y
+case. iQT do.
   glfont andfontdesc^:(0={.0#x) x
   glqextent y
 case. iCANVAS do.
@@ -2595,6 +2643,13 @@ elseif. Poutput e. iGTK do.
   SymbolFont=: getgtkfontid SymbolFontX
   TitleFont=: getgtkfontid TitleFontX
 elseif. Poutput e. iANDROID do.
+  CaptionFont=: getgtkfontid CaptionFontX
+  KeyFont=: getgtkfontid KeyFontX
+  LabelFont=: getgtkfontid LabelFontX
+  SubTitleFont=: getgtkfontid SubTitleFontX
+  SymbolFont=: getgtkfontid SymbolFontX
+  TitleFont=: getgtkfontid TitleFontX
+elseif. Poutput e. iQT do.
   CaptionFont=: getgtkfontid CaptionFontX
   KeyFont=: getgtkfontid KeyFontX
   LabelFont=: getgtkfontid LabelFontX
@@ -4404,6 +4459,8 @@ for_p. Text do.
       font=. getgtkfontid font
     elseif. Poutput e. iANDROID do.
       font=. getgtkfontid font
+    elseif. Poutput e. iQT do.
+      font=. getgtkfontid font
     end.
 
     drawtext iTEXT;align;font;TEXTCOLOR;text;pos
@@ -4444,7 +4501,7 @@ PDDefs=: ;: toupper j
 j=. 'brushcolor end lines pen pencolor rect'
 PDgd=: 'gd'&, each ;: j
 PDGD=: 'GD'&, each ;: toupper j
-PDshow=: ;: 'cairo canvas eps gtk isi android jpf pdf print show'
+PDshow=: ;: 'cairo canvas eps gtk isi android qt jpf pdf print show'
 PDcopy=: ;: 'clip save get'
 PDget=: ;: 'pdfr cairor canvasr'
 PDcmds=: ;: 'multi new use'
@@ -8700,7 +8757,7 @@ plot_symbol=: 3 : 0
 dat=. getgrafmat y
 clr=. getitemcolor #dat
 font=. SymbolFont
-if. Poutput e. iISI,iGTK,iANDROID,iCANVAS,iCAIRO do.
+if. Poutput e. iISI,iGTK,iANDROID,iQT,iCANVAS,iCAIRO do.
   sym=. utf8 each ucp text2utf8 SYMBOLS
 else.
   sym=. <&> text2ascii8 SYMBOLS
