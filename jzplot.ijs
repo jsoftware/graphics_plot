@@ -4962,22 +4962,23 @@ y=. (<p) _1 } y
 androidtext=: 3 : 0
 't f a e c p'=. y
 
+degree0=. 3{f
 f=. andfontdesc^:(0={.0#f) f
 p=. android_gpflip p
 t=. text2utf8 each boxopen t
 if. a do.
   glfont f
   off=. <. -: a * {."1 wh=. glqextent &> t
-  if. 1 e. 'angle900' E. f do.
-    p=. p +"1 [ 0,.off
-  elseif. 1 e. 'angle2700' E. f do.
-    p=. p -"1 [ 0,.off
+  if. (90=degree0)+.(1 e. 'angle900' E. f) do.
+    p=. p +"1 [ ({:wh),.off
+  elseif. (2700=degree0)+.(1 e. 'angle2700' E. f) do.
+    p=. p -"1 [ (-{:wh),.off
   elseif. do.
     p=. p -"1 off,. - {:"1 wh
   end.
 end.
 'face size style degree'=. parseFontSpec f
-android_gpbuf android_gpcount 2312,(<.size*10),style,(<.degree*10),alfndx,face
+android_gpbuf android_gpcount 2312,(<.size*10),style,(<.degree0*10),alfndx,face
 if. is1color e do.
   android_gpbuf 5 2032,(,e),2 2040
   if. rank01 p do.
@@ -8536,22 +8537,23 @@ y=. (<p) _1 } y
 qttext=: 3 : 0
 't f a e c p'=. y
 
+degree0=. 3{f
 f=. qtfontdesc^:(0={.0#f) f
 p=. qt_gpflip p
 t=. text2utf8 each boxopen t
 if. a do.
   glfont f
   off=. <. -: a * {."1 wh=. glqextent &> t
-  if. 1 e. 'angle900' E. f do.
-    p=. p +"1 [ 0,.off
-  elseif. 1 e. 'angle2700' E. f do.
-    p=. p -"1 [ 0,.off
+  if. (90=degree0)+.(1 e. 'angle900' E. f) do.
+    p=. p +"1 [ ({:wh),.off
+  elseif. (2700=degree0)+.(1 e. 'angle2700' E. f) do.
+    p=. p -"1 [ (-{:wh),.off
   elseif. do.
     p=. p -"1 off,. - {:"1 wh
   end.
 end.
 'face size style degree'=. parseFontSpec f
-qt_gpbuf qt_gpcount 2312,(<.size*10),style,(<.degree*10),alfndx,face
+qt_gpbuf qt_gpcount 2312,(<.size*10),style,(<.degree0*10),alfndx,face
 if. is1color e do.
   qt_gpbuf 5 2032,(,e),2 2040
   if. rank01 p do.
