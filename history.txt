@@ -73,3 +73,6 @@ graphics/plot - change history
 
 == 1.0.101/106 ==
  * plot: android jni
+
+== 1.0.107 ==
+ * plot: qt

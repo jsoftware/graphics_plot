@@ -20,6 +20,10 @@ if. -.IFJ6 do.
       require 'gtkwd'
     end.
     coinsert 'jgl2'
+  elseif. IFQT do.
+    require 'graphics/bmp'
+    require 'ide/qt graphics/gl2'
+    coinsert 'jgl2'
   elseif. (UNAME -: 'Android') do.
     if. 0 < #1!:0 jpath '~addons/gui/android/android.ijs' do.
       require 'droidwd gui/android'
@@ -314,7 +318,7 @@ elseif. #PId do.
   glsel PId
 end.
 )
-gtkwidget_event=: androidwidget_event=: 4 : 0
+gtkwidget_event=: androidwidget_event=: qtwidget_event=: 4 : 0
 evt=. >@{.y
 syshandler=. PForm, '_handler'
 sysevent=. PForm,'_',PId,'_', evt
@@ -778,7 +782,7 @@ fcase. do.
   XMin=: YMin=: Y2Min=: ZMin=: Min3d=: _
 end.
 if. -.IFJ6 do.
-  if. -. IFTESTPLOTJHS +. IFJHS +. IFGTK do.
+  if. -. IFTESTPLOTJHS +. IFJHS +. IFGTK +. IFQT do.
     if. 'Android'-:UNAME do.
       r=. 'OUTPUT=: ''android'''
     elseif. ('gtk' -: CONSOLEOUTPUT) *. (3 = 4!:0 <'gtkinit_jgtk_') *. (UNAME -: 'Linux') *: (0 -: 2!:5 'DISPLAY') do.
@@ -1353,6 +1357,8 @@ if. -.IFJ6 do.
     else.
       r=. 'OUTPUT=: ''gtk'''
     end.
+  elseif. IFQT do.
+    r=. 'OUTPUT=: ''qt'''
   elseif. 'Android'-:UNAME do.
     r=. 'OUTPUT=: ''android'''
   elseif. do.
@@ -2397,6 +2403,7 @@ menupopz;
 pclose_isi=: 3 : 0
 try.
   wd 'psel ',": PFormhwnd
+  PFormhwnd=: ''
   if. ifjwplot'' do.
     wpsave_j_ :: 0: PForm
   end.
@@ -2491,13 +2498,30 @@ end.
 EMPTY
 )
 pclose_qt=: 3 : 0
+try.
+  wd 'psel ',": PFormhwnd
+  PFormhwnd=: 0
+  if. ifjwplot'' do.
+    wpsave_j_ :: 0: PForm
+  end.
+  wd 'pclose'
+  pd 'reset'
+catch. end.
 0
 )
 popen_qt=: 3 : 0
-if. (-.ifjwplot'') *. 0~: (0&". ::]) PFormhwnd do.
-    selectpid''
-    0 return.
+if. (ifjwplot'') *. 0~: (0&". ::]) PFormhwnd do.
+  wd 'psel ',": PFormhwnd
+  wd 'pactive'
+  glsel PId
+  0 return.
 end.
+wd 'pc ',PForm
+PFormhwnd=: wdqhwndp''
+wd 'pn *',PLOTCAPTION
+wd 'xywh 0 0 240 180'
+wd 'cc ',PId,' isigraph rightmove bottommove'
+wd 'pas 0 0'
 fm=. PForm,'_'
 id=. fm,PId,'_'
 (fm,'close')=: pclose_qt
@@ -2506,7 +2530,7 @@ id=. fm,PId,'_'
 
 Pxywh=: ''
 PShow=: 0
-StartActivity_ja_ (>coname'');'onDestroy'
+
 )
 ppaint_qt=: 3 : 0
 cwh=. glqwh''
@@ -2550,7 +2574,7 @@ elseif. Poutput = iANDROID do.
   end.
 elseif. Poutput = iQT do.
   if. 1 [ 1=GL2Backend_jgl2_ do.
-    glfont andfontdesc y
+    glfont gtkfontdesc y
     1 { glqtextmetrics''
   else.
     FontScale * getascender y
@@ -2575,7 +2599,7 @@ case. iANDROID do.
   glfont andfontdesc^:(0={.0#x) x
   |: glqextent &> y
 case. iQT do.
-  glfont andfontdesc^:(0={.0#x) x
+  glfont gtkfontdesc^:(0={.0#x) x
   |: glqextent &> y
 case. iCAIRO do.
   FontScale * fzskludge *  x getextent y
@@ -2601,7 +2625,7 @@ case. iANDROID do.
   glfont andfontdesc^:(0={.0#x) x
   glqextent y
 case. iQT do.
-  glfont andfontdesc^:(0={.0#x) x
+  glfont gtkfontdesc^:(0={.0#x) x
   glqextent y
 case. iCANVAS do.
   FontScale * fzskludge * ((FontSizeMin >. 2{x) 2} x) getextent1 y
@@ -2827,6 +2851,8 @@ elseif. do.
   drawrect iKEY;AXISCOLOR;0;clr;dat
 end.
 if. Poutput = iANDROID do.
+  ty=. ty - <. 0.75 * {.th
+elseif. Poutput = iQT do.
   ty=. ty - <. 0.75 * {.th
 end.
 pos=. tx,.ty
@@ -4608,6 +4634,7 @@ pd_canvasr=: canvas_get
 pd_cairo=: cairo_show
 pd_cairor=: cairo_get
 pd_gtk=: gtk_show
+pd_qt=: qt_show
 pd_isi=: isi_show
 pd_pdf=: pdf_show
 pd_pdfr=: pdf_get
@@ -8233,6 +8260,596 @@ for_d. dat do.
 end.
 buf
 )
+coclass 'jzplot'
+QT_DEFSIZE=: 400 200
+QT_DEFFILE=: jpath '~temp/plot'
+QT_PENSCALE=: 0.4
+fext=: 4 : 0
+f=. deb y
+f, (-. x -: (-#x) {. f) # x
+)
+gettemp=: 3 : 0
+p=. jpath '~temp/'
+d=. 1!:0 p,'*.',y
+a=. 0, {.@:(0&".)@> _4 }. each {."1 d
+a=. ": {. (i. >: #a) -. a
+p,a,'.',y
+)
+qtfontdesc=: 3 : 0
+'ind fst siz ang und'=. y
+'ita bld'=. 2 2 #: fst
+sty=. (bld#' bold'),(ita#' italic'),und#' underline'
+if. ' ' e. nam=. ind pick QTFONTNAMES do. nam=. '"', nam, '"' end.
+nam,sty,' ',":siz
+)
+
+qt_getsize=: 3 : 0
+if. -. wdishandle :: 0: ": PFormhwnd do. '' return. end.
+wd 'psel ', ":PFormhwnd
+s=. wd :: 0: 'qchildxywhx ',PId
+if. s -: 0 do. '' return. end.
+2 3 { 0 ". s
+)
+output_parms=: 4 : 0
+'size file'=. x
+if. #y do.
+  prm=. qchop y
+  select. #prm
+  case. 1 do.
+    file=. 0 pick prm
+  case. 2 do.
+    size=. 0 ".&> prm
+  case. 3 do.
+    file=. 0 pick prm
+    size=. 0 ". &> _2 {. prm
+    if. 0 e. size do.
+      size=. 0 ". &> 2 {. prm
+      file=. 2 pick prm
+    end.
+  end.
+else.
+  if. #sz=. qt_getsize'' do.
+    size=. sz
+  end.
+end.
+size;file
+)
+qt_clip=: 3 : 0
+if. -. IFWIN do.
+  info 'Save plot to clipboard is only available in Windows'
+  return.
+end.
+f=. gettemp 'emf'
+qt_emf dquote f
+wd 'clipcopyx enhmetafile ',dquote f
+1!:55 <f
+)
+qt_gpcount=: ,"1~ 1 + [: {: 1 , $
+qt_gpcut=: 3 : 0
+r=. ''
+while. #y do.
+  n=. {. y
+  if. n=0 do.
+    info 'zero length segment at: ',":#;r
+    r
+    return.
+  end.
+  r=. r, < n {. y
+  y=. n }. y
+end.
+r
+)
+qt_gpbuf=: 3 : 0
+assert. 2 > #$y
+buf=: buf,y
+)
+qt_gpapply=: 3 : 0
+glcmds buf
+buf=: $0
+)
+qt_gpflip=: flipxy @ rndint
+qt_gpfliplast=: 3 : 0
+(<qt_gpflip _1 pick y) _1 } y
+)
+qt_gpinit=: 3 : 0
+buf=: bufdef=: $0
+r=. ''
+r=. r,3 2003 1
+r=. r,3 2071 1
+qt_gpapply''
+)
+qt_gpbrushnull=: 3 : '2 2005'
+qt_gppens=: 4 : 0
+y=. rndint y
+5 2032,"1 x,"1 [ 4 2022,"1 y,.5*y=0
+)
+qt_gppen=: 4 : 0
+y=. rndint y
+5 2032,(,x),4 2022,y,5*y=0
+)
+qt_gppens1=: 3 : 0
+5 2032,"1 y,"1 [ 4 2022 1 0
+)
+qt_gppen1=: 3 : 0
+5 2032,(,y),4 2022 1 0
+)
+qt_gppenbrush1=: 3 : 0
+5 2032,(,y),4 2022 1 0 2 2004
+)
+qt_gppixel=: 3 : 0
+'s t f e c p'=. y
+p=. qt_gpcount 2024 ,"1 qt_gpflip p
+if. is1color e do.
+  qt_gpbuf e qt_gppen 1
+  qt_gpbuf ,p
+else.
+  rws=. #p
+  e=. rws $ citemize e
+  pen=. e qt_gppens 1
+  qt_gpbuf ,pen ,. p
+end.
+)
+qt_gppline=: 4 : 0
+'s t f e c p'=. y
+if. (is1color e) *. 1 = #s do.
+  qt_gpbuf (,e) qt_gppen s
+  qt_gpbuf ,qt_gpcount x,"1 p
+else.
+  rws=. #p
+  e=. rws $ citemize e
+  s=. rws $ s
+  pen=. e qt_gppens s
+  qt_gpbuf ,pen ,. qt_gpcount x,"1 p
+end.
+)
+qt_gppshape=: 4 : 0
+'v s f e c p'=. y
+
+if. v=0 do. e=. c end.
+
+if. is1color e do.
+  qt_gpbuf e qt_gppen v
+  if. isempty c do.
+    qt_gpbuf qt_gpbrushnull''
+    qt_gpbuf ,qt_gpcount x,"1 p
+  elseif. is1color c do.
+    qt_gpbuf 5 2032,(,c),2 2004
+    qt_gpbuf ,qt_gpcount x,"1 p
+  elseif. do.
+    c=. (#p) $ c
+    clr=. 5 2032 ,"1 c ,"1 [ 2 2004
+    qt_gpbuf , clr ,. qt_gpcount x,"1 p
+  end.
+else.
+  e=. (#p) $ e
+  e=. e qt_gppens v
+  if. isempty c do.
+    qt_gpbuf qt_gpbrushnull''
+    qt_gpbuf , e ,. qt_gpcount x,"1 p
+  elseif. is1color c do.
+    qt_gpbuf 5 2032,(,c),2 2004
+    qt_gpbuf , e ,. qt_gpcount x,"1 p
+  elseif. do.
+    c=. (#p) $ c
+    clr=. 5 2032 ,"1 c ,"1 [ 2 2004
+    qt_gpbuf , e ,. clr ,. qt_gpcount x,"1 p
+  end.
+
+end.
+)
+qtarc=: 3 : '2001 qt_gppline qt_gpfliplast y'
+qtline=: 3 : '2015 qt_gppline qt_gpfliplast y'
+qtpie=: 3 : '2023 qt_gppshape qt_gpfliplast y'
+qtpoly=: 3 : '2029 qt_gppshape qt_gpfliplast y'
+qtcircle=: 3 : 0
+p=. _1 pick y
+ctr=. qt_gpflip 0 1 {"1 p
+rad=. rndint 2 {"1 p
+xy=. ctr - rad
+wh=. +: rad ,. rad
+p=. xy ,. wh
+2008 qt_gppshape (<p) _1 } y
+)
+qtdot=: 3 : 0
+'v s f e c p'=. y
+select. v
+case. 1 do.
+  qt_gppixel y
+case. 2 do.
+  p=. qt_gpflip p
+  p=. (p-1) ,"1 [ 2 2
+  dat=. 1;0;0;e;e;p
+  2031 qt_gppshape dat
+case. 3 do.
+  h=. (p-"1[1 0) ,. p+"1[2 0
+  v=. (p-"1[0 1) ,. p+"1[0 2
+  qtline 1;0;0;e;e;h,v
+case. do.
+  o=. >. -: v
+  p=. p ,"1 v,.v
+  qtcircle 1;0;0;e;e;p
+end.
+)
+qtfxywh=: 3 : 0
+p=. _1 pick y
+if. #p do.
+  'x y w h'=. p
+  xy=. _1 + <. x,Ch-y+h
+  wh=. 2 + >. w,h
+  qt_gpbuf 6 2078,xy,wh
+else.
+  qt_gpbuf 2 2079
+end.
+)
+qtmarker=: 3 : 0
+'s m f e c p'=. y
+p=. qt_gpflip p
+qt_gpbuf qt_gppenbrush1 e
+s ('qtmark_',m)~ p
+)
+qtpie=: 3 : 0
+p=. _1 pick y
+ctr=. qt_gpflip 0 1 {"1 p
+rad=. 2 {"1 p
+ang=. 3 4 {"1 p
+xy=. ctr - rad
+wh=. +: rad ,. rad
+tx=. ({."1 ctr) + rad * sind ang
+ty=. ({:"1 ctr) + rad * cosd ang
+p=. rndint xy ,. wh ,. ,"2 tx ,"0 ty
+2023 qt_gppshape (<p) _1 } y
+)
+qtpline=: 3 : 0
+'s t f e c p'=. y
+if. *./ t = 0 do.
+  qtline y return.
+end.
+p=. qt_gpflip p
+t=. t { PENPATTERN
+if. (is1color e) *. 1 = #s do.
+  qt_gpbuf 5 2032,(,e),4 2022,s,0
+  pos=. t linepattern"0 1 p
+  qt_gpbuf ,qt_gpcount 2015,"1 pos
+else.
+  rws=. #p
+  e=. rws $ citemize e
+  s=. rws $ s
+  t=. rws $ t
+  pen=. e qt_gppens s
+  for_i. i.#p do.
+    qt_gpbuf i{pen
+    pos=. (i{t) linepattern i{p
+    qt_gpbuf ,qt_gpcount 2015,"1 pos
+  end.
+end.
+)
+qtrect=: 3 : 0
+p=. boxrs2wh^:1 qt_gpflip _1 pick y
+if. IFJAVA do.
+  if. 0 = 1 pick y do.
+    p=. 1 1 _2 _2 +"1 p
+  end.
+end.
+y=. (<p) _1 } y
+2031 qt_gppshape y
+)
+qttext=: 3 : 0
+'t f a e c p'=. y
+
+f=. qtfontdesc^:(0={.0#f) f
+p=. qt_gpflip p
+t=. text2utf8 each boxopen t
+if. a do.
+  glfont f
+  off=. <. -: a * {."1 wh=. glqextent &> t
+  if. 1 e. 'angle900' E. f do.
+    p=. p +"1 [ 0,.off
+  elseif. 1 e. 'angle2700' E. f do.
+    p=. p -"1 [ 0,.off
+  elseif. do.
+    p=. p -"1 off,. - {:"1 wh
+  end.
+end.
+'face size style degree'=. parseFontSpec f
+qt_gpbuf qt_gpcount 2312,(<.size*10),style,(<.degree*10),alfndx,face
+if. is1color e do.
+  qt_gpbuf 5 2032,(,e),2 2040
+  if. rank01 p do.
+    qt_gpbuf qt_gpcount 2056,p
+    qt_gpbuf qt_gpcount 2038,alfndx,>t
+  else.
+    t=. qt_gpcount each 2038 ,each alfndx each t
+    t=. (<"1 qt_gpcount 2056 ,"1 p) ,each t
+    qt_gpbuf ; t
+  end.
+else.
+  t=. qt_gpcount each 2038 ,each alfndx each t
+  t=. t ,each <"1 qt_gpcount 2056 ,"1 p
+  t=. (<"1 (5 2032 ,"1 e) ,"1 [ 2 2040) ,each t
+  qt_gpbuf ; t
+end.
+
+)
+parseFontname=: 3 : 0
+font=. ' ',y
+b=. (font=' ') > ~:/\font='"'
+a: -.~ b <@(-.&'"');._1 font
+)
+FontStyle=: ;:'regular bold italic underline strikeout'
+
+parseFontSpec=: 3 : 0
+'ns styleangle'=. 2 split parseFontname y
+'face size'=. ns
+size=. 12". size
+style=. FontStyle i. tolower each styleangle
+style=. <.+/2^<:(style ((> 0) *. <) #FontStyle) # style
+if. 1 e. an=. ('angle'-:5&{.)&> styleangle do.
+  degree=. 10%~ 0". 5}.>(an i. 1){styleangle
+else.
+  degree=. 0
+end.
+face;size;style;degree
+)
+qtmark_circle=: 4 : 0
+s=. rndint x * 3
+p=. (y - s) ,"1 >: +: s,s
+qt_gpbuf ,qt_gpcount 2008 ,"1 p
+)
+qtmark_diamond=: 4 : 0
+s=. rndint x * 4
+'x y'=. |: y
+p=. (x-s),.y,.x,.(y+s),.(x+s),.y,.x,.y-s
+qt_gpbuf ,qt_gpcount 2029 ,"1 p
+)
+qtmark_line=: 4 : 0
+'x y'=. , y
+p=. >.(x--:KeyLen),(y--:KeyPen),<:KeyLen,KeyPen
+qt_gpbuf ,qt_gpcount 2031 ,p
+)
+qtmark_plus=: 4 : 0
+s=. rndint 4 1 * x
+p=. (y -"1 s) ,"1 +: s
+s=. |. s
+p=. p , (y -"1 s) ,"1 +: s
+qt_gpbuf ,qt_gpcount 2031 ,"1 p
+)
+qtmark_square=: 4 : 0
+s=. rndint x * 3
+p=. (y - s) ,"1 +: s,s
+qt_gpbuf ,qt_gpcount 2031 ,"1 p
+)
+qtmark_times=: 4 : 0
+if. x = 1 do.
+  p=. (y - 3) ,. y + 4
+  q=. (y - "1 [ 3 _3) ,. y +"1 [ 4 _4
+  p=. p, (p +"1 [ 0 1 _1 0), p + "1 [ 1 0 0 _1
+  q=. q, (q +"1 [ 0 _1 _1 0), q +"1 [ 1 0 0 1
+  qt_gpbuf ,qt_gpcount 2015 ,"1 p,q
+else.
+  s=. rndint _1 + 3 * x
+  n=. rndint 2 * x
+  p=. (y - s) ,. y + s
+  q=. (y - "1 s * 1 _1) ,. y +"1 s * 1 _1
+  qt_gpbuf 4 2022,n,0
+  qt_gpbuf ,qt_gpcount 2015 ,"1 p,q
+end.
+)
+qtmark_triangle=: 4 : 0
+s=. rndint 2 * x
+t=. rndint 4 * x
+'x y'=. |: y
+p=. rndint (x-t),.(y+s),.(x+t),.(y+s),.x,.y-t
+qt_gpbuf ,qt_gpcount 2029 ,"1 p
+)
+PRINTP=: ''
+qt_print=: 3 : 0
+if. #PRINTP do. wd 'psel ',PRINTP,';pclose' end.
+wd 'pc print;cc g canvas'
+PRINTP=: wd 'qhwndp'
+PRINTED=: 0
+opt=. '"" "" "" orientation ',":ORIENTATION
+glprint opt
+)
+print_g_print=: 3 : 0
+'page pass'=. ". sysdata
+select. pass
+case. _1 do.
+  PRINTP=: PRINTPXYWH=: ''
+  wd 'pclose'
+case. 0 do.
+  glprintmore -.PRINTED
+case. do.
+  'Cw Ch'=: glqprintwh''
+  qt_paintit qt_printwin''
+  PRINTED=: 1
+end.
+)
+qt_printwin=: 3 : 0
+'pw ph mw mh'=. 4 {. glqprintpaper''
+mrg=. 0 >. PRINTMARGIN - mw,(ph - mh + Ch),(pw - mw + Cw),mh
+xywh=. (0 0,Cw,Ch) shrinkrect mrg
+if. 0 = #PRINTWINDOW do.
+  xywh
+else.
+  if. 4 ~: #PRINTWINDOW do.
+    info 'PRINTWINDOW should be of form: x y wh' return.
+  end.
+  'x y w h'=. xywh
+  'px py pw ph'=. PRINTWINDOW%1000
+  fx=. x + px * w
+  fy=. y + py * h
+  fw=. (x-fx) + pw * w
+  fh=. (y-fy) + ph * h
+  fx,fy,fw,fh
+end.
+)
+qt_bmp=: 3 : 0
+if. #y do.
+  arg=. qchop y
+  num=. __ ". &.> arg
+  msk=. __ e. &> num
+  file=. > {. msk # arg
+  wh=. >(-.msk) # num
+  if. -. (#wh) e. 0 2 do.
+    info 'invalid [w h] parameter in save bmp' return.
+  end.
+else.
+  wh=. file=. ''
+end.
+file=. file,(0=#file)#qt_DEFFILE
+file=. jpath '.bmp' fext file
+if. (2 = #wh) > wh -: Pw,Ph do.
+  a=. cocreate''
+  coinsert__a (,copath) coname''
+  bmp=. qt_getbmpwh__a wh
+  coerase a
+else.
+  bmp=. qt_getbmp''
+end.
+bmp writebmp file
+)
+qt_def=: 4 : 0
+type=. x
+file=. jpath ('.',type) fext (;qchop y),(0=#y) # qt_DEFFILE
+(qt_getrgb'') writeimg file
+)
+qt_defstr=: 4 : 0
+type=. x
+(qt_getrgb'') putimg type
+)
+qt_emf=: 3 : 0
+file=. jpath '.emf' fext (;qchop y),(0=#y) # qt_DEFFILE
+wd 'psel ',": PFormhwnd
+glsel PId
+glfile file
+glemfopen''
+qt_paint''
+glemfclose''
+)
+qt_getbmp=: 3 : 0
+wd 'psel ',": PFormhwnd
+glsel PId
+box=. 0 ". wd 'qchildxywhx ',PId
+res=. glqpixels box
+(3 2 { box) $ res
+)
+qt_getbmpwh=: 3 : 0
+wd 'pc a owner;xywh 0 0 240 200;cc g canvas rightmove bottommove;pas 0 0'
+PFormhwnd=: wdqhwndp''
+PId=: 'g'
+wd 'setxywhx g 0 0 ',":y
+wd 'pshow'
+qt_paintx''
+glpaint''
+res=. qt_getbmp''
+wd 'pclose'
+res
+)
+qt_getrgb=: 3 : 0
+wd 'psel ',": PFormhwnd
+glsel PId
+box=. 0 ". wd 'qchildxywhx ',PId
+(3 2 { box) $ 256 256 256 #: glqpixels box
+)
+qt_jpg=: 3 : 0
+file=. ''
+qual=. 100
+if. #y do.
+  arg=. qchop y
+  num=. __ ". &.> arg
+  msk=. +./ &> num = &.> __
+  file=. > {. msk # arg
+  qual=. <. {. (>(-.msk) # num),qual
+end.
+file=. jpath '.jpg' fext file,(0=#file) # qt_DEFFILE
+rgb=. qt_getrgb''
+rgb writeimg file
+)
+qt_png=: 3 : 0
+file=. ''
+comp=. 9
+if. #y do.
+  arg=. qchop y
+  num=. __ ". &.> arg
+  msk=. +./ &> num = &.> __
+  file=. > {. msk # arg
+  comp=. <. {. (>(-.msk) # num),comp
+end.
+file=. jpath '.png' fext file,(0=#file) # qt_DEFFILE
+rgb=. qt_getrgb''
+rgb writeimg file
+)
+qt_save=: 3 : 0
+if. Poutput ~: iQT do.
+  msg=. 'First display an canvas Plot.'
+  info msg return.
+end.
+if. 0=#y do.
+  qt_clip'' return.
+end.
+type=. tolower firstword y
+if. (<type) e. ;: 'gif jpg png tif gifr jpgr pngr tifr' do.
+  af=. jpath '~addons/media/platimg/platimg.ijs'
+  if. -. flexist af do.
+    info 'Save to ',type,' requires the platimg addon.' return.
+  end.
+  require af
+end.
+('qt_',type)~ (1+#type) }. y
+)
+
+qt_get=: 3 : 0
+if. #y do.
+  type=. tolower firstword y
+  if. (<type) e. ;: 'gif jpg png tif' do.
+    y=. type,'r ', (#type)}. y
+  end.
+end.
+qt_save y
+)
+qt_gif=: 'gif' & qt_def
+qt_tif=: 'tif' & qt_def
+qt_pngr=: 'png' & qt_defstr
+qt_jpgr=: 'jpg' & qt_defstr
+qt_gifr=: 'gif' & qt_defstr
+qt_tifr=: 'tif' & qt_defstr
+qt_show=: 3 : 0
+popen_qt''
+if. ifjwplot'' do.
+  (PForm,'_',PId,'_paint')=: qt_paint
+end.
+if. PShow=0 do.
+  if. VISIBLE do.
+    wd 'pshow ',PSHOW
+  else.
+    wd 'pshow sw_hide'
+  end.
+  wd 'ptop ',":PTop
+  PShow=: 1
+end.
+if. 1[-.ifjwplot'' do.
+  glpaintx''
+end.
+''
+)
+qt_paint=: 3 : 0
+selectpid''
+'Cw Ch'=: glqwh''
+qt_paintit 0 0,Cw,Ch
+0
+)
+qt_paintit=: 3 : 0
+qt_gpinit''
+make iQT;y
+ids=. 1 {"1 Plot
+fns=. 'qt'&, each ids
+dat=. 3 }."1 Plot
+for_d. dat do.
+  (>d_index{fns)~d
+end.
+qt_gpapply''
+)
+
 coclass 'jzplot'
 plot_area=: 3 : 0
 
