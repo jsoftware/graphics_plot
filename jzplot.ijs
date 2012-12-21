@@ -1,6 +1,5 @@
 coclass 'jzplot'
-require 'graphics/afm'
-require 'graphics/color/colortab'
+require 'graphics/afm graphics/color/colortab graphics/bmp'
 
 3 : 0''
 if. -.IFJ6 do.
@@ -13,20 +12,18 @@ if. -.IFJ6 do.
     if. 0 < #1!:0 jpath '~addons/gui/gtk/gtk.ijs' do.
       require 'gui/gtk'
     end.
+  elseif. IFQT do.
+    require 'graphics/gl2'
+    coinsert 'jgl2'
   elseif. IFGTK do.
-    require 'graphics/bmp'
-    require 'gui/gtk graphics/gl2'
+    require 'graphics/gl2'
     if. 0[ GTKOUTPUT -: 'isi' do.
       require 'gtkwd'
     end.
     coinsert 'jgl2'
-  elseif. IFQT do.
-    require 'graphics/bmp'
-    require 'ide/qt graphics/gl2'
-    coinsert 'jgl2'
   elseif. (UNAME -: 'Android') do.
     if. 0 < #1!:0 jpath '~addons/gui/android/android.ijs' do.
-      require 'droidwd gui/android'
+      require 'graphics/gl2 droidwd gui/android'
       coinsert 'jgl2 jni jaresu'
     else.
       if. CONSOLEOUTPUT-:'android' do. CONSOLEOUTPUT=: 'pdf' end.
@@ -39,9 +36,6 @@ if. -.IFJ6 do.
       if. 0 < #1!:0 jpath '~addons/graphics/gl2/gl2.ijs' do.
         require 'graphics/gl2'
         coinsert 'jgl2'
-      end.
-      if. 0 < #1!:0 jpath '~addons/graphics/bmp/bmp.ijs' do.
-        require 'graphics/bmp'
       end.
     end.
   end.
