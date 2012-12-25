@@ -120,7 +120,7 @@ packs=: (, ,&< ".) &>
 pdefs=: 3 : '0 $ ({."1 y)=: {:"1 y'
 pbuf=: 3 : 'buf=: buf,,y,"1 LF'
 pforms=: 3 : 0
-if. 0=# z=. <;._2;._2 @ wd 'qpx' do. z=. 0 6$<'' end.
+if. 0=# z=. <;._2;._2 @ wdqpx '' do. z=. 0 6$<'' end.
 z
 )
 pick=: >@{
@@ -307,12 +307,12 @@ unquot=: 3 : 0
 )
 selectpid=: 3 : 0
 if. 0~: (0&". ::]) PIdhwnd do.
-  glsel PIdhwnd
+  glsel ":PIdhwnd
 elseif. #PId do.
   glsel PId
 end.
 )
-gtkwidget_event=: androidwidget_event=: qtwidget_event=: 4 : 0
+isigraph_event=: 4 : 0
 evt=. >@{.y
 syshandler=. PForm, '_handler'
 sysevent=. PForm,'_',PId,'_', evt
@@ -2397,7 +2397,7 @@ menupopz;
 pclose_isi=: 3 : 0
 try.
   wd 'psel ',": PFormhwnd
-  PFormhwnd=: ''
+  PFormhwnd=: 0
   if. ifjwplot'' do.
     wpsave_j_ :: 0: PForm
   end.
@@ -2413,7 +2413,7 @@ if. ifparent ": PFormhwnd do.
   0 return.
 end.
 wd 'pc ',PForm
-PFormhwnd=: 0". wd 'qhwndp'
+PFormhwnd=: wdqhwndp''
 wd 'pn *',PLOTCAPTION
 wd 'xywh 0 0 240 180'
 wd 'cc ',PId,' isigraph rightmove bottommove'
@@ -4706,7 +4706,7 @@ nam,sty,' ',":siz
 android_getsize=: 3 : 0
 if. -. wdishandle :: 0: ": PFormhwnd do. '' return. end.
 wd 'psel ', ":PFormhwnd
-s=. wd :: 0: 'qchildxywhx ',PId
+s=. wdqchildxywhx ::0: PId
 if. s -: 0 do. '' return. end.
 2 3 { 0 ". s
 )
@@ -5064,9 +5064,9 @@ android_gpbuf ,android_gpcount 2029 ,"1 p
 )
 PRINTP=: ''
 android_print=: 3 : 0
-if. #PRINTP do. wd 'psel ',PRINTP,';pclose' end.
+if. PRINTP do. wd 'psel ',(":PRINTP),';pclose' end.
 wd 'pc print;cc g canvas'
-PRINTP=: wd 'qhwndp'
+PRINTP=: wdqhwndp''
 PRINTED=: 0
 opt=. '"" "" "" orientation ',":ORIENTATION
 glprint opt
@@ -5075,7 +5075,7 @@ print_g_print=: 3 : 0
 'page pass'=. ". sysdata
 select. pass
 case. _1 do.
-  PRINTP=: PRINTPXYWH=: ''
+  PRINTP=: PRINTPXYWH=: 0
   wd 'pclose'
 case. 0 do.
   glprintmore -.PRINTED
@@ -5150,13 +5150,13 @@ glemfclose''
 android_getbmp=: 3 : 0
 wd 'psel ',": PFormhwnd
 glsel PId
-box=. 0 ". wd 'qchildxywhx ',PId
+box=. wdqchildxywh PId
 res=. glqpixels box
 (3 2 { box) $ res
 )
 android_getbmpwh=: 3 : 0
 wd 'pc a owner;xywh 0 0 240 200;cc g canvas rightmove bottommove;pas 0 0'
-PFormhwnd=: 0 ". wd 'qhwndp'
+PFormhwnd=: wdqhwndp''
 PId=: 'g'
 wd 'setxywhx g 0 0 ',":y
 wd 'pshow'
@@ -5169,7 +5169,7 @@ res
 android_getrgb=: 3 : 0
 wd 'psel ',": PFormhwnd
 glsel PId
-box=. 0 ". wd 'qchildxywhx ',PId
+box=. wdqchildxywh PId
 (3 2 { box) $ 256 256 256 #: glqpixels box
 )
 android_jpg=: 3 : 0
@@ -6962,7 +6962,7 @@ window=. gtk_window_new_jgtk_ GTK_WINDOW_TOPLEVEL_jgtk_
 canvas=. glcanvas_jgl2_ 540 400;coname''
 l=. glgetloc_jgl2_ canvas
 print__l''
-evtloop_jgtk_''
+evtloop''
 )
 gtk_def=: 4 : 0
 type=. x
@@ -6988,7 +6988,7 @@ end.
 )
 gtk_emf=: 3 : 0
 file=. jpath '.emf' fext (;qchop y),(0=#y) # GTK_DEFFILE
-glsel PIdhwnd
+glsel ":PIdhwnd
 glfile file
 glemfopen''
 gtk_paint''
@@ -7077,7 +7077,7 @@ if. PShow=0 do.
 end.
 gtk_paint''
 glpaint''
-evtloop_jgtk_''
+evtloop''
 )
 gtk_paint=: 3 : 0
 selectpid''
@@ -7112,7 +7112,7 @@ p,a,'.',y
 isi_getsize=: 3 : 0
 if. -. wdishandle :: 0: ": PFormhwnd do. '' return. end.
 wd 'psel ', ":PFormhwnd
-s=. wd :: 0: 'qchildxywhx ',PId
+s=. wdqchildxywhx ::0: PId
 if. s -: 0 do. '' return. end.
 2 3 { 0 ". s
 )
@@ -7447,9 +7447,9 @@ isi_gpbuf ,isi_gpcount 2029 ,"1 p
 )
 PRINTP=: ''
 isi_print=: 3 : 0
-if. #PRINTP do. wd 'psel ',PRINTP,';pclose' end.
+if. PRINTP do. wd 'psel ',(":PRINTP),';pclose' end.
 wd 'pc print;cc g isigraph'
-PRINTP=: wd 'qhwndp'
+PRINTP=: wdqhwndp''
 PRINTED=: 0
 opt=. '"" "" "" orientation ',":ORIENTATION
 glprint opt
@@ -7458,7 +7458,7 @@ print_g_print=: 3 : 0
 'page pass'=. ". sysdata
 select. pass
 case. _1 do.
-  PRINTP=: PRINTPXYWH=: ''
+  PRINTP=: PRINTPXYWH=: 0
   wd 'pclose'
 case. 0 do.
   glprintmore -.PRINTED
@@ -7533,13 +7533,13 @@ glemfclose''
 isi_getbmp=: 3 : 0
 wd 'psel ',": PFormhwnd
 glsel PId
-box=. 0 ". wd 'qchildxywhx ',PId
+box=. wdqchildxywh PId
 res=. glqpixels box
 (3 2 { box) $ res
 )
 isi_getbmpwh=: 3 : 0
 wd 'pc a owner;xywh 0 0 240 200;cc g isigraph rightmove bottommove;pas 0 0'
-PFormhwnd=: 0 ". wd 'qhwndp'
+PFormhwnd=: wdqhwndp''
 PId=: 'g'
 wd 'setxywhx g 0 0 ',":y
 wd 'pshow'
@@ -7552,7 +7552,7 @@ res
 isi_getrgb=: 3 : 0
 wd 'psel ',": PFormhwnd
 glsel PId
-box=. 0 ". wd 'qchildxywhx ',PId
+box=. wdqchildxywh PId
 (3 2 { box) $ 256 256 256 #: glqpixels box
 )
 isi_jpg=: 3 : 0
@@ -7631,7 +7631,7 @@ if. PShow=0 do.
 end.
 isi_paint''
 glpaint''
-evtloop^:(-.IFJ6)''
+evtloop''
 )
 isi_paint=: 3 : 0
 glsel PId
@@ -8281,7 +8281,7 @@ nam,sty,' ',":siz
 qt_getsize=: 3 : 0
 if. -. wdishandle :: 0: ": PFormhwnd do. '' return. end.
 wd 'psel ', ":PFormhwnd
-s=. wd :: 0: 'qchildxywhx ',PId
+s=. wdqchildxywhx ::0: PId
 if. s -: 0 do. '' return. end.
 2 3 { 0 ". s
 )
@@ -8639,9 +8639,9 @@ qt_gpbuf ,qt_gpcount 2029 ,"1 p
 )
 PRINTP=: ''
 qt_print=: 3 : 0
-if. #PRINTP do. wd 'psel ',PRINTP,';pclose' end.
+if. PRINTP do. wd 'psel ',(":PRINTP),';pclose' end.
 wd 'pc print;cc g canvas'
-PRINTP=: wd 'qhwndp'
+PRINTP=: wdqhwndp''
 PRINTED=: 0
 opt=. '"" "" "" orientation ',":ORIENTATION
 glprint opt
@@ -8650,7 +8650,7 @@ print_g_print=: 3 : 0
 'page pass'=. ". sysdata
 select. pass
 case. _1 do.
-  PRINTP=: PRINTPXYWH=: ''
+  PRINTP=: PRINTPXYWH=: 0
   wd 'pclose'
 case. 0 do.
   glprintmore -.PRINTED
@@ -8725,7 +8725,7 @@ glemfclose''
 qt_getbmp=: 3 : 0
 wd 'psel ',": PFormhwnd
 glsel PId
-box=. 0 ". wd 'qchildxywhx ',PId
+box=. wdqchildxywh PId
 res=. glqpixels box
 (3 2 { box) $ res
 )
@@ -8744,7 +8744,7 @@ res
 qt_getrgb=: 3 : 0
 wd 'psel ',": PFormhwnd
 glsel PId
-box=. 0 ". wd 'qchildxywhx ',PId
+box=. wdqchildxywh PId
 (3 2 { box) $ 256 256 256 #: glqpixels box
 )
 qt_jpg=: 3 : 0
