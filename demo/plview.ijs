@@ -50,7 +50,7 @@ PShow=: 0
 
 wd PLOTDEMO
 PForm=: 'plotdemo'
-PFormhwnd=: wd 'qhwndp'
+PFormhwnd=: wdqhwndp''
 PId=: 'ps'
 pd 'reset ',PForm
 wd 'set M',PLDEMOSEL,' 1'

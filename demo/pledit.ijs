@@ -67,7 +67,7 @@ NB. =========================================================
 plotedit_redisplay_button=: 3 : 0
 GRAF=: graf
 try.
-  wd 'psel ',PForm
+  wd 'psel ',":PForm
   pd 'reset ',PForm
   plotrun graf
   wd 'psel plotedit'
