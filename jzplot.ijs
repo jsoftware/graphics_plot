@@ -2460,7 +2460,7 @@ pclose_android=: 3 : 0
 0
 )
 popen_android=: 3 : 0
-if. (-.ifjwplot'') *. 0~: (0&". ::]) PFormhwnd do.
+if. wd ::0: 'psel ', ": (0&". ::]) PFormhwnd do.
     selectpid''
     0 return.
 end.
@@ -2504,7 +2504,7 @@ catch. end.
 0
 )
 popen_qt=: 3 : 0
-if. (ifjwplot'') *. 0~: (0&". ::]) PFormhwnd do.
+if. wd ::0: 'psel ', ": (0&". ::]) PFormhwnd do.
   wd 'psel ',": PFormhwnd
   wd 'pactive'
   glsel PId
@@ -7661,6 +7661,7 @@ endian=. ({.a.)={. 1&(3!:4) 1
 toucodem=: ''&,@(1&(3!:4))@(3&u:)@u:
 toucoder=: ''&,@:,@:(|."1@(_2: ]\ 1&(3!:4)))@(3&u:)@u:
 toucode1=: toucodem`toucoder@.(-.endian) f.
+4!:55 <'endian'
 jpf_getparms=: 3 : 0
 (PDF_DEFSIZE;JPF_DEFFILE) output_parms y
 )
@@ -8811,9 +8812,8 @@ qt_gifr=: 'gif' & qt_defstr
 qt_tifr=: 'tif' & qt_defstr
 qt_show=: 3 : 0
 popen_qt''
-if. ifjwplot'' do.
-  (PForm,'_',PId,'_paint')=: qt_paint
-end.
+(PForm,'_',PId,'_paint')=: qt_paint
+qt_paint''
 if. PShow=0 do.
   if. VISIBLE do.
     wd 'pshow ',PSHOW
@@ -8823,9 +8823,7 @@ if. PShow=0 do.
   wd 'ptop ',":PTop
   PShow=: 1
 end.
-if. 1[-.ifjwplot'' do.
-  glpaintx''
-end.
+glpaintx''
 ''
 )
 qt_paint=: 3 : 0
