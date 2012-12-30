@@ -8823,7 +8823,7 @@ if. PShow=0 do.
   wd 'ptop ',":PTop
   PShow=: 1
 end.
-glpaintx''
+glpaint''
 ''
 )
 qt_paint=: 3 : 0
