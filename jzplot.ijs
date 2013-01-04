@@ -8813,7 +8813,6 @@ qt_tifr=: 'tif' & qt_defstr
 qt_show=: 3 : 0
 popen_qt''
 (PForm,'_',PId,'_paint')=: qt_paint
-qt_paint''
 if. PShow=0 do.
   if. VISIBLE do.
     wd 'pshow ',PSHOW
@@ -8823,6 +8822,7 @@ if. PShow=0 do.
   wd 'ptop ',":PTop
   PShow=: 1
 end.
+qt_paint''
 glpaint''
 ''
 )
