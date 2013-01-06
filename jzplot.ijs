@@ -2408,7 +2408,6 @@ catch. end.
 popen_isi=: 3 : 0
 if. ifparent ": PFormhwnd do.
   wd 'psel ',": PFormhwnd
-  wd 'pactive'
   glsel PId
   0 return.
 end.
@@ -2506,7 +2505,6 @@ catch. end.
 popen_qt=: 3 : 0
 if. wd ::0: 'psel ', ": (0&". ::]) PFormhwnd do.
   wd 'psel ',": PFormhwnd
-  wd 'pactive'
   glsel PId
   0 return.
 end.
