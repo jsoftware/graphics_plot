@@ -21,7 +21,7 @@ if. -.IFJ6 do.
       require 'gtkwd'
     end.
     coinsert 'jgl2'
-  elseif. ((UNAME-:'Android')>IFQT) do.
+  elseif. (('Android'-:UNAME)>IFQT) do.
     if. 0 < #1!:0 jpath '~addons/gui/android/android.ijs' do.
       require 'graphics/gl2 droidwd gui/android'
       coinsert 'jgl2 jni jaresu'
@@ -777,7 +777,9 @@ fcase. do.
 end.
 if. -.IFJ6 do.
   if. -. IFTESTPLOTJHS +. IFJHS +. IFGTK +. IFQT do.
-    if. 'Android'-:UNAME do.
+    if. IFQT do.
+      r=. 'OUTPUT=: ''qt'''
+    elseif. 'Android'-:UNAME do.
       r=. 'OUTPUT=: ''android'''
     elseif. ('gtk' -: CONSOLEOUTPUT) *. (3 = 4!:0 <'gtkinit_jgtk_') *. (UNAME -: 'Linux') *: (0 -: 2!:5 'DISPLAY') do.
       if. 0[ 'isi' -: GTKOUTPUT do.
