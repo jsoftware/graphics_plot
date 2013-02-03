@@ -2,37 +2,29 @@ coclass 'jzplot'
 require 'graphics/afm graphics/color/colortab graphics/bmp'
 
 3 : 0''
-  if. 0~:4!:0<'IFJAVA' do. IFJAVA=: 0 end.
-  if. 0 ~: 4!:0 <'JHSOUTPUT' do. JHSOUTPUT=: 'canvas' end.
-  if. 0 ~: 4!:0 <'CONSOLEOUTPUT' do. CONSOLEOUTPUT=: (UNAME-:'Android'){::'cairo';'android' end.
-  if. 0 ~: 4!:0 <'GTKOUTPUT' do. GTKOUTPUT=: 'gtk' end.
-  if. 0 ~: 4!:0 <'IFTESTPLOTJHS' do. IFTESTPLOTJHS_z_=: 0 end.
-  if. IFTESTPLOTJHS +. IFJHS do.
-    if. 0 < #1!:0 jpath '~addons/gui/gtk/gtk.ijs' do.
-      require 'gui/gtk'
-    end.
-  elseif. IFQT do.
-    require 'graphics/gl2'
-    coinsert 'jgl2'
-  elseif. (('Android'-:UNAME)>IFQT) do.
-    if. 0 < #1!:0 jpath '~addons/gui/android/android.ijs' do.
-      require 'graphics/gl2 droidwd gui/android'
-      coinsert 'jgl2 jni jaresu'
-    else.
-      if. CONSOLEOUTPUT-:'android' do. CONSOLEOUTPUT=: 'pdf' end.
-    end.
-  elseif. do.
-    if. 0 < #1!:0 jpath '~addons/gui/gtk/gtk.ijs' do.
-      require 'gui/gtk'
-    end.
-    if. (UNAME -: 'Linux') *: (0 -: 2!:5 'DISPLAY') do.
-      if. 0 < #1!:0 jpath '~addons/graphics/gl2/gl2.ijs' do.
-        require 'graphics/gl2'
-        coinsert 'jgl2'
-      end.
+if. 0 ~: 4!:0 <'JHSOUTPUT' do. JHSOUTPUT=: 'canvas' end.
+if. 0 ~: 4!:0 <'CONSOLEOUTPUT' do. CONSOLEOUTPUT=: (UNAME-:'Android'){::'cairo';'android' end.
+if. 0 ~: 4!:0 <'IFTESTPLOTJHS' do. IFTESTPLOTJHS_z_=: 0 end.
+if. IFTESTPLOTJHS +. IFJHS do.
+elseif. IFQT do.
+  require 'graphics/gl2'
+  coinsert 'jgl2'
+elseif. (('Android'-:UNAME)>IFQT) do.
+  if. 0 < #1!:0 jpath '~addons/gui/android/android.ijs' do.
+    require 'graphics/gl2 droidwd gui/android'
+    coinsert 'jgl2 jni jaresu'
+  else.
+    if. CONSOLEOUTPUT-:'android' do. CONSOLEOUTPUT=: 'pdf' end.
+  end.
+elseif. do.
+  if. (UNAME -: 'Linux') *: (0 -: 2!:5 'DISPLAY') do.
+    if. 0 < #1!:0 jpath '~addons/graphics/gl2/gl2.ijs' do.
+      require 'graphics/gl2'
+      coinsert 'jgl2'
     end.
   end.
-  coinsert 'jafm'
+end.
+coinsert 'jafm'
 ''
 )
 
@@ -690,7 +682,7 @@ Pxywh=: ''
 PStyle=: ''
 TypeRest=: ''
 ('i',each ;: 'LEFT CENTER RIGHT')=: i. 3
-j=. ;: 'ISI EPS GTK PDF CANVAS CAIRO ANDROID QT'
+j=. ;: ' EPS PDF CANVAS ANDROID QT'
 ('i' ,each j)=: i.#j
 j=. 'i' ,each cutopen toupper 0 : 0
 background
@@ -761,15 +753,15 @@ fcase. do.
   XMax=: YMax=: Y2Max=: ZMax=: Max3d=: __
   XMin=: YMin=: Y2Min=: ZMin=: Min3d=: _
 end.
-  if. -. IFTESTPLOTJHS +. IFJHS +. IFQT do.
-    if. IFQT do.
-      r=. 'OUTPUT=: ''qt'''
-    elseif. 'Android'-:UNAME do.
-      r=. 'OUTPUT=: ''android'''
-    elseif. do.
-      r=. 'OUTPUT=: ''pdf'''
-    end.
+if. -. IFTESTPLOTJHS +. IFJHS +. IFQT do.
+  if. IFQT do.
+    r=. 'OUTPUT=: ''qt'''
+  elseif. 'Android'-:UNAME do.
+    r=. 'OUTPUT=: ''android'''
+  elseif. do.
+    r=. 'OUTPUT=: ''pdf'''
   end.
+end.
 EMPTY
 )
 opts=. ;: ;._2 (0 : 0)
@@ -1176,7 +1168,7 @@ MYCaption  Y caption (left and right)
 
 DefSizes=: 25 2 50 50 50 6 4 3 4 10 6 2 3 6 4 3 3
 setsizes=: 3 : 0
-s=. PDFScale ^ Poutput e. iEPS,iPDF,iCANVAS,iCAIRO
+s=. PDFScale ^ Poutput e. iEPS,iPDF,iCANVAS
 (Sizes)=: DefSizes * s
 MarkerScale=: s
 )
@@ -1320,15 +1312,15 @@ TITLEFONT=: 'Sans 15'
 
 all=. all, IFWIN pick unx;w32
 PlotDefaults=: 3 : 0 all
-  if. IFTESTPLOTJHS +. IFJHS do.
-    r=. 'OUTPUT=: JHSOUTPUT'
-   elseif. IFQT do.
-    r=. 'OUTPUT=: ''qt'''
-  elseif. 'Android'-:UNAME do.
-    r=. 'OUTPUT=: ''android'''
-  elseif. do.
-    r=. 'OUTPUT=: CONSOLEOUTPUT'
-  end.
+if. IFTESTPLOTJHS +. IFJHS do.
+  r=. 'OUTPUT=: JHSOUTPUT'
+elseif. IFQT do.
+  r=. 'OUTPUT=: ''qt'''
+elseif. 'Android'-:UNAME do.
+  r=. 'OUTPUT=: ''android'''
+elseif. do.
+  r=. 'OUTPUT=: CONSOLEOUTPUT'
+end.
 y,r,LF
 )
 TextTypes=: ;: 'text textc textr'
@@ -1665,7 +1657,7 @@ drawycaption=: 3 : 0
 if. #YCAPTION do.
   x=. Yx + MYCaption
   y=. Yy + -: Yh
-  if. Poutput e. iISI do.
+  if. Poutput e. iQT do.
     font=. CaptionFont,' angle900'
   else.
     font=. 90 (3) } CaptionFont
@@ -1677,7 +1669,7 @@ drawy2caption=: 3 : 0
 if. #Y2CAPTION do.
   x=. Y2x + Y2w - MYCaption
   y=. Y2y + -: Y2h
-  if. Poutput e. iISI do.
+  if. Poutput e. iQT do.
     font=. CaptionFont,' angle2700'
   else.
     font=. 270 (3) } CaptionFont
@@ -2217,134 +2209,6 @@ else.
 
 end.
 )
-wpsave=: 3 : 0
-cx=. ,_1 [ cy=. ,_1
-gtk_window_get_position_jgtk_ y;cx;cy
-cxywh_jwplot_=: cx,cy, 2}. getGtkWidgetAllocation_jgtk_ y
-)
-wpset=: 3 : 0
-if. 0 0 0 0-:cxywh_jwplot_ do.
-  gtk_window_move_jgtk_ y,0 0
-  gtk_window_set_default_size_jgtk_ y,480 360
-else.
-  gtk_window_move_jgtk_ y,2{.cxywh_jwplot_
-  gtk_window_set_default_size_jgtk_ y,2}.cxywh_jwplot_
-end.
-)
-
-ppaint_gtk=: 3 : 0
-l=. glgetloc PIdhwnd
-if. newsize__l do.
-  gtk_show ''
-  newsize__l=: 0
-end.
-0
-)
-psize_gtk=: 3 : 0
-if. #Plot do.
-  ppaint''
-end.
-)
-ptop_gtk=: 3 : 0
-PTop=: -. PTop
-gtk_window_set_keep_above_jgtk_ ((0&". ::]) PFormhwnd), PTop
-0
-)
-3 : 0''
-if. 'Android'-:UNAME do.
-pclose=: pclose_android
-popen=: popen_android
-ppaint=: ppaint_android
-psize=: psize_android
-ptop=: ptop_android
-else.
-pclose=: pclose_gtk
-popen=: popen_gtk
-ppaint=: ppaint_gtk
-psize=: psize_gtk
-ptop=: ptop_gtk
-end.
-EMPTY
-)
-PMenu=: 0 : 0
-menupop "&File";
-menu clip "&Clip" "" "" "";
-menusep;
-menu saveeps "&Save EPS" "" "" "";
-menusep;
-menu savepdf "&Save PDF" "" "" "";
-menusep;
-menu print "&Print" "" "" "";
-menusep;
-menu exit "E&xit" "" "" "";
-menupopz;
-menupop "&Help";
-menu help "&Plot Help" "" "" "";
-menusep;
-menu about "&About" "" "" "";
-menupopz;
-)
-pclose_isi=: 3 : 0
-try.
-  wd 'psel ',": PFormhwnd
-  PFormhwnd=: 0
-  if. ifjwplot'' do.
-    wpsave_j_ :: 0: PForm
-  end.
-  wd 'pclose'
-  pd 'reset'
-catch. end.
-)
-popen_isi=: 3 : 0
-if. ifparent ": PFormhwnd do.
-  wd 'psel ',": PFormhwnd
-  glsel PId
-  0 return.
-end.
-wd 'pc ',PForm
-PFormhwnd=: wdqhwndp''
-wd 'pn *',PLOTCAPTION
-wd 'xywh 0 0 240 180'
-wd 'cc ',PId,' isigraph rightmove bottommove'
-wd 'pas 0 0'
-
-if. ifjwplot'' do.
-  wpset_j_ :: 0: PForm
-else.
-  wdmove _1 0
-end.
-wdfit ''
-
-fm=. PForm,'_'
-id=. fm,PId,'_'
-(fm,'close')=: pclose_isi
-(fm,'cancel')=: pclose_isi
-(fm,'tctrl_fkey')=: ptop
-(id,'paint')=: ppaint
-(id,'size')=: ppaint
-(id,'mmove')=: ]
-
-(fm,'f10_fkey')=: pd bind 'eps'
-(fm,'f11_fkey')=: pd bind 'pdf'
-
-Pxywh=: ''
-PShow=: 0
-)
-ppaint_isi=: 3 : 0
-cwh=. glqwh''
-if. -. cwh -: Cw,Ch do.
-  isi_show ''
-end.
-)
-psize_isi=: 3 : 0
-if. #Plot do.
-  ppaint''
-end.
-)
-ptop_isi=: 3 : 0
-PTop=: -. PTop
-wd 'ptop ',":PTop
-)
 pclose_android=: 3 : 0
 0
 )
@@ -2433,21 +2297,7 @@ EMPTY
 )
 fzskludge=: 4%3
 pgetascender=: 3 : 0
-if. Poutput = iISI do.
-  if. 1=GL2Backend_jgl2_ do.
-    glfont y
-    1 { glqtextmetrics''
-  else.
-    FontScale * getascender y
-  end.
-elseif. Poutput = iGTK do.
-  if. 1=GL2Backend_jgl2_ do.
-    glfont gtkfontdesc y
-    1 { glqtextmetrics''
-  else.
-    FontScale * getascender y
-  end.
-elseif. Poutput = iANDROID do.
+if. Poutput = iANDROID do.
   if. 1 [ 1=GL2Backend_jgl2_ do.
     glfont andfontdesc y
     1 { glqtextmetrics''
@@ -2461,8 +2311,6 @@ elseif. Poutput = iQT do.
   else.
     FontScale * getascender y
   end.
-elseif. Poutput = iCAIRO do.
-  FontScale * getascender y
 elseif. Poutput = iCANVAS do.
   FontScale * getascender (FontSizeMin >. 2{y) 2 } y
 elseif. do.
@@ -2471,20 +2319,12 @@ end.
 )
 pgetextent=: 4 : 0
 select. Poutput
-case. iISI do.
-  glfont x
-  |: glqextent &> y
-case. iGTK do.
-  glfont gtkfontdesc^:(0={.0#x) x
-  |: glqextent &> y
 case. iANDROID do.
   glfont andfontdesc^:(0={.0#x) x
   |: glqextent &> y
 case. iQT do.
   glfont gtkfontdesc^:(0={.0#x) x
   |: glqextent &> y
-case. iCAIRO do.
-  FontScale * fzskludge *  x getextent y
 case. iCANVAS do.
   FontScale * fzskludge * ((FontSizeMin >. 2{x) 2} x) getextent y
 case. do.
@@ -2497,12 +2337,6 @@ if. LF e. y do.
   (>./{."1 r),+/{:"1 r return.
 end.
 select. Poutput
-case. iISI do.
-  glfont x
-  glqextent y
-case. iGTK do.
-  glfont gtkfontdesc^:(0={.0#x) x
-  glqextent y
 case. iANDROID do.
   glfont andfontdesc^:(0={.0#x) x
   glqextent y
@@ -2534,21 +2368,7 @@ SubTitleFontX=: getfontid SUBTITLEFONT
 SymbolFontX=: getfontid SYMBOLFONT
 TitleFontX=: getfontid TITLEFONT
 
-if. Poutput = iISI do.
-  CaptionFont=: getisifontid CaptionFontX
-  KeyFont=: getisifontid KeyFontX
-  LabelFont=: getisifontid LabelFontX
-  SubTitleFont=: getisifontid SubTitleFontX
-  SymbolFont=: getisifontid SymbolFontX
-  TitleFont=: getisifontid TitleFontX
-elseif. Poutput e. iGTK do.
-  CaptionFont=: getgtkfontid CaptionFontX
-  KeyFont=: getgtkfontid KeyFontX
-  LabelFont=: getgtkfontid LabelFontX
-  SubTitleFont=: getgtkfontid SubTitleFontX
-  SymbolFont=: getgtkfontid SymbolFontX
-  TitleFont=: getgtkfontid TitleFontX
-elseif. Poutput e. iANDROID do.
+if. Poutput e. iANDROID do.
   CaptionFont=: getgtkfontid CaptionFontX
   KeyFont=: getgtkfontid KeyFontX
   LabelFont=: getgtkfontid LabelFontX
@@ -2571,7 +2391,7 @@ elseif. do.
   TitleFont=: TitleFontX
 end.
 
-FontScale=: (Poutput e. iEPS,iPDF,iCAIRO) { 1,FONTSCALE
+FontScale=: (Poutput e. iEPS,iPDF) { 1,FONTSCALE
 FontSizeMin=: (Poutput e. iCANVAS) { 0,FONTSIZEMIN
 )
 coclass 'jzplot'
@@ -4361,10 +4181,6 @@ for_p. Text do.
     text=. towords 2 }. arg
     align=. TextTypes i. cmd
     font=. getfontid TEXTFONT
-    if. Poutput e. iISI do.
-      font=. getisifontid font
-    elseif. Poutput e. iGTK do.
-      font=. getgtkfontid font
     elseif. Poutput e. iANDROID do.
       font=. getgtkfontid font
     elseif. Poutput e. iQT do.
@@ -4409,7 +4225,7 @@ PDDefs=: ;: toupper j
 j=. 'brushcolor end lines pen pencolor rect'
 PDgd=: 'gd'&, each ;: j
 PDGD=: 'GD'&, each ;: toupper j
-PDshow=: ;: 'cairo canvas eps gtk isi android qt jpf pdf print show'
+PDshow=: ;: 'canvas eps android qt jpf pdf print show'
 PDcopy=: ;: 'clip save get'
 PDget=: ;: 'pdfr cairor canvasr'
 PDcmds=: ;: 'multi new use'
@@ -4513,48 +4329,25 @@ pd_android=: android_show
 pd_eps=: eps_show
 pd_canvas=: canvas_show
 pd_canvasr=: canvas_get
-pd_cairo=: cairo_show
-pd_cairor=: cairo_get
-pd_gtk=: gtk_show
 pd_qt=: qt_show
-pd_isi=: isi_show
 pd_pdf=: pdf_show
 pd_pdfr=: pdf_get
 pd_jpf=: pdf_jpf
 
 pd_clip=: 3 : 0
-if. Poutput e. _1,iGTK do.
-  gtk_clip y
-else.
-  isi_clip y
-end.
+qt_clip y
 )
 
 pd_print=: 3 : 0
-if. Poutput e. _1,iGTK do.
-  gtk_print y
-else.
-  isi_print y
-end.
+qt_print y
 )
 
 pd_save=: 3 : 0
-if. Poutput e. _1,iGTK do.
-  if. ifjwplot'' do.
-    pdcmdsave=: y return.
-  end.
-  gtk_save y
-else.
-  isi_save y
-end.
+qt_save y
 )
 
 pd_get=: 3 : 0
-if. Poutput e. _1,iGTK do.
-  gtk_get y
-else.
-  isi_get y
-end.
+qt_get y
 )
 pd_show=: 3 : 0
 ndx=. ({."1 PCmd) i. <'output'
@@ -4833,11 +4626,6 @@ end.
 )
 androidrect=: 3 : 0
 p=. boxrs2wh^:1 android_gpflip _1 pick y
-if. IFJAVA do.
-  if. 0 = 1 pick y do.
-    p=. 1 1 _2 _2 +"1 p
-  end.
-end.
 y=. (<p) _1 } y
 2031 android_gppshape y
 )
@@ -5154,505 +4942,6 @@ end.
 android_gpapply''
 )
 
-coclass 'jzplot'
-CAIRO_DEFSHOW=: 'jijx'
-CAIRO_DEFSIZE=: 400 200
-CAIRO_DEFFILE=: jpath '~temp/plot.png'
-CAIRO_PENSCALE=: 0.4
-
-gtkpl=: gtkcr=: 0
-cairo_getparms=: 3 : 0
-(CAIRO_DEFSIZE;CAIRO_DEFFILE) output_parms y
-)
-cairo_write=: 3 : 0
-'file ctx'=. y
-assert. 0~:gtkcr
-while. 0 ~: cairo_surface_write_to_png_jgtk_ (cairo_get_target_jgtk_ gtkcr) ; file do.
-
-  msg=. 'Unable to write to file: ',file,LF,LF
-  if. #d=. 1!:0 file do.
-    msg=. msg, 'If the file is open in a viewer, close the file and try again.'
-    if. 1 query msg do. return. end.
-  else.
-    info msg,'The file name is invalid.' return. end.
-end.
-if. (VISIBLE > IFJHS) do.
-  browse_j_ file
-end.
-EMPTY
-)
-cairo_color=: 4 : 0
-assert. 0~:gtkcr
-assert. 3=#,y
-cairo_set_source_rgb_jgtk_ gtkcr ; ;/ ,y%256
-EMPTY
-)
-cairo_makerect=: 3 : 0
-'x y r s'=. y
-cairo_drawline (_2 [\ flipxy x,y,x,s,r,s,r,y,x,y)
-EMPTY
-)
-cairo_drawline=: 3 : 0
-assert. 0~:gtkcr
-assert. 1<$$y
-cairo_move_to_jgtk_ gtkcr ; ;/ {.y
-for_p. }.y do.
-  cairo_line_to_jgtk_ gtkcr ; ;/ p
-end.
-EMPTY
-)
-cairo_makelines=: 3 : 0
-len=. -: {: $ y
-if. len = 0 do. i.0 0 return. end.
-if. 2 > #$y do.
-  cairo_drawline _2 [\ flipxy y
-else.
-  cairo_drawline "2 (_2 [\"1 flipxy y)
-end.
-EMPTY
-)
-cairo_pens=: 4 : 0
-assert. 0 [ 'cairo_pens not implemented'
-(0 cairo_color x) ,"1 'ctx.lineWidth="',"1 (":1>.CAIRO_PENSCALE*y),"1 '";'
-EMPTY
-)
-cairo_pen=: 4 : 0
-assert. 0~:gtkcr
-0 cairo_color x
-cairo_set_line_width_jgtk_ gtkcr ; (1>.CAIRO_PENSCALE*y)
-EMPTY
-)
-cairo_lines=: 3 : 0
-(cairo_stroke_jgtk_ bind gtkcr)@cairo_makelines"1 y
-EMPTY
-)
-cairo_text=: 3 : 0
-'fnt txt pos align rot und'=. y
-pos=. citemize pos
-txt=. ,each boxxopen txt
-txt=. utf8 each txt
-if. und +. align e. iCENTER, iRIGHT do.
-  len=. fnt pgetstringlen txt
-end.
-if. 1=#txt do. txt=. (#pos)#{.txt end.
-
-select. rot
-case. 0 do.
-  select. align
-  case. iCENTER do.
-    pos=. pos -"1 (-:len),.0
-  case. iRIGHT do.
-    pos=. pos -"1 len,.0
-  end.
-  for_i. i.#pos do.
-    cairo_move_to_jgtk_ gtkcr ; <"0 flipxy i{pos
-    pango_layout_set_text_jgtk_ gtkpl;(,>i{txt);#>i{txt
-    pango_cairo_show_layout_jgtk_ gtkcr, gtkpl
-  end.
-case. 1 do.
-  select. align
-  case. iCENTER do.
-    pos=. pos -"1 [ 0,.-:len
-  case. iRIGHT do.
-    pos=. pos -"1 [ 0,.len
-  end.
-  for_i. i.#pos do.
-    cairo_save_jgtk_ gtkcr
-    cairo_move_to_jgtk_ gtkcr ; <"0 flipxy i{pos
-    cairo_rotate_jgtk_ gtkcr ; - 0.5p1
-    pango_cairo_update_layout_jgtk_ gtkcr, gtkpl
-    pango_layout_set_text_jgtk_ gtkpl;(,>i{txt);#>i{txt
-    pango_cairo_show_layout_jgtk_ gtkcr, gtkpl
-    cairo_restore_jgtk_ gtkcr
-  end.
-case. 2 do.
-  select. align
-  case. iCENTER do.
-    pos=. pos +"1 [ 0,.-:len
-  case. iRIGHT do.
-    pos=. pos +"1 [ 0,.len
-  end.
-  for_i. i.#pos do.
-    cairo_save_jgtk_ gtkcr
-    cairo_move_to_jgtk_ gtkcr ; <"0 flipxy i{pos
-    cairo_rotate_jgtk_ gtkcr ; 0.5p1
-    pango_cairo_update_layout_jgtk_ gtkcr, gtkpl
-    pango_layout_set_text_jgtk_ gtkpl;(,>i{txt);#>i{txt
-    pango_cairo_show_layout_jgtk_ gtkcr, gtkpl
-    cairo_restore_jgtk_ gtkcr
-  end.
-end.
-
-if. -. und do. EMPTY return. end.
-pos=. citemize pos
-len=. , len
-
-'off lwd'=. getunderline fnt
-select. rot
-case. 0 do.
-  bgn=. 0 >. pos -"1 [ 0,.-off
-  end=. bgn + len,.0
-case. 1 do.
-  bgn=. 0 >. pos -"1 off,.0
-  end=. bgn + 0,.len
-case. 2 do.
-  bgn=. 0 >. pos +"1 off,.0
-  end=. bgn - 0,.len
-end.
-
-for_p. bgn,.end do.
-  cairo_makelines p
-  cairo_stroke_jgtk_ gtkcr
-end.
-
-EMPTY
-)
-cairocircle=: 3 : 0
-'v s f e c p'=. y
-if. isempty c do.
-  if. is1color e do.
-    e cairo_pen v
-    for_i. i.#p do.
-      cairo_new_sub_path_jgtk_ gtkcr
-      cairo_arc_jgtk_ gtkcr ; ;/ (flipxy 2{.i{p) , (2{i{p), 0, 2p1
-      cairo_stroke_jgtk_ gtkcr
-    end.
-  else.
-    for_i. i.#p do.
-      cairo_new_sub_path_jgtk_ gtkcr
-      cairo_arc_jgtk_ gtkcr ; ;/ (flipxy 2{.i{p) , (2{i{p), 0, 2p1
-      (i{e) cairo_pen (i{v)
-      cairo_stroke_jgtk_ gtkcr
-    end.
-  end.
-else.
-  p=. citemize p
-  c=. p cmatch c
-  e=. p cmatch e
-  v=. p cmatch v
-  for_i. i.#p do.
-    cairo_new_sub_path_jgtk_ gtkcr
-    cairo_arc_jgtk_ gtkcr ; ;/ (flipxy 2{.i{p) , (2{i{p), 0, 2p1
-    (i{e) cairo_pen (i{v)
-    cairo_stroke_preserve_jgtk_ gtkcr
-    1 cairo_color i{c
-    cairo_fill_jgtk_ gtkcr
-  end.
-end.
-)
-cairodot=: 3 : 0
-'v s f e c p'=. y
-p=. citemize p
-v=. v * CAIRO_PENSCALE
-if. is1color e do.
-  1 cairo_color e
-  for_i. i.#p do.
-    cairo_new_sub_path_jgtk_ gtkcr
-    cairo_arc_jgtk_ gtkcr ; ;/ (flipxy i{p) , v, 0, 2p1
-    cairo_fill_jgtk_ gtkcr
-  end.
-else.
-  e=. p cmatch e
-  for_i. i.#p do.
-    1 cairo_color i{e
-    cairo_new_sub_path_jgtk_ gtkcr
-    cairo_arc_jgtk_ gtkcr ; ;/ (flipxy i{p) , v, 0, 2p1
-    cairo_fill_jgtk_ gtkcr
-  end.
-end.
-)
-cairofxywh=: 3 : 0
-''return.
-p=. _1 pick y
-if. #p do.
-  CLIP=: >: CLIP
-  'x y w h'=. p
-  rect=. cairo_makerect x,y,(x+w),y+h
-  pbuf 'gsave ',rect,' clip newpath'
-else.
-  if. CLIP do.
-    CLIP=: <: CLIP
-    pbuf 'grestore'
-  end.
-end.
-)
-cairoline=: 3 : 0
-'v s f e c p'=. y
-if. (is1color e) *. 1 = #s do.
-  pbuf e cairo_pen v
-  pbuf cairo_lines p
-else.
-  rws=. #p
-  e=. rws $ citemize e
-  v=. rws $ v
-  for_i. i. rws do.
-    pbuf (i{e) cairo_pen i{v
-    pbuf cairo_lines i{p
-  end.
-end.
-)
-cairomarker=: 3 : 0
-('cairomark_',1 pick y)~ y
-)
-cairopie=: 3 : 0
-'v s f e c p'=. y
-pen=. e cairo_pen v
-p=. citemize p
-ctr=. 0 1 {"1 p
-rad=. 2 {"1 p
-ang=. 360 %~ 2p1 * 90 - 3 4 {"1 p
-clr=. cmatch c
-for_i. i.#p do.
-  cairo_move_to_jgtk_ gtkcr ; ;/ (flipxy i{ ctr)
-  cairo_arc_negative_jgtk_ gtkcr ; ;/ (flipxy i{ ctr) , (i{rad), (i{ang)
-  cairo_close_path_jgtk_ gtkcr
-  cairo_stroke_preserve_jgtk_ gtkcr
-  1 cairo_color i{clr
-  cairo_fill_jgtk_ gtkcr
-end.
-)
-cairopline=: 3 : 0
-'v s f e c p'=. y
-if. *./ s = 0 do.
-  cairoline y return.
-end.
-s=. s { PENPATTERN
-if. (is1color e) *. 1 = #v do.
-  pos=. s linepattern"0 1 p
-  cairoline (<pos) _1 } y
-else.
-  rws=. #p
-  e=. rws $ citemize e
-  v=. rws $ v
-  s=. rws $ s
-  for_i. i.#p do.
-    (i{e) cairo_pen i{v
-    pos=. (i{s) linepattern i{p
-    cairoline (i{v);0;0;(i{e);0;pos
-  end.
-end.
-)
-cairopoly=: 3 : 0
-'v s f e c p'=. y
-p=. citemize p
-if. v=0 do. e=. c end.
-c=. p cmatch c
-e=. p cmatch e
-if. +/v do.
-  v=. p cmatch v
-  for_i. i.#p do.
-    cairo_makelines i{p
-    cairo_close_path_jgtk_ gtkcr
-    (i{e) cairo_pen i{v
-    cairo_stroke_preserve_jgtk_ gtkcr
-    1 cairo_color i{c
-    cairo_fill_jgtk_ gtkcr
-  end.
-else.
-  for_i. i.#p do.
-    cairo_makelines i{p
-    cairo_close_path_jgtk_ gtkcr
-    1 cairo_color i{c
-    cairo_stroke_preserve_jgtk_ gtkcr
-    cairo_fill_jgtk_ gtkcr
-  end.
-end.
-)
-cairorect=: 3 : 0
-assert. 0~:gtkcr
-'v s f e c p'=. y
-p=. citemize p
-if. v=0 do. e=. c end.
-c=. p cmatch c
-e=. p cmatch e
-if. +/v do.
-  v=. p cmatch v
-  for_i. i.#p do.
-    cairo_makerect i{p
-    (i{e) cairo_pen i{v
-    cairo_stroke_preserve_jgtk_ gtkcr
-    1 cairo_color i{c
-    cairo_fill_jgtk_ gtkcr
-  end.
-else.
-  for_i. i.#p do.
-    cairo_makerect i{p
-    1 cairo_color i{c
-    cairo_fill_jgtk_ gtkcr
-  end.
-end.
-)
-cairotext=: 3 : 0
-'t f a e c p'=. y
-'fnx fst fsz fan und'=. f
-rot=. 3 | 0 90 270 i. fan
-asc=. _0.2 * pgetascender f
-fnm=. getfntname fnx,fst
-bold=. italic=. 0
-if. (1 e. '-Oblique' E. fnm)+.(1 e. '-Bold' E. fnm)+.(1 e. '-Italic' E. fnm) do.
-  bold=. (1 e. 'Bold' E. fnm)
-  italic=. ((1 e. 'Oblique' E. fnm)+.(1 e. 'Italic' E. fnm))
-  fnm=. ({.~ i:&'-') fnm
-end.
-
-gtkfontangle=: <.fan*10
-gtkunderline=: Underline
-fnt=. pango_font_description_from_string_jgtk_ <fnm
-if. bold do. pango_font_description_set_weight_jgtk_ fnt, PANGO_WEIGHT_BOLD_jgtk_ end.
-if. italic do. pango_font_description_set_style_jgtk_ fnt, PANGO_STYLE_ITALIC_jgtk_ end.
-pango_font_description_set_size_jgtk_ fnt, <.PANGO_SCALE_jgtk_ * getplotfontsize f
-pango_layout_set_font_description_jgtk_ gtkpl,fnt
-pango_font_description_free_jgtk_ fnt
-select. rot
-case. 0 do. p=. 0 >. p -"1 [ 0, asc
-case. 1 do. p=. p +"1 asc, 0
-case. 2 do. p=. p -"1 asc, 0
-end.
-if. is1color e do.
-  1 cairo_color e
-  for_i. i.#p do.
-    cairo_text f;t;p;a;rot;und
-  end.
-else.
-  for_i. i.#e do.
-    1 cairo_color i{e
-    cairo_text f;(i{t);(i{p);a;rot;und
-  end.
-end.
-)
-cairomark_circle=: 3 : 0
-'s m f e c p'=. y
-p=. citemize p
-v=. 8 * s * CAIRO_PENSCALE
-1 cairo_color e
-for_i. i.#p do.
-  cairo_new_sub_path_jgtk_ gtkcr
-  cairo_arc_jgtk_ gtkcr ; ;/ (flipxy i{p) , v, 0, 2p1
-  cairo_fill_jgtk_ gtkcr
-end.
-)
-cairomark_diamond=: 3 : 0
-'s m f e c p'=. y
-p=. 8 $"1 citemize p
-d=. (3.5 * s) * _1 0 0 1 1 0 0 _1
-p=. p +"1 d
-for_i. i.#p do.
-  cairo_makelines i{p
-  cairo_close_path_jgtk_ gtkcr
-  1 cairo_color e
-  cairo_fill_jgtk_ gtkcr
-end.
-)
-cairomark_line=: 3 : 0
-'s m f e c p'=. y
-p=. ,p
-s=. -:KeyLen,KeyPen
-p=. (p - s) , p + s
-cairo_makerect p
-cairo_close_path_jgtk_ gtkcr
-1 cairo_color e
-cairo_fill_jgtk_ gtkcr
-)
-cairomark_plus=: 3 : 0
-'s m f e c p'=. y
-s=. s * 4
-t=. s, 0
-e cairo_pen s
-p=. citemize p
-d=. (p -"1 t) ,. p +"1 t
-t=. |. t
-d=. d, (p -"1 t) ,. p +"1 t
-cairo_lines d
-)
-cairomark_square=: 3 : 0
-'s m f e c p'=. y
-p=. citemize p
-s=. 3 * s
-p=. (p - s) ,"1 p + s
-for_i. i.#p do.
-  cairo_makerect i{p
-  cairo_close_path_jgtk_ gtkcr
-  1 cairo_color e
-  cairo_fill_jgtk_ gtkcr
-end.
-)
-cairomark_times=: 3 : 0
-'s m f e c p'=. y
-e cairo_pen 4 * s
-t=. _1 + s * 3
-r=. (p - t) ,. p + t
-s=. (p +"1 t * 1 _1) ,. p +"1 t * _1 1
-cairo_lines r,s
-)
-cairomark_triangle=: 3 : 0
-'s m f e c p'=. y
-p=. 6 $"1 citemize p
-d=. (4 * s) * , (sin,.cos) 2p1 * 0 1 2 % 3
-p=. p +"1 d
-for_i. i.#p do.
-  cairo_makelines i{p
-  cairo_close_path_jgtk_ gtkcr
-  1 cairo_color e
-  cairo_fill_jgtk_ gtkcr
-end.
-)
-JSESC0=: LF,CR,TAB,FF,(8{a.),'\''"'
-JSESC1=: 'nrtfb\''"'
-jsesc=: 3 : 0
-txt=. y
-msk=. txt e. JSESC0
-if. 1 e. msk do.
-  ndx=. , ((I. msk) + i. +/ msk) +/ 0 1
-  new=. ,'\',.JSESC1 {~ JSESC0 i. msk#txt
-  txt=. new ndx } (1 + msk) # txt
-end.
-
-txt
-)
-cairo_get=: 3 : 0
-'size file ctx'=. 3{. cairo_getparms y
-res=. cairo_make size;file;ctx
-)
-cairo_show=: 3 : 0
-'size file ctx'=. 3{. cairo_getparms y
-res=. cairo_make size;file;ctx
-cairo_write file;ctx
-unrefcairo ''
-if. IFJHS do. plotcairo__'' end.
-i.0 0
-)
-cairo_make=: 3 : 0
-'size file ctx'=. y
-make iCAIRO;0 0,size
-fns=. 'cairo'&, each 1 {"1 Plot
-dat=. 3 }."1 Plot
-buf=: ''
-'Cw Ch'=: size
-CLIP=: 0
-initcairo size
-for_d. dat do.
-  (>d_index{fns)~d
-end.
-EMPTY
-)
-
-initcairo=: 3 : 0
-if. 0~:gtkpl do. gtkpl=: 0 [ g_object_unref_jgtk_ gtkpl end.
-if. 0~:gtkcr do. gtkcr=: 0 [ cairo_destroy_jgtk_ gtkcr end.
-gtkcr=: cairo_create_jgtk_ surface=. cairo_image_surface_create_jgtk_ CAIRO_FORMAT_RGB24_jgtk_,>.y
-cairo_surface_destroy_jgtk_ surface
-gtkpl=: pango_cairo_create_layout_jgtk_ gtkcr
-cairo_set_source_rgb_jgtk_ gtkcr ; 1 ; 1 ; 1
-cairo_rectangle_jgtk_ gtkcr ; 0 ; 0 ; ;/ y
-cairo_fill_jgtk_ gtkcr
-EMPTY
-)
-
-unrefcairo=: 3 : 0
-if. 0~:gtkpl do. gtkpl=: 0 [ g_object_unref_jgtk_ gtkpl end.
-if. 0~:gtkcr do. gtkcr=: 0 [ cairo_destroy_jgtk_ gtkcr end.
-EMPTY
-)
 coclass 'jzplot'
 CANVAS_DEFSHOW=: 'jijx'
 CANVAS_DEFSIZE=: 400 200
@@ -6474,560 +5763,6 @@ res=. eps_build buf
 res eps_write file
 )
 coclass 'jzplot'
-ISI_DEFFILE=: '~temp/plot'
-fext=: 4 : 0
-f=. deb y
-f, (-. x -: (-#x) {. f) # x
-)
-gettemp=: 3 : 0
-p=. jpath '~temp/'
-d=. 1!:0 p,'*.',y
-a=. 0, {.@:(0&".)@> _4 }. each {."1 d
-a=. ": {. (i. >: #a) -. a
-p,a,'.',y
-)
-isi_getsize=: 3 : 0
-if. -. wdishandle :: 0: ": PFormhwnd do. '' return. end.
-wd 'psel ', ":PFormhwnd
-s=. wdqchildxywhx ::0: PId
-if. s -: 0 do. '' return. end.
-2 3 { 0 ". s
-)
-output_parms=: 4 : 0
-'size file'=. x
-if. #y do.
-  prm=. qchop y
-  select. #prm
-  case. 1 do.
-    file=. 0 pick prm
-  case. 2 do.
-    size=. 0 ".&> prm
-  case. 3 do.
-    file=. 0 pick prm
-    size=. 0 ". &> _2 {. prm
-    if. 0 e. size do.
-      size=. 0 ". &> 2 {. prm
-      file=. 2 pick prm
-    end.
-  end.
-else.
-  if. #sz=. isi_getsize'' do.
-    size=. sz
-  end.
-end.
-size;file
-)
-isi_clip=: 3 : 0
-if. -. IFWIN do.
-  info 'Save plot to clipboard is only available in Windows'
-  return.
-end.
-f=. gettemp 'emf'
-isi_emf dquote f
-wd 'clipcopyx enhmetafile ',dquote f
-1!:55 <f
-)
-isi_gpcount=: ,"1~ 1 + [: {: 1 , $
-isi_gpcut=: 3 : 0
-r=. ''
-while. #y do.
-  n=. {. y
-  if. n=0 do.
-    info 'zero length segment at: ',":#;r
-    r
-    return.
-  end.
-  r=. r, < n {. y
-  y=. n }. y
-end.
-r
-)
-isi_gpbuf=: 3 : 0
-assert. 2 > #$y
-buf=: buf,y
-)
-isi_gpapply=: 3 : 0
-glcmds buf
-buf=: $0
-)
-isi_gpflip=: flipxy @ rndint
-isi_gpfliplast=: 3 : 0
-(<isi_gpflip _1 pick y) _1 } y
-)
-isi_gpinit=: 3 : 0
-buf=: bufdef=: $0
-r=. ''
-r=. r,3 2003 1
-r=. r,3 2071 1
-isi_gpapply''
-)
-isi_gpbrushnull=: 3 : '2 2005'
-isi_gppens=: 4 : 0
-y=. rndint y
-5 2032,"1 x,"1 [ 4 2022,"1 y,.5*y=0
-)
-isi_gppen=: 4 : 0
-y=. rndint y
-5 2032,(,x),4 2022,y,5*y=0
-)
-isi_gppens1=: 3 : 0
-5 2032,"1 y,"1 [ 4 2022 1 0
-)
-isi_gppen1=: 3 : 0
-5 2032,(,y),4 2022 1 0
-)
-isi_gppenbrush1=: 3 : 0
-5 2032,(,y),4 2022 1 0 2 2004
-)
-isi_gppixel=: 3 : 0
-'s t f e c p'=. y
-p=. isi_gpcount 2024 ,"1 isi_gpflip p
-if. is1color e do.
-  isi_gpbuf e isi_gppen 1
-  isi_gpbuf ,p
-else.
-  rws=. #p
-  e=. rws $ citemize e
-  pen=. e isi_gppens 1
-  isi_gpbuf ,pen ,. p
-end.
-)
-isi_gppline=: 4 : 0
-'s t f e c p'=. y
-if. (is1color e) *. 1 = #s do.
-  isi_gpbuf (,e) isi_gppen s
-  isi_gpbuf ,isi_gpcount x,"1 p
-else.
-  rws=. #p
-  e=. rws $ citemize e
-  s=. rws $ s
-  pen=. e isi_gppens s
-  isi_gpbuf ,pen ,. isi_gpcount x,"1 p
-end.
-)
-isi_gppshape=: 4 : 0
-'v s f e c p'=. y
-
-if. v=0 do. e=. c end.
-
-if. is1color e do.
-  isi_gpbuf e isi_gppen v
-  if. isempty c do.
-    isi_gpbuf isi_gpbrushnull''
-    isi_gpbuf ,isi_gpcount x,"1 p
-  elseif. is1color c do.
-    isi_gpbuf 5 2032,(,c),2 2004
-    isi_gpbuf ,isi_gpcount x,"1 p
-  elseif. do.
-    c=. (#p) $ c
-    clr=. 5 2032 ,"1 c ,"1 [ 2 2004
-    isi_gpbuf , clr ,. isi_gpcount x,"1 p
-  end.
-else.
-  e=. (#p) $ e
-  e=. e isi_gppens v
-  if. isempty c do.
-    isi_gpbuf isi_gpbrushnull''
-    isi_gpbuf , e ,. isi_gpcount x,"1 p
-  elseif. is1color c do.
-    isi_gpbuf 5 2032,(,c),2 2004
-    isi_gpbuf , e ,. isi_gpcount x,"1 p
-  elseif. do.
-    c=. (#p) $ c
-    clr=. 5 2032 ,"1 c ,"1 [ 2 2004
-    isi_gpbuf , e ,. clr ,. isi_gpcount x,"1 p
-  end.
-
-end.
-)
-isiarc=: 3 : '2001 isi_gppline isi_gpfliplast y'
-isiline=: 3 : '2015 isi_gppline isi_gpfliplast y'
-isipie=: 3 : '2023 isi_gppshape isi_gpfliplast y'
-isipoly=: 3 : '2029 isi_gppshape isi_gpfliplast y'
-isicircle=: 3 : 0
-p=. _1 pick y
-ctr=. isi_gpflip 0 1 {"1 p
-rad=. rndint 2 {"1 p
-xy=. ctr - rad
-wh=. +: rad ,. rad
-p=. xy ,. wh
-2008 isi_gppshape (<p) _1 } y
-)
-isidot=: 3 : 0
-'v s f e c p'=. y
-select. v
-case. 1 do.
-  isi_gppixel y
-case. 2 do.
-  p=. isi_gpflip p
-  p=. (p-1) ,"1 [ 2 2
-  dat=. 1;0;0;e;e;p
-  2031 isi_gppshape dat
-case. 3 do.
-  h=. (p-"1[1 0) ,. p+"1[2 0
-  v=. (p-"1[0 1) ,. p+"1[0 2
-  isiline 1;0;0;e;e;h,v
-case. do.
-  o=. >. -: v
-  p=. p ,"1 v,.v
-  isicircle 1;0;0;e;e;p
-end.
-)
-isifxywh=: 3 : 0
-p=. _1 pick y
-if. #p do.
-  'x y w h'=. p
-  xy=. _1 + <. x,Ch-y+h
-  wh=. 2 + >. w,h
-  isi_gpbuf 6 2078,xy,wh
-else.
-  isi_gpbuf 2 2079
-end.
-)
-isimarker=: 3 : 0
-'s m f e c p'=. y
-p=. isi_gpflip p
-isi_gpbuf isi_gppenbrush1 e
-s ('isimark_',m)~ p
-)
-isipie=: 3 : 0
-p=. _1 pick y
-ctr=. isi_gpflip 0 1 {"1 p
-rad=. 2 {"1 p
-ang=. 3 4 {"1 p
-xy=. ctr - rad
-wh=. +: rad ,. rad
-tx=. ({."1 ctr) + rad * sind ang
-ty=. ({:"1 ctr) + rad * cosd ang
-p=. rndint xy ,. wh ,. ,"2 tx ,"0 ty
-2023 isi_gppshape (<p) _1 } y
-)
-isipline=: 3 : 0
-'s t f e c p'=. y
-if. *./ t = 0 do.
-  isiline y return.
-end.
-p=. isi_gpflip p
-t=. t { PENPATTERN
-if. (is1color e) *. 1 = #s do.
-  isi_gpbuf 5 2032,(,e),4 2022,s,0
-  pos=. t linepattern"0 1 p
-  isi_gpbuf ,isi_gpcount 2015,"1 pos
-else.
-  rws=. #p
-  e=. rws $ citemize e
-  s=. rws $ s
-  t=. rws $ t
-  pen=. e isi_gppens s
-  for_i. i.#p do.
-    isi_gpbuf i{pen
-    pos=. (i{t) linepattern i{p
-    isi_gpbuf ,isi_gpcount 2015,"1 pos
-  end.
-end.
-)
-isirect=: 3 : 0
-p=. boxrs2wh isi_gpflip _1 pick y
-if. IFJAVA do.
-  if. 0 = 1 pick y do.
-    p=. 1 1 _2 _2 +"1 p
-  end.
-end.
-y=. (<p) _1 } y
-2031 isi_gppshape y
-)
-isitext=: 3 : 0
-'t f a e c p'=. y
-
-p=. isi_gpflip p
-t=. text2utf8 each boxopen t
-if. a do.
-  glfont f
-  off=. <. -: a * {."1 glqextent &> t
-  if. 1 e. 'angle900' E. f do.
-    p=. p +"1 [ 0,.off
-  elseif. 1 e. 'angle2700' E. f do.
-    p=. p -"1 [ 0,.off
-  elseif. do.
-    p=. p -"1 off,.0
-  end.
-end.
-'face size style degree'=. parseFontSpec f
-isi_gpbuf isi_gpcount 2312,(<.size*10),style,(<.degree*10),alfndx,face
-if. is1color e do.
-  isi_gpbuf 5 2032,(,e),2 2040
-  if. rank01 p do.
-    isi_gpbuf isi_gpcount 2056,p
-    isi_gpbuf isi_gpcount 2038,alfndx,>t
-  else.
-    t=. isi_gpcount each 2038 ,each alfndx each t
-    t=. (<"1 isi_gpcount 2056 ,"1 p) ,each t
-    isi_gpbuf ; t
-  end.
-else.
-  t=. isi_gpcount each 2038 ,each alfndx each t
-  t=. t ,each <"1 isi_gpcount 2056 ,"1 p
-  t=. (<"1 (5 2032 ,"1 e) ,"1 [ 2 2040) ,each t
-  isi_gpbuf ; t
-end.
-)
-isimark_circle=: 4 : 0
-s=. rndint x * 3
-p=. (y - s) ,"1 >: +: s,s
-isi_gpbuf ,isi_gpcount 2008 ,"1 p
-)
-isimark_diamond=: 4 : 0
-s=. rndint x * 4
-'x y'=. |: y
-p=. (x-s),.y,.x,.(y+s),.(x+s),.y,.x,.y-s
-isi_gpbuf ,isi_gpcount 2029 ,"1 p
-)
-isimark_line=: 4 : 0
-'x y'=. , y
-p=. >.(x--:KeyLen),(y--:KeyPen),<:KeyLen,KeyPen
-isi_gpbuf ,isi_gpcount 2031 ,p
-)
-isimark_plus=: 4 : 0
-s=. rndint 4 1 * x
-p=. (y -"1 s) ,"1 +: s
-s=. |. s
-p=. p , (y -"1 s) ,"1 +: s
-isi_gpbuf ,isi_gpcount 2031 ,"1 p
-)
-isimark_square=: 4 : 0
-s=. rndint x * 3
-p=. (y - s) ,"1 +: s,s
-isi_gpbuf ,isi_gpcount 2031 ,"1 p
-)
-isimark_times=: 4 : 0
-if. x = 1 do.
-  p=. (y - 3) ,. y + 4
-  q=. (y - "1 [ 3 _3) ,. y +"1 [ 4 _4
-  p=. p, (p +"1 [ 0 1 _1 0), p + "1 [ 1 0 0 _1
-  q=. q, (q +"1 [ 0 _1 _1 0), q +"1 [ 1 0 0 1
-  isi_gpbuf ,isi_gpcount 2015 ,"1 p,q
-else.
-  s=. rndint _1 + 3 * x
-  n=. rndint 2 * x
-  p=. (y - s) ,. y + s
-  q=. (y - "1 s * 1 _1) ,. y +"1 s * 1 _1
-  isi_gpbuf 4 2022,n,0
-  isi_gpbuf ,isi_gpcount 2015 ,"1 p,q
-end.
-)
-isimark_triangle=: 4 : 0
-s=. rndint 2 * x
-t=. rndint 4 * x
-'x y'=. |: y
-p=. rndint (x-t),.(y+s),.(x+t),.(y+s),.x,.y-t
-isi_gpbuf ,isi_gpcount 2029 ,"1 p
-)
-PRINTP=: ''
-isi_print=: 3 : 0
-if. PRINTP do. wd 'psel ',(":PRINTP),';pclose' end.
-wd 'pc print;cc g isigraph'
-PRINTP=: wdqhwndp''
-PRINTED=: 0
-opt=. '"" "" "" orientation ',":ORIENTATION
-glprint opt
-)
-print_g_print=: 3 : 0
-'page pass'=. ". sysdata
-select. pass
-case. _1 do.
-  PRINTP=: PRINTPXYWH=: 0
-  wd 'pclose'
-case. 0 do.
-  glprintmore -.PRINTED
-case. do.
-  'Cw Ch'=: glqprintwh''
-  isi_paintit isi_printwin''
-  PRINTED=: 1
-end.
-)
-isi_printwin=: 3 : 0
-'pw ph mw mh'=. 4 {. glqprintpaper''
-mrg=. 0 >. PRINTMARGIN - mw,(ph - mh + Ch),(pw - mw + Cw),mh
-xywh=. (0 0,Cw,Ch) shrinkrect mrg
-if. 0 = #PRINTWINDOW do.
-  xywh
-else.
-  if. 4 ~: #PRINTWINDOW do.
-    info 'PRINTWINDOW should be of form: x y wh' return.
-  end.
-  'x y w h'=. xywh
-  'px py pw ph'=. PRINTWINDOW%1000
-  fx=. x + px * w
-  fy=. y + py * h
-  fw=. (x-fx) + pw * w
-  fh=. (y-fy) + ph * h
-  fx,fy,fw,fh
-end.
-)
-isi_bmp=: 3 : 0
-if. #y do.
-  arg=. qchop y
-  num=. __ ". &.> arg
-  msk=. __ e. &> num
-  file=. > {. msk # arg
-  wh=. >(-.msk) # num
-  if. -. (#wh) e. 0 2 do.
-    info 'invalid [w h] parameter in save bmp' return.
-  end.
-else.
-  wh=. file=. ''
-end.
-file=. file,(0=#file)#ISI_DEFFILE
-file=. jpath '.bmp' fext file
-if. (2 = #wh) > wh -: Pw,Ph do.
-  a=. cocreate''
-  coinsert__a (,copath) coname''
-  bmp=. isi_getbmpwh__a wh
-  coerase a
-else.
-  bmp=. isi_getbmp''
-end.
-bmp writebmp file
-)
-isi_def=: 4 : 0
-type=. x
-file=. jpath ('.',type) fext (;qchop y),(0=#y) # ISI_DEFFILE
-(isi_getrgb'') writeimg file
-)
-isi_defstr=: 4 : 0
-type=. x
-(isi_getrgb'') putimg type
-)
-isi_emf=: 3 : 0
-file=. jpath '.emf' fext (;qchop y),(0=#y) # ISI_DEFFILE
-wd 'psel ',": PFormhwnd
-glsel PId
-glfile file
-glemfopen''
-isi_paint''
-glemfclose''
-)
-isi_getbmp=: 3 : 0
-wd 'psel ',": PFormhwnd
-glsel PId
-box=. wdqchildxywh PId
-res=. glqpixels box
-(3 2 { box) $ res
-)
-isi_getbmpwh=: 3 : 0
-wd 'pc a owner;xywh 0 0 240 200;cc g isigraph rightmove bottommove;pas 0 0'
-PFormhwnd=: wdqhwndp''
-PId=: 'g'
-wd 'setxywhx g 0 0 ',":y
-wd 'pshow'
-isi_paintx''
-glpaint''
-res=. isi_getbmp''
-wd 'pclose'
-res
-)
-isi_getrgb=: 3 : 0
-wd 'psel ',": PFormhwnd
-glsel PId
-box=. wdqchildxywh PId
-(3 2 { box) $ 256 256 256 #: glqpixels box
-)
-isi_jpg=: 3 : 0
-file=. ''
-qual=. 100
-if. #y do.
-  arg=. qchop y
-  num=. __ ". &.> arg
-  msk=. +./ &> num = &.> __
-  file=. > {. msk # arg
-  qual=. <. {. (>(-.msk) # num),qual
-end.
-file=. jpath '.jpg' fext file,(0=#file) # ISI_DEFFILE
-rgb=. isi_getrgb''
-rgb writeimg file
-)
-isi_png=: 3 : 0
-file=. ''
-comp=. 9
-if. #y do.
-  arg=. qchop y
-  num=. __ ". &.> arg
-  msk=. +./ &> num = &.> __
-  file=. > {. msk # arg
-  comp=. <. {. (>(-.msk) # num),comp
-end.
-file=. jpath '.png' fext file,(0=#file) # ISI_DEFFILE
-rgb=. isi_getrgb''
-rgb writeimg file
-)
-isi_save=: 3 : 0
-if. Poutput ~: iISI do.
-  msg=. 'First display an isigraph Plot.'
-  info msg return.
-end.
-if. 0=#y do.
-  isi_clip'' return.
-end.
-type=. tolower firstword y
-if. (<type) e. ;: 'gif jpg png tif gifr jpgr pngr tifr' do.
-  af=. jpath '~addons/media/platimg/platimg.ijs'
-  if. -. flexist af do.
-    info 'Save to ',type,' requires the platimg addon.' return.
-  end.
-  require af
-end.
-('isi_',type)~ (1+#type) }. y
-)
-
-isi_get=: 3 : 0
-if. #y do.
-  type=. tolower firstword y
-  if. (<type) e. ;: 'gif jpg png tif' do.
-    y=. type,'r ', (#type)}. y
-  end.
-end.
-isi_save y
-)
-isi_gif=: 'gif' & isi_def
-isi_tif=: 'tif' & isi_def
-isi_pngr=: 'png' & isi_defstr
-isi_jpgr=: 'jpg' & isi_defstr
-isi_gifr=: 'gif' & isi_defstr
-isi_tifr=: 'tif' & isi_defstr
-isi_show=: 3 : 0
-popen_isi''
-(PForm,'_',PId,'_paint')=: isi_paint
-if. PShow=0 do.
-  if. VISIBLE do.
-    wd 'pshow ',PSHOW
-  else.
-    wd 'pshow sw_hide'
-  end.
-  wd 'ptop ',":PTop
-  PShow=: 1
-end.
-isi_paint''
-glpaint''
-evtloop''
-)
-isi_paint=: 3 : 0
-glsel PId
-'Cw Ch'=: glqwh''
-isi_paintit 0 0,Cw,Ch
-)
-isi_paintit=: 3 : 0
-isi_gpinit''
-make iISI;y
-ids=. 1 {"1 Plot
-fns=. 'isi'&, each ids
-dat=. 3 }."1 Plot
-for_d. dat do.
-  (>d_index{fns)~d
-end.
-isi_gpapply''
-)
-
-coclass 'jzplot'
 PDF_DEFSIZE=: 480 360
 PDF_DEFFILE=: jpath '~temp/plot.pdf'
 JPF_DEFFILE=: jpath '~temp/plot.jpf'
@@ -7089,7 +5824,7 @@ while. _1 -: dat flwrite file do.
     info msg,'The file name is invalid.' return. end.
 end.
 if. VISIBLE do.
-    viewpdf_j_ file
+  viewpdf_j_ file
 end.
 )
 bezierarc=: 3 : 0
@@ -7890,11 +6625,6 @@ end.
 )
 qtrect=: 3 : 0
 p=. boxrs2wh^:1 qt_gpflip _1 pick y
-if. IFJAVA do.
-  if. 0 = 1 pick y do.
-    p=. 1 1 _2 _2 +"1 p
-  end.
-end.
 y=. (<p) _1 } y
 2031 qt_gppshape y
 )
@@ -8737,7 +7467,7 @@ plot_symbol=: 3 : 0
 dat=. getgrafmat y
 clr=. getitemcolor #dat
 font=. SymbolFont
-if. Poutput e. iISI,iGTK,iANDROID,iQT,iCANVAS,iCAIRO do.
+if. Poutput e. iANDROID,iQT,iCANVAS do.
   sym=. utf8 each ucp text2utf8 SYMBOLS
 else.
   sym=. <&> text2ascii8 SYMBOLS

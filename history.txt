@@ -80,5 +80,8 @@ graphics/plot - change history
 == 1.0.111 ==
  * cover verb for wd query cmds
 
-== 1.0.112/8 ==
+== 1.0.112/7 ==
  * qt
+
+== 1.0.118/9 ==
+ * j801

@@ -165,15 +165,15 @@ all=. all, IFWIN pick unx;w32
 
 NB. =========================================================
 PlotDefaults=: 3 : 0 all
-  if. IFTESTPLOTJHS +. IFJHS do.
-    r=. 'OUTPUT=: JHSOUTPUT'
-   elseif. IFQT do.
-    r=. 'OUTPUT=: ''qt'''
-  elseif. 'Android'-:UNAME do.
-    r=. 'OUTPUT=: ''android'''
-  elseif. do.  NB. jconsole
-    r=. 'OUTPUT=: CONSOLEOUTPUT'
-  end.
+if. IFTESTPLOTJHS +. IFJHS do.
+  r=. 'OUTPUT=: JHSOUTPUT'
+elseif. IFQT do.
+  r=. 'OUTPUT=: ''qt'''
+elseif. 'Android'-:UNAME do.
+  r=. 'OUTPUT=: ''android'''
+elseif. do.  NB. jconsole
+  r=. 'OUTPUT=: CONSOLEOUTPUT'
+end.
 y,r,LF
 )
 
