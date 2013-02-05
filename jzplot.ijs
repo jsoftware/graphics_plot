@@ -2359,6 +2359,12 @@ end.
 )
 
 pgetstringlen=: {. @ pgetextent
+gtkfontdesc=: 3 : 0
+'ind fst siz ang und'=. y
+'ita bld'=. 2 2 #: fst
+sty=. (bld#' bold'),(ita#' italic'),und#' underline'
+('_' (I.@(' '&=)nam)} nam=. ind pick GTKFONTNAMES),sty,' ',":siz
+)
 setfonts=: 3 : 0
 
 CaptionFontX=: getfontid CAPTIONFONT
@@ -4181,7 +4187,7 @@ for_p. Text do.
     text=. towords 2 }. arg
     align=. TextTypes i. cmd
     font=. getfontid TEXTFONT
-    elseif. Poutput e. iANDROID do.
+    if. Poutput e. iANDROID do.
       font=. getgtkfontid font
     elseif. Poutput e. iQT do.
       font=. getgtkfontid font
