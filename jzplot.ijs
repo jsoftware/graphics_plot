@@ -1657,7 +1657,7 @@ drawycaption=: 3 : 0
 if. #YCAPTION do.
   x=. Yx + MYCaption
   y=. Yy + -: Yh
-  if. Poutput e. iQT do.
+  if. 0~:{.0#CaptionFont do.
     font=. CaptionFont,' angle900'
   else.
     font=. 90 (3) } CaptionFont
@@ -1669,7 +1669,7 @@ drawy2caption=: 3 : 0
 if. #Y2CAPTION do.
   x=. Y2x + Y2w - MYCaption
   y=. Y2y + -: Y2h
-  if. Poutput e. iQT do.
+  if. 0~:{.0#CaptionFont do.
     font=. CaptionFont,' angle2700'
   else.
     font=. 270 (3) } CaptionFont
