@@ -2561,7 +2561,6 @@ end.
 if. Poutput = iANDROID do.
   ty=. ty - <. 0.75 * {.th
 elseif. Poutput = iQT do.
-  ty=. ty - <. 0.75 * {.th
 end.
 pos=. tx,.ty
 
@@ -6649,7 +6648,7 @@ if. a do.
   elseif. (2700=degree0)+.(1 e. 'angle2700' E. f) do.
     p=. p -"1 [ (-{:wh),.off
   elseif. do.
-    p=. p -"1 off,. - {:"1 wh
+    p=. p -"1 off,. 0
   end.
 end.
 'face size style degree'=. parseFontSpec f
