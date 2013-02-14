@@ -6939,6 +6939,7 @@ qt_paintit 0 0,Cw,Ch
 qt_paintit=: 3 : 0
 qt_gpinit''
 make iQT;y
+if. 0=#Plot do. return. end.
 ids=. 1 {"1 Plot
 fns=. 'qt'&, each ids
 dat=. 3 }."1 Plot
