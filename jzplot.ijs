@@ -2257,8 +2257,8 @@ catch. end.
 0
 )
 popen_qt=: 3 : 0
-if. wd ::0: 'psel ', ": (0&". ::]) PFormhwnd do.
-  wd 'psel ',": PFormhwnd
+if. wdisparent ": (0&". ::]) PFormhwnd do.
+  wd 'psel ', ": (0&". ::]) PFormhwnd
   glsel PId
   0 return.
 end.
@@ -2276,13 +2276,16 @@ id=. fm,PId,'_'
 
 Pxywh=: ''
 PShow=: 0
-
 )
 ppaint_qt=: 3 : 0
 cwh=. glqwh''
 if. 1[ cwh -.@-: Cw,Ch do.
   qt_show ''
 end.
+)
+ptop_qt=: 3 : 0
+PTop=: -. PTop
+wd 'ptop ',":PTop
 )
 
 3 : 0''
@@ -6917,6 +6920,8 @@ qt_tifr=: 'tif' & qt_defstr
 qt_show=: 3 : 0
 popen_qt''
 (PForm,'_',PId,'_paint')=: qt_paint
+
+if. 0~: 4!:0 <'VISIBLE' do. '' return. end.
 if. PShow=0 do.
   if. VISIBLE do.
     wd 'pshow ',PSHOW
