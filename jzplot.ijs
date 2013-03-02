@@ -2257,7 +2257,7 @@ catch. end.
 0
 )
 popen_qt=: 3 : 0
-if. wdisparent ": (0&". ::]) PFormhwnd do.
+if. wdishandle ": (0&". ::]) PFormhwnd do.
   wd 'psel ', ": (0&". ::]) PFormhwnd
   glsel PId
   0 return.
