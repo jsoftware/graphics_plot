@@ -2265,7 +2265,7 @@ end.
 wd 'pc ',PForm
 PFormhwnd=: wdqhwndp''
 wd 'pn *',PLOTCAPTION
-wd 'cc ',PId,' isigraph rightmove bottommove'
+wd 'cc ',PId,' isigraph'
 wd 'pmovex 0 0 ', ": 480 360
 wd 'pas 0 0'
 fm=. PForm,'_'
@@ -4839,7 +4839,7 @@ res=. glqpixels box
 (3 2 { box) $ res
 )
 android_getbmpwh=: 3 : 0
-wd 'pc a owner;xywh 0 0 240 200;cc g canvas rightmove bottommove;pas 0 0'
+wd 'pc a owner;wh 480 300;cc g canvas;pas 0 0'
 PFormhwnd=: wdqhwndp''
 PId=: 'g'
 wd 'setxywhx g 0 0 ',":y
@@ -6838,7 +6838,7 @@ res=. glqpixels box
 (3 2 { box) $ res
 )
 qt_getbmpwh=: 3 : 0
-wd 'pc a owner;xywh 0 0 240 200;cc g canvas rightmove bottommove;pas 0 0'
+wd 'pc a owner;wh 480 400;cc g canvas;pas 0 0'
 PFormhwnd=: wdqhwndp''
 PId=: 'g'
 wd 'setxywhx g 0 0 ',":y
