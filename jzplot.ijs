@@ -3,7 +3,7 @@ require 'graphics/afm graphics/color/colortab graphics/bmp'
 
 3 : 0''
 if. 0 ~: 4!:0 <'JHSOUTPUT' do. JHSOUTPUT=: 'canvas' end.
-if. 0 ~: 4!:0 <'CONSOLEOUTPUT' do. CONSOLEOUTPUT=: (UNAME-:'Android'){::'cairo';'android' end.
+if. 0 ~: 4!:0 <'CONSOLEOUTPUT' do. CONSOLEOUTPUT=: (UNAME-:'Android'){::'pdf';'android' end.
 if. 0 ~: 4!:0 <'IFTESTPLOTJHS' do. IFTESTPLOTJHS_z_=: 0 end.
 if. IFTESTPLOTJHS +. IFJHS do.
 elseif. IFQT do.
@@ -4235,7 +4235,7 @@ PDgd=: 'gd'&, each ;: j
 PDGD=: 'GD'&, each ;: toupper j
 PDshow=: ;: 'canvas eps android qt jpf pdf print show'
 PDcopy=: ;: 'clip save get'
-PDget=: ;: 'pdfr cairor canvasr'
+PDget=: ;: 'pdfr canvasr'
 PDcmds=: ;: 'multi new use'
 boxcmd=: 3 : 0
 if. L. y do. y return. end.
