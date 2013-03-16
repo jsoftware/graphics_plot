@@ -6921,6 +6921,8 @@ qt_show=: 3 : 0
 popen_qt''
 (PForm,'_',PId,'_paint')=: qt_paint
 
+qt_paint''
+glpaint''
 if. 0~: 4!:0 <'VISIBLE' do. '' return. end.
 if. PShow=0 do.
   if. VISIBLE do.
@@ -6931,8 +6933,6 @@ if. PShow=0 do.
   wd 'ptop ',":PTop
   PShow=: 1
 end.
-qt_paint''
-glpaint''
 ''
 )
 qt_paint=: 3 : 0
