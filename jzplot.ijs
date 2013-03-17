@@ -4396,8 +4396,8 @@ android_getsize=: 3 : 0
 if. -. wdishandle :: 0: ": PFormhwnd do. '' return. end.
 wd 'psel ', ":PFormhwnd
 s=. wdqchildxywhx ::0: PId
-if. s -: 0 do. '' return. end.
-2 3 { 0 ". s
+if. s -: 0 0 0 0 do. '' return. end.
+2 3 { s
 )
 output_parms=: 4 : 0
 'size file'=. x
@@ -6395,8 +6395,8 @@ qt_getsize=: 3 : 0
 if. -. wdishandle :: 0: ": PFormhwnd do. '' return. end.
 wd 'psel ', ":PFormhwnd
 s=. wdqchildxywhx ::0: PId
-if. s -: 0 do. '' return. end.
-2 3 { 0 ". s
+if. s -: 0 0 0 0 do. '' return. end.
+2 3 { s
 )
 output_parms=: 4 : 0
 'size file'=. x
