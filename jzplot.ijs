@@ -6841,7 +6841,7 @@ qt_getbmpwh=: 3 : 0
 wd 'pc a owner;wh 480 400;cc g canvas;pas 0 0'
 PFormhwnd=: wdqhwndp''
 PId=: 'g'
-wd 'setxywhx g 0 0 ',":y
+wd 'set g wh ',":y
 wd 'pshow'
 qt_paintx''
 glpaint''
