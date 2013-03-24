@@ -4649,8 +4649,8 @@ if. a do.
   off=. <. -: a * {."1 wh=. glqextent &> t
   if. (90=degree0)+.(1 e. 'angle900' E. f) do.
     p=. p +"1 [ ({:wh),.off
-  elseif. (2700=degree0)+.(1 e. 'angle2700' E. f) do.
-    p=. p -"1 [ (-{:wh),.off
+  elseif. (270=degree0)+.(1 e. 'angle2700' E. f) do.
+    p=. p -"1 [ ({:wh),.off
   elseif. do.
     p=. p -"1 off,. - {:"1 wh
   end.
@@ -6648,8 +6648,8 @@ if. a do.
   off=. <. -: a * {."1 wh=. glqextent &> t
   if. (90=degree0)+.(1 e. 'angle900' E. f) do.
     p=. p +"1 [ ({:wh),.off
-  elseif. (2700=degree0)+.(1 e. 'angle2700' E. f) do.
-    p=. p -"1 [ (-{:wh),.off
+  elseif. (270=degree0)+.(1 e. 'angle2700' E. f) do.
+    p=. p -"1 [ ({:wh),.off
   elseif. do.
     p=. p -"1 off,. 0
   end.
