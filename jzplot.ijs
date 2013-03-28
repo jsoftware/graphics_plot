@@ -2266,7 +2266,7 @@ wd 'pc ',PForm
 PFormhwnd=: wdqhwndp''
 wd 'pn *',PLOTCAPTION
 wd 'cc ',PId,' isigraph'
-wd 'pmovex 0 0 ', ": 480 360
+wd 'pmove 0 0 ', ": 480 360
 wd 'pas 0 0'
 fm=. PForm,'_'
 id=. fm,PId,'_'
@@ -4395,7 +4395,7 @@ nam,sty,' ',":siz
 android_getsize=: 3 : 0
 if. -. wdishandle :: 0: ": PFormhwnd do. '' return. end.
 wd 'psel ', ":PFormhwnd
-s=. wdqchildxywhx ::0: PId
+s=. wdqchildxywh ::0: PId
 if. s -: 0 0 0 0 do. '' return. end.
 2 3 { s
 )
@@ -6394,7 +6394,7 @@ nam,sty,' ',":siz
 qt_getsize=: 3 : 0
 if. -. wdishandle :: 0: ": PFormhwnd do. '' return. end.
 wd 'psel ', ":PFormhwnd
-s=. wdqchildxywhx ::0: PId
+s=. wdqchildxywh ::0: PId
 if. s -: 0 0 0 0 do. '' return. end.
 2 3 { s
 )
