@@ -9,7 +9,7 @@ if. IFTESTPLOTJHS +. IFJHS do.
 elseif. IFQT do.
   require 'graphics/gl2'
   coinsert 'jgl2'
-elseif. (('Android'-:UNAME)>IFQT) do.
+elseif. IFJCDROID do.
   if. 0 < #1!:0 jpath '~addons/gui/android/android.ijs' do.
     require 'graphics/gl2 droidwd gui/android'
     coinsert 'jgl2 jni jaresu'
@@ -2235,7 +2235,7 @@ end.
 )
 
 3 : 0''
-if. ('Android'-:UNAME) > IFQT do.
+if. IFJCDROID do.
   pclose=: pclose_android
   popen=: popen_android
   ppaint=: ppaint_android
