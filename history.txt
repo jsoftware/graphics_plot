@@ -83,5 +83,5 @@ graphics/plot - change history
 == 1.0.112/7 ==
  * qt
 
-== 1.0.118 .. ==
+== 1.0.118/.. ==
  * j801
