@@ -2262,8 +2262,8 @@ end.
 wd 'pc ',PForm
 PFormhwnd=: wdqhwndp''
 wd 'pn *',PLOTCAPTION
+wd 'minwh 480 360'
 wd 'cc ',PId,' isigraph flush'
-wd 'pmove 0 0 ', ": 480 360
 wd 'pas 0 0'
 fm=. PForm,'_'
 id=. fm,PId,'_'
