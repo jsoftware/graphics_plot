@@ -753,7 +753,7 @@ end.
 if. -. IFTESTPLOTJHS +. IFJHS +. IFQT do.
   if. IFQT do.
     r=. 'OUTPUT=: ''qt'''
-  elseif. 'Android'-:UNAME do.
+  elseif. IFJCDROID do.
     r=. 'OUTPUT=: ''android'''
   elseif. do.
     r=. 'OUTPUT=: ''pdf'''
@@ -1313,7 +1313,7 @@ if. IFTESTPLOTJHS +. IFJHS do.
   r=. 'OUTPUT=: JHSOUTPUT'
 elseif. IFQT do.
   r=. 'OUTPUT=: ''qt'''
-elseif. 'Android'-:UNAME do.
+elseif. IFJCDROID do.
   r=. 'OUTPUT=: ''android'''
 elseif. do.
   r=. 'OUTPUT=: CONSOLEOUTPUT'
