@@ -22,7 +22,6 @@ glpaint''
 )
 
 PLTIMER=: 3000
-IFWINCE=: 7=9!:12''
 PLDEMOVER=: 6.02
 SLIDES=: 0
 
@@ -35,11 +34,7 @@ DATHILO=: }. 'm' fread jpath '~system/examples/data/dm0396.txt'
 
 MyPlotDefaults=: '' NB. turn off user defaults
 
-if. IFWINCE do.
-  def=. 'LINE'
-else.
-  def=. 'JGRAPHICS'
-end.
+def=. 'JGRAPHICS'
 
 if. 0 ~: 4!:0 <'PLDEMOSEL' do.
   PLDEMOSEL=: def
@@ -152,17 +147,9 @@ NB. =========================================================
 plotdemo_next_button=: plotdemo_step bind 1
 plotdemo_prev_button=: plotdemo_step bind _1
 
-3 : 0 ''
-if. IFWINCE do.
-  plotdemo_actrl_fkey=: plotdemo_next_button
-  plotdemo_actrlshift_fkey=: plotdemo_prev_button
-else.
-  plotdemo_f10_fkey=: plotdemo_saveeps_button
-  plotdemo_f11_fkey=: plotdemo_savepdf_button
-  plotdemo_f12_fkey=: plotdemo_next_button
-  plotdemo_f12shift_fkey=: plotdemo_prev_button
-end.
-0
-)
+plotdemo_f10_fkey=: plotdemo_saveeps_button
+plotdemo_f11_fkey=: plotdemo_savepdf_button
+plotdemo_f12_fkey=: plotdemo_next_button
+plotdemo_f12shift_fkey=: plotdemo_prev_button
 
 plotdemo=: plotdemo_run
