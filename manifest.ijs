@@ -6,7 +6,7 @@ DESCRIPTION=: 0 : 0
 2D Plot
 )
 
-VERSION=: '1.0.139'
+VERSION=: '1.0.140'
 
 DEPENDS=: 0 : 0
 graphics/afm
@@ -20,7 +20,6 @@ jzplot.ijs
 plot.ijs
 plotdefs.ijs
 history.txt
-demo/
 )
 
 RELEASE=: 'j801'
