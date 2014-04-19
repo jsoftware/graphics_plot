@@ -6917,9 +6917,7 @@ qt_tifr=: 'tif' & qt_defstr
 qt_show=: 3 : 0
 popen_qt''
 (PForm,'_',PId,'_paint')=: qt_paint
-
-qt_paint''
-glpaint''
+glpaintx''
 if. 0~: 4!:0 <'VISIBLE' do. '' return. end.
 if. PShow=0 do.
   if. VISIBLE do.
