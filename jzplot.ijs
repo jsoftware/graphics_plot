@@ -1,5 +1,5 @@
 coclass 'jzplot'
-require 'graphics/afm graphics/color/colortab graphics/bmp'
+require 'graphics/afm graphics/color/colortab graphics/bmp math/misc/trig'
 
 3 : 0''
 if. 0 ~: 4!:0 <'JHSOUTPUT' do. JHSOUTPUT=: 'canvas' end.
