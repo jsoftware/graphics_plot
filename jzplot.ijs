@@ -6449,7 +6449,8 @@ assert. 2 > #$y
 buf=: buf,y
 )
 qt_gpapply=: 3 : 0
-glcmds buf
+rc=. glcmds buf
+assert. 0=rc [ 'glcmds buf'
 buf=: $0
 )
 qt_gpflip=: flipxy @ rndint
