@@ -2265,6 +2265,7 @@ wd 'pn *',PLOTCAPTION
 wd 'minwh 480 360'
 wd 'cc ',PId,' isigraph flush'
 wd 'pas 0 0'
+
 fm=. PForm,'_'
 id=. fm,PId,'_'
 (fm,'close')=: pclose_qt
@@ -2274,22 +2275,15 @@ id=. fm,PId,'_'
 Pxywh=: ''
 PShow=: 0
 )
-ppaint_qt=: 3 : 0
-cwh=. glqwh''
-if. 1[ cwh -.@-: Cw,Ch do.
-  qt_show ''
-end.
-)
 ptop_qt=: 3 : 0
 PTop=: -. PTop
 wd 'ptop ',":PTop
 )
-
 3 : 0''
 if. IFQT do.
   pclose=: pclose_qt
   popen=: popen_qt
-  ppaint=: ppaint_qt
+  ppaint=: qt_paint
   psize=: psize_qt
   ptop=: ptop_qt
 end.
@@ -4256,7 +4250,22 @@ hdr,.(1 + # &> hdr) }.each cmd
 pdreset=: 3 : 0
 setplotdefaults 'plot'
 if. #y do.
-  PForm=: y
+  if. 0=L. y do.
+    PForm=: y
+  else.
+    if. 2~:#y do.
+      sminfo 'invalid argument to pdreset' return.
+    end.
+    'f c'=. y
+    p=. 2 {."1 wdforms''
+    i=. <./ (|:p) i:"1 <f
+    if. i=#p do.
+      sminfo 'form not found: ',f return.
+    end.
+    'PForm PFormhwnd'=: i{p
+    PId=: c
+    ". PForm,'_',PId,'_paint__COCREATOR=: qt_paint_',(>coname''),'_'
+  end.
 end.
 PReset=: 1
 pdcmdsave=: ''
@@ -6459,10 +6468,6 @@ qt_gpfliplast=: 3 : 0
 )
 qt_gpinit=: 3 : 0
 buf=: bufdef=: $0
-r=. ''
-r=. r,3 2003 1
-r=. r,3 2071 1
-qt_gpapply''
 )
 qt_gpbrushnull=: 3 : '2 2005'
 qt_gppens=: 4 : 0
@@ -6917,7 +6922,6 @@ qt_gifr=: 'gif' & qt_defstr
 qt_tifr=: 'tif' & qt_defstr
 qt_show=: 3 : 0
 popen_qt''
-(PForm,'_',PId,'_paint')=: qt_paint
 glpaintx''
 if. 0~: 4!:0 <'VISIBLE' do. '' return. end.
 if. PShow=0 do.
@@ -6949,7 +6953,6 @@ for_d. dat do.
 end.
 qt_gpapply''
 )
-
 coclass 'jzplot'
 plot_area=: 3 : 0
 
