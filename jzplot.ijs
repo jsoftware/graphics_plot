@@ -6394,7 +6394,7 @@ qtfontdesc=: 3 : 0
 'ita bld'=. 2 2 #: fst
 sty=. (bld#' bold'),(ita#' italic'),und#' underline'
 if. ' ' e. nam=. ind pick QTFONTNAMES do. nam=. '"', nam, '"' end.
-nam,sty,' ',":siz
+nam,' ',(":siz),sty
 )
 
 qt_getsize=: 3 : 0
@@ -6640,6 +6640,7 @@ y=. (<p) _1 } y
 2031 qt_gppshape y
 )
 qttext=: 3 : 0
+
 't f a e c p'=. y
 
 degree0=. 3{f
@@ -6683,13 +6684,12 @@ b=. (font=' ') > ~:/\font='"'
 a: -.~ b <@(-.&'"');._1 font
 )
 FontStyle=: ;:'regular bold italic underline strikeout'
-
 parseFontSpec=: 3 : 0
 'ns styleangle'=. 2 split parseFontname y
 'face size'=. ns
 size=. 12". size
 style=. FontStyle i. tolower each styleangle
-style=. <.+/2^<:(style ((> 0) *. <) #FontStyle) # style
+style=. <.+/2^<:style #~ style e. i.#FontStyle
 if. 1 e. an=. ('angle'-:5&{.)&> styleangle do.
   degree=. 10%~ 0". 5}.>(an i. 1){styleangle
 else.
