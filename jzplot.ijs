@@ -4374,7 +4374,6 @@ arg=. ' ' takeafter out
 fn~arg
 EMPTY
 )
-
 coclass 'jzplot'
 ANDROID_DEFSIZE=: 400 200
 ANDROID_DEFFILE=: jpath '~temp/plot'
@@ -6921,6 +6920,7 @@ qt_jpgr=: 'jpg' & qt_defstr
 qt_gifr=: 'gif' & qt_defstr
 qt_tifr=: 'tif' & qt_defstr
 qt_show=: 3 : 0
+make iQT;0 0 500 500
 popen_qt''
 glpaintx''
 if. 0~: 4!:0 <'VISIBLE' do. '' return. end.
@@ -6943,7 +6943,12 @@ qt_paintit 0 0,Cw,Ch
 )
 qt_paintit=: 3 : 0
 qt_gpinit''
-make iQT;y
+try.
+  make iQT;y
+catch.
+  PCmd=: Plot=: i.0 0
+  info ({.~i.&LF) 13!:12''
+end.
 if. 0=#Plot do. return. end.
 ids=. 1 {"1 Plot
 fns=. 'qt'&, each ids
