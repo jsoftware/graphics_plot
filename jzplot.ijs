@@ -6920,8 +6920,8 @@ qt_jpgr=: 'jpg' & qt_defstr
 qt_gifr=: 'gif' & qt_defstr
 qt_tifr=: 'tif' & qt_defstr
 qt_show=: 3 : 0
-make iQT;0 0 500 500
 popen_qt''
+make iQT;0 0 500 500
 glpaintx''
 if. 0~: 4!:0 <'VISIBLE' do. '' return. end.
 if. PShow=0 do.
