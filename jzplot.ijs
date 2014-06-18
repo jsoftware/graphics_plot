@@ -6375,7 +6375,7 @@ buf
 )
 coclass 'jzplot'
 QT_DEFSIZE=: 400 200
-QT_DEFFILE=: jpath '~temp/plot'
+qt_DEFFILE=: jpath '~temp/plot'
 QT_PENSCALE=: 0.4
 fext=: 4 : 0
 f=. deb y
@@ -6789,6 +6789,7 @@ else.
   fx,fy,fw,fh
 end.
 )
+qt_SAVES=: (,,&'r'each) ;: 'bmp jpg png tif'
 qt_bmp=: 3 : 0
 if. #y do.
   arg=. qchop y
@@ -6802,8 +6803,7 @@ if. #y do.
 else.
   wh=. file=. ''
 end.
-file=. file,(0=#file)#qt_DEFFILE
-file=. jpath '.bmp' fext file
+file=. 'bmp' qt_getfile file
 if. (2 = #wh) > wh -: Pw,Ph do.
   a=. cocreate''
   coinsert__a (,copath) coname''
@@ -6815,22 +6815,21 @@ end.
 bmp writebmp file
 )
 qt_def=: 4 : 0
-type=. x
-file=. jpath ('.',type) fext (;qchop y),(0=#y) # qt_DEFFILE
-(qt_getrgb'') writeimg file
+file=. x qt_getfile ;qchop y
+(qt_getrgb'') qt_writeimg file
 )
 qt_defstr=: 4 : 0
 type=. x
 (qt_getrgb'') putimg type
 )
-qt_emf=: 3 : 0
-file=. jpath '.emf' fext (;qchop y),(0=#y) # qt_DEFFILE
-wd 'psel ',": PFormhwnd
-glsel PId
-glfile file
-glemfopen''
-qt_paint''
-glemfclose''
+qt_get=: 3 : 0
+if. #y do.
+  type=. tolower firstword y
+  if. (<type) e. ;: 'gif jpg png tif' do.
+    y=. type,'r ', (#type)}. y
+  end.
+end.
+qt_save y
 )
 qt_getbmp=: 3 : 0
 wd 'psel ',": PFormhwnd
@@ -6851,6 +6850,9 @@ res=. qt_getbmp''
 wd 'pclose'
 res
 )
+qt_getfile=: 4 : 0
+jpath ('.',x) fext y,(0=#y) # qt_DEFFILE
+)
 qt_getrgb=: 3 : 0
 wd 'psel ',": PFormhwnd
 glsel PId
@@ -6867,9 +6869,9 @@ if. #y do.
   file=. > {. msk # arg
   qual=. <. {. (>(-.msk) # num),qual
 end.
-file=. jpath '.jpg' fext file,(0=#file) # qt_DEFFILE
+file=. 'jpg' qt_getfile file
 rgb=. qt_getrgb''
-rgb writeimg file
+rgb qt_writeimg file
 )
 qt_png=: 3 : 0
 file=. ''
@@ -6881,38 +6883,26 @@ if. #y do.
   file=. > {. msk # arg
   comp=. <. {. (>(-.msk) # num),comp
 end.
-file=. jpath '.png' fext file,(0=#file) # qt_DEFFILE
+file=. 'png' qt_getfile file
 rgb=. qt_getrgb''
-rgb writeimg file
+rgb qt_writeimg file
 )
 qt_save=: 3 : 0
 if. Poutput ~: iQT do.
-  msg=. 'First display an canvas Plot.'
+  msg=. 'First display a Plot.'
   info msg return.
 end.
 if. 0=#y do.
   qt_clip'' return.
 end.
 type=. tolower firstword y
-if. (<type) e. ;: 'gif jpg png tif gifr jpgr pngr tifr' do.
-  af=. jpath '~addons/media/platimg/platimg.ijs'
-  if. -. flexist af do.
-    info 'Save to ',type,' requires the platimg addon.' return.
-  end.
-  require af
+if. (<type) e. qt_SAVES do.
+  ('qt_',type)~ (1+#type) }. y
+else.
+  info 'Save to type not supported:',type
 end.
-('qt_',type)~ (1+#type) }. y
 )
-
-qt_get=: 3 : 0
-if. #y do.
-  type=. tolower firstword y
-  if. (<type) e. ;: 'gif jpg png tif' do.
-    y=. type,'r ', (#type)}. y
-  end.
-end.
-qt_save y
-)
+qt_writeimg=: 4 : '(256 #. 255 ,"0 1 x) writeimg_jqtide_ y'
 qt_gif=: 'gif' & qt_def
 qt_tif=: 'tif' & qt_def
 qt_pngr=: 'png' & qt_defstr
@@ -6922,6 +6912,7 @@ qt_tifr=: 'tif' & qt_defstr
 qt_show=: 3 : 0
 popen_qt''
 make iQT;0 0 500 500
+
 glpaintx''
 if. 0~: 4!:0 <'VISIBLE' do. '' return. end.
 if. PShow=0 do.
