@@ -6375,7 +6375,7 @@ buf
 )
 coclass 'jzplot'
 QT_DEFSIZE=: 400 200
-qt_DEFFILE=: jpath '~temp/plot'
+QT_DEFFILE=: jpath '~temp/plot'
 QT_PENSCALE=: 0.4
 fext=: 4 : 0
 f=. deb y
@@ -6789,7 +6789,7 @@ else.
   fx,fy,fw,fh
 end.
 )
-qt_SAVES=: (,,&'r'each) ;: 'bmp jpg png tif'
+QT_SAVES=: (,,&'r'each) ;: 'bmp jpg png tif'
 qt_bmp=: 3 : 0
 if. #y do.
   arg=. qchop y
@@ -6851,7 +6851,7 @@ wd 'pclose'
 res
 )
 qt_getfile=: 4 : 0
-jpath ('.',x) fext y,(0=#y) # qt_DEFFILE
+jpath ('.',x) fext y,(0=#y) # QT_DEFFILE
 )
 qt_getrgb=: 3 : 0
 wd 'psel ',": PFormhwnd
@@ -6896,7 +6896,7 @@ if. 0=#y do.
   qt_clip'' return.
 end.
 type=. tolower firstword y
-if. (<type) e. qt_SAVES do.
+if. (<type) e. QT_SAVES do.
   ('qt_',type)~ (1+#type) }. y
 else.
   info 'Save to type not supported:',type
