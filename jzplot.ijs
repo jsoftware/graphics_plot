@@ -2314,10 +2314,10 @@ end.
 pgetextent=: 4 : 0
 select. Poutput
 case. iANDROID do.
-  glfont andfontdesc^:(0={.0#x) x
+  glfontextent andfontdesc^:(0={.0#x) x
   |: glqextent &> y
 case. iQT do.
-  glfont gtkfontdesc^:(0={.0#x) x
+  glfontextent gtkfontdesc^:(0={.0#x) x
   |: glqextent &> y
 case. iCANVAS do.
   FontScale * fzskludge * ((FontSizeMin >. 2{x) 2} x) getextent y
@@ -2332,10 +2332,10 @@ if. LF e. y do.
 end.
 select. Poutput
 case. iANDROID do.
-  glfont andfontdesc^:(0={.0#x) x
+  glfontextent andfontdesc^:(0={.0#x) x
   glqextent y
 case. iQT do.
-  glfont gtkfontdesc^:(0={.0#x) x
+  glfontextent gtkfontdesc^:(0={.0#x) x
   glqextent y
 case. iCANVAS do.
   FontScale * fzskludge * ((FontSizeMin >. 2{x) 2} x) getextent1 y
@@ -4475,20 +4475,20 @@ android_gpapply''
 android_gpbrushnull=: 3 : '2 2005'
 android_gppens=: 4 : 0
 y=. rndint y
-5 2032,"1 x,"1 [ 4 2022,"1 y,.5*y=0
+5 2032,"1 x,"1 [ 4 2022,"1 y,.y~:0
 )
 android_gppen=: 4 : 0
 y=. rndint y
-5 2032,(,x),4 2022,y,5*y=0
+5 2032,(,x),4 2022,y,y~:0
 )
 android_gppens1=: 3 : 0
-5 2032,"1 y,"1 [ 4 2022 1 0
+5 2032,"1 y,"1 [ 4 2022 1 1
 )
 android_gppen1=: 3 : 0
-5 2032,(,y),4 2022 1 0
+5 2032,(,y),4 2022 1 1
 )
 android_gppenbrush1=: 3 : 0
-5 2032,(,y),4 2022 1 0 2 2004
+5 2032,(,y),4 2022 1 1 2 2004
 )
 android_gppixel=: 3 : 0
 's t f e c p'=. y
@@ -4621,7 +4621,7 @@ end.
 p=. android_gpflip p
 t=. t { PENPATTERN
 if. (is1color e) *. 1 = #s do.
-  android_gpbuf 5 2032,(,e),4 2022,s,0
+  android_gpbuf 5 2032,(,e),4 2022,s,1
   pos=. t linepattern"0 1 p
   android_gpbuf ,android_gpcount 2015,"1 pos
 else.
@@ -4650,7 +4650,7 @@ f=. andfontdesc^:(0={.0#f) f
 p=. android_gpflip p
 t=. text2utf8 each boxopen t
 if. a do.
-  glfont f
+  glfontextent f
   off=. <. -: a * {."1 wh=. glqextent &> t
   if. (90=degree0)+.(1 e. 'angle900' E. f) do.
     p=. p +"1 [ ({:wh),.off
@@ -4740,7 +4740,7 @@ else.
   n=. rndint 2 * x
   p=. (y - s) ,. y + s
   q=. (y - "1 s * 1 _1) ,. y +"1 s * 1 _1
-  android_gpbuf 4 2022,n,0
+  android_gpbuf 4 2022,n,1
   android_gpbuf ,android_gpcount 2015 ,"1 p,q
 end.
 )
@@ -6471,20 +6471,20 @@ buf=: bufdef=: $0
 qt_gpbrushnull=: 3 : '2 2005'
 qt_gppens=: 4 : 0
 y=. rndint y
-5 2032,"1 x,"1 [ 4 2022,"1 y,.5*y=0
+5 2032,"1 x,"1 [ 4 2022,"1 y,.y~:0
 )
 qt_gppen=: 4 : 0
 y=. rndint y
-5 2032,(,x),4 2022,y,5*y=0
+5 2032,(,x),4 2022,y,y~:0
 )
 qt_gppens1=: 3 : 0
-5 2032,"1 y,"1 [ 4 2022 1 0
+5 2032,"1 y,"1 [ 4 2022 1 1
 )
 qt_gppen1=: 3 : 0
-5 2032,(,y),4 2022 1 0
+5 2032,(,y),4 2022 1 1
 )
 qt_gppenbrush1=: 3 : 0
-5 2032,(,y),4 2022 1 0 2 2004
+5 2032,(,y),4 2022 1 1 2 2004
 )
 qt_gppixel=: 3 : 0
 's t f e c p'=. y
@@ -6617,7 +6617,7 @@ end.
 p=. qt_gpflip p
 t=. t { PENPATTERN
 if. (is1color e) *. 1 = #s do.
-  qt_gpbuf 5 2032,(,e),4 2022,s,0
+  qt_gpbuf 5 2032,(,e),4 2022,s,1
   pos=. t linepattern"0 1 p
   qt_gpbuf ,qt_gpcount 2015,"1 pos
 else.
@@ -6647,7 +6647,7 @@ f=. qtfontdesc^:(0={.0#f) f
 p=. qt_gpflip p
 t=. text2utf8 each boxopen t
 if. a do.
-  glfont f
+  glfontextent f
   off=. <. -: a * {."1 wh=. glqextent &> t
   if. (90=degree0)+.(1 e. 'angle900' E. f) do.
     p=. p + "1 [ (0.2*{:wh),.off
@@ -6736,7 +6736,7 @@ else.
   n=. rndint 2 * x
   p=. (y - s) ,. y + s
   q=. (y - "1 s * 1 _1) ,. y +"1 s * 1 _1
-  qt_gpbuf 4 2022,n,0
+  qt_gpbuf 4 2022,n,1
   qt_gpbuf ,qt_gpcount 2015 ,"1 p,q
 end.
 )
