@@ -1,5 +1,5 @@
 coclass 'jzplot'
-require 'graphics/afm graphics/color/colortab graphics/bmp math/misc/trig'
+require 'graphics/afm graphics/color/colortab graphics/bmp graphics/png math/misc/trig'
 
 3 : 0''
 if. 0 ~: 4!:0 <'JHSOUTPUT' do. JHSOUTPUT=: 'canvas' end.
@@ -60,6 +60,7 @@ each=: &.>
 extbmp=: , ((0 < #) *. [: -. '.'"_ e. ]) # '.bmp'"_
 extemf=: , ((0 < #) *. [: -. '.'"_ e. ]) # '.emf'"_
 extjpf=: , ((0 < #) *. [: -. '.'"_ e. ]) # '.jpf'"_
+extpng=: , ((0 < #) *. [: -. '.'"_ e. ]) # '.png'"_
 findprefixes=: +./"1 @: ([ = (#@>@[) {.each ])"0 1
 first=: >@{.
 firstin=: e. {.@# [
@@ -4811,12 +4812,37 @@ file=. jpath '.bmp' fext file
 if. (2 = #wh) > wh -: Pw,Ph do.
   a=. cocreate''
   coinsert__a (,copath) coname''
-  bmp=. android_getbmpwh__a wh
+  bitmap=. android_getbitmapwh__a wh
   coerase a
 else.
-  bmp=. android_getbmp''
+  bitmap=. android_getbitmap''
 end.
-bmp writebmp file
+bitmap writebmp file
+)
+android_png=: 3 : 0
+if. #y do.
+  arg=. qchop y
+  num=. __ ". &.> arg
+  msk=. __ e. &> num
+  file=. > {. msk # arg
+  wh=. >(-.msk) # num
+  if. -. (#wh) e. 0 2 do.
+    info 'invalid [w h] parameter in save png' return.
+  end.
+else.
+  wh=. file=. ''
+end.
+file=. file,(0=#file)#android_DEFFILE
+file=. jpath '.png' fext file
+if. (2 = #wh) > wh -: Pw,Ph do.
+  a=. cocreate''
+  coinsert__a (,copath) coname''
+  bitmap=. android_getbitmapwh__a wh
+  coerase a
+else.
+  bitmap=. android_getbitmap''
+end.
+bitmap writepng file
 )
 android_def=: 4 : 0
 type=. x
@@ -4836,14 +4862,14 @@ glemfopen''
 android_paint''
 glemfclose''
 )
-android_getbmp=: 3 : 0
+android_getbitmap=: 3 : 0
 wd 'psel ',": PFormhwnd
 glsel PId
 box=. wdqchildxywh PId
 res=. glqpixels box
 (3 2 { box) $ res
 )
-android_getbmpwh=: 3 : 0
+android_getbitmapwh=: 3 : 0
 wd 'pc a owner;wh 480 300;cc g canvas;pas 0 0'
 PFormhwnd=: wdqhwndp''
 PId=: 'g'
@@ -4851,7 +4877,7 @@ wd 'setxywhx g 0 0 ',":y
 wd 'pshow'
 android_paintx''
 glpaint''
-res=. android_getbmp''
+res=. android_getbitmap''
 wd 'pclose'
 res
 )
@@ -6807,12 +6833,37 @@ file=. 'bmp' qt_getfile file
 if. (2 = #wh) > wh -: Pw,Ph do.
   a=. cocreate''
   coinsert__a (,copath) coname''
-  bmp=. qt_getbmpwh__a wh
+  bitmap=. qt_getbitmapwh__a wh
   coerase a
 else.
-  bmp=. qt_getbmp''
+  bitmap=. qt_getbitmap''
 end.
-bmp writebmp file
+bitmap writebmp file
+)
+
+qt_png=: 3 : 0
+if. #y do.
+  arg=. qchop y
+  num=. __ ". &.> arg
+  msk=. __ e. &> num
+  file=. > {. msk # arg
+  wh=. >(-.msk) # num
+  if. -. (#wh) e. 0 2 do.
+    info 'invalid [w h] parameter in save png' return.
+  end.
+else.
+  wh=. file=. ''
+end.
+file=. 'png' qt_getfile file
+if. (2 = #wh) > wh -: Pw,Ph do.
+  a=. cocreate''
+  coinsert__a (,copath) coname''
+  bitmap=. qt_getbitmapwh__a wh
+  coerase a
+else.
+  bitmap=. qt_getbitmap''
+end.
+bitmap writepng file
 )
 qt_def=: 4 : 0
 file=. x qt_getfile ;qchop y
@@ -6831,14 +6882,14 @@ if. #y do.
 end.
 qt_save y
 )
-qt_getbmp=: 3 : 0
+qt_getbitmap=: 3 : 0
 wd 'psel ',": PFormhwnd
 glsel PId
 box=. wdqchildxywh PId
 res=. glqpixels box
 (3 2 { box) $ res
 )
-qt_getbmpwh=: 3 : 0
+qt_getbitmapwh=: 3 : 0
 wd 'pc a owner;wh 480 400;cc g canvas;pas 0 0'
 PFormhwnd=: wdqhwndp''
 PId=: 'g'
@@ -6846,7 +6897,7 @@ wd 'set g wh ',":y
 wd 'pshow'
 qt_paintx''
 glpaint''
-res=. qt_getbmp''
+res=. qt_getbitmap''
 wd 'pclose'
 res
 )
