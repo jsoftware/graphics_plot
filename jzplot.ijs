@@ -4211,8 +4211,11 @@ fns=. p ,each TYPE
 for_f. fns do.
   (>f)~ndx
 end.
-DataNdx=: DataNdx + # citemize (<ndx;1) pick Data
-
+if. 1 e. TYPE e. 'errorbar';'hilo' do.
+  DataNdx=: DataNdx + 1
+else.
+  DataNdx=: DataNdx + # citemize (<ndx;1) pick Data
+end.
 )
 sety2vals=: 3 : 0
 ((<'Y') ,each AxisOut)=: ". each (<'Y2') ,each AxisOut
