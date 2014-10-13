@@ -7,6 +7,7 @@ if. 0 ~: 4!:0 <'CONSOLEOUTPUT' do. CONSOLEOUTPUT=: 'pdf' end.
 if. 0 ~: 4!:0 <'IFTESTPLOTJHS' do. IFTESTPLOTJHS_z_=: 0 end.
 if. IFTESTPLOTJHS +. IFJHS do.
 elseif. IFQT do.
+  require '~addons/ide/qt/console.ijs'
   require 'graphics/gl2'
   coinsert 'jgl2'
 elseif. IFJCDROID do.
@@ -18,6 +19,10 @@ elseif. do.
     if. 0 < #1!:0 jpath '~addons/graphics/gl2/gl2.ijs' do.
       require 'graphics/gl2'
       coinsert 'jgl2'
+    end.
+    if. 0 < #1!:0 jpath '~addons/ide/qt/console.ijs' do.
+      require '~addons/ide/qt/qt.ijs'
+      require '~addons/ide/qt/console.ijs'
     end.
   end.
 end.
@@ -681,7 +686,7 @@ Pxywh=: ''
 PStyle=: ''
 TypeRest=: ''
 ('i',each ;: 'LEFT CENTER RIGHT')=: i. 3
-j=. ;: ' EPS PDF CANVAS ANDROID QT'
+j=. ;: ' EPS PDF CANVAS ANDROID QT QTC'
 ('i' ,each j)=: i.#j
 j=. 'i' ,each cutopen toupper 0 : 0
 background
@@ -2300,7 +2305,7 @@ if. Poutput = iANDROID do.
   else.
     FontScale * getascender y
   end.
-elseif. Poutput = iQT do.
+elseif. Poutput e. iQT,iQTC do.
   if. 1 [ 1=GL2Backend_jgl2_ do.
     glfont gtkfontdesc y
     1 { glqtextmetrics''
@@ -2318,9 +2323,9 @@ select. Poutput
 case. iANDROID do.
   glfontextent andfontdesc^:(0={.0#x) x
   |: glqextent &> y
-case. iQT do.
-  glfontextent gtkfontdesc^:(0={.0#x) x
-  |: glqextent &> y
+case. iQT;iQTC do.
+  glfontextent`glc_fontextent_jglc_@.(Poutput=iQTC) gtkfontdesc^:(0={.0#x) x
+  |: glqextent`glc_qextent_jglc_@.(Poutput=iQTC) &> y
 case. iCANVAS do.
   FontScale * fzskludge * ((FontSizeMin >. 2{x) 2} x) getextent y
 case. do.
@@ -2336,9 +2341,9 @@ select. Poutput
 case. iANDROID do.
   glfontextent andfontdesc^:(0={.0#x) x
   glqextent y
-case. iQT do.
-  glfontextent gtkfontdesc^:(0={.0#x) x
-  glqextent y
+case. iQT;iQTC do.
+  glfontextent`glc_fontextent_jglc_@.(Poutput=iQTC) gtkfontdesc^:(0={.0#x) x
+  glqextent`glc_qextent_jglc_@.(Poutput=iQTC) y
 case. iCANVAS do.
   FontScale * fzskludge * ((FontSizeMin >. 2{x) 2} x) getextent1 y
 case. do.
@@ -2377,7 +2382,7 @@ if. Poutput e. iANDROID do.
   SubTitleFont=: getgtkfontid SubTitleFontX
   SymbolFont=: getgtkfontid SymbolFontX
   TitleFont=: getgtkfontid TitleFontX
-elseif. Poutput e. iQT do.
+elseif. Poutput e. iQT;iQTC do.
   CaptionFont=: getgtkfontid CaptionFontX
   KeyFont=: getgtkfontid KeyFontX
   LabelFont=: getgtkfontid LabelFontX
@@ -2556,7 +2561,7 @@ elseif. do.
 end.
 if. Poutput = iANDROID do.
   ty=. ty - <. 0.75 * {.th
-elseif. Poutput = iQT do.
+elseif. Poutput e. iQT,iQTC do.
 end.
 pos=. tx,.ty
 
@@ -4184,7 +4189,7 @@ for_p. Text do.
     font=. getfontid TEXTFONT
     if. Poutput e. iANDROID do.
       font=. getgtkfontid font
-    elseif. Poutput e. iQT do.
+    elseif. Poutput e. iQT,iQTC do.
       font=. getgtkfontid font
     end.
 
@@ -4229,7 +4234,7 @@ PDDefs=: ;: toupper j
 j=. 'brushcolor end lines pen pencolor rect'
 PDgd=: 'gd'&, each ;: j
 PDGD=: 'GD'&, each ;: toupper j
-PDshow=: ;: 'canvas eps android qt jpf pdf print show'
+PDshow=: ;: 'canvas eps android qt qtc jpf pdf print show'
 PDcopy=: ;: 'clip save get'
 PDget=: ;: 'pdfr canvasr'
 PDcmds=: ;: 'multi new use'
@@ -4349,6 +4354,7 @@ pd_eps=: eps_show
 pd_canvas=: canvas_show
 pd_canvasr=: canvas_get
 pd_qt=: qt_show
+pd_qtc=: qtc_show
 pd_pdf=: pdf_show
 pd_pdfr=: pdf_get
 pd_jpf=: pdf_jpf
@@ -6404,7 +6410,35 @@ end.
 buf
 )
 coclass 'jzplot'
-QT_DEFSIZE=: 400 200
+qtc_show=: 3 : 0
+'size file'=. 2{. qtc_getparms y
+qtc_make file;size
+if. VISIBLE do.
+  browse_j_ file
+end.
+)
+qtc_make=: 3 : 0
+'file size'=. y
+make iQTC;0 0,size
+ids=. 1 {"1 Plot
+fns=. 'qt'&, each ids
+dat=. 3 }."1 Plot
+glc_init_jglc_ size
+qt_gpinit''
+'Cw Ch'=: size
+for_d. dat do.
+  (>d_index{fns)~d
+end.
+qt_gpapply''
+glc_savefile_jglc_ file
+glc_free_jglc_ ''
+)
+qtc_getparms=: 3 : 0
+(QT_DEFSIZE;QT_DEFFILE,'.png') output_parms y
+)
+
+coclass 'jzplot'
+QT_DEFSIZE=: 480 360
 QT_DEFFILE=: jpath '~temp/plot'
 QT_PENSCALE=: 0.4
 fext=: 4 : 0
@@ -6427,6 +6461,7 @@ nam,' ',(":siz),sty
 )
 
 qt_getsize=: 3 : 0
+if. Poutput=iQTC do. glc_qwh_jglc_'' return. end.
 if. -. wdishandle :: 0: ": PFormhwnd do. '' return. end.
 wd 'psel ', ":PFormhwnd
 s=. wdqchildxywh ::0: PId
@@ -6487,7 +6522,7 @@ assert. 2 > #$y
 buf=: buf,y
 )
 qt_gpapply=: 3 : 0
-rc=. glcmds buf
+rc=. glcmds`glc_cmds_jglc_@.(Poutput=iQTC) buf
 assert. 0=rc [ 'glcmds buf'
 buf=: $0
 )
@@ -6677,8 +6712,8 @@ f=. qtfontdesc^:(0={.0#f) f
 p=. qt_gpflip p
 t=. text2utf8 each boxopen t
 if. a do.
-  glfontextent f
-  off=. <. -: a * {."1 wh=. glqextent &> t
+  glfontextent`glc_fontextent_jglc_@.(Poutput=iQTC) f
+  off=. <. -: a * {."1 wh=. glqextent`glc_qextent_jglc_@.(Poutput=iQTC) &> t
   if. (90=degree0)+.(1 e. 'angle900' E. f) do.
     p=. p + "1 [ (0.2*{:wh),.off
   elseif. (270=degree0)+.(1 e. 'angle2700' E. f) do.
@@ -7528,7 +7563,7 @@ plot_symbol=: 3 : 0
 dat=. getgrafmat y
 clr=. getitemcolor #dat
 font=. SymbolFont
-if. Poutput e. iANDROID,iQT,iCANVAS do.
+if. Poutput e. iANDROID,iQT,iQTC,iCANVAS do.
   sym=. utf8 each ucp text2utf8 SYMBOLS
 else.
   sym=. <&> text2ascii8 SYMBOLS
