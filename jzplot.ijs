@@ -15,7 +15,7 @@ elseif. IFJCDROID do.
   coinsert 'jgl2 jni jaresu'
   CONSOLEOUTPUT=: 'android'
 elseif. do.
-  if. (UNAME-:'Linux') *: ((0;'') e.~ <2!:5 'DISPLAY') do.
+  if. -. IFIOS +. (UNAME-:'Android') +. ((UNAME-:'Linux') *. ((0;'') e.~ <2!:5 'DISPLAY')) +. ((UNAME-:'Darwin') *. ((0;'') e.~ <2!:5 'QT_PLUGIN_PATH')) do.
     if. 0 < #1!:0 jpath '~addons/graphics/gl2/gl2.ijs' do.
       require 'graphics/gl2'
       coinsert 'jgl2'
