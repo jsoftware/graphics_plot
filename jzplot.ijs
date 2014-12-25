@@ -14,9 +14,6 @@ elseif. IFJCDROID do.
   require 'graphics/gl2 droidwd gui/android'
   coinsert 'jgl2 jni jaresu'
   CONSOLEOUTPUT=: 'android'
-elseif. 0 < #1!:0 jpath '~addons/graphics/cairo/cairo.ijs' do.
-  require 'graphics/cairo'
-  coinsert 'jcairo'
 elseif. do.
   if. -. IFIOS +. (UNAME-:'Android') +. ((UNAME-:'Linux') *. ((0;'') e.~ <2!:5 'DISPLAY')) +. ((UNAME-:'Darwin') *. ((0;'') e.~ <2!:5 'QT_PLUGIN_PATH')) do.
     if. 0 < #1!:0 jpath '~addons/graphics/gl2/gl2.ijs' do.
@@ -28,6 +25,10 @@ elseif. do.
       require '~addons/ide/qt/console.ijs'
     end.
   end.
+end.
+if. 0 < #1!:0 jpath '~addons/graphics/cairo/cairo.ijs' do.
+  require 'graphics/cairo'
+  coinsert 'jcairo'
 end.
 coinsert 'jafm'
 ''
