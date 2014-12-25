@@ -5076,6 +5076,9 @@ cairo_text=: 3 : 0
 pos=. citemize pos
 txt=. ,each boxxopen txt
 txt=. utf8 each txt
+te=. (5*8)$(2.2-2.2)
+cairo_font_extents_jcairo_ plotcr; te
+of=. - 0 , <. {.te
 if. und +. align e. iCENTER, iRIGHT do.
   len=. fnt pgetstringlen txt
 end.
@@ -5090,7 +5093,7 @@ case. 0 do.
     pos=. pos -"1 len,.0
   end.
   for_i. i.#pos do.
-    cairo_move_to_jcairo_ plotcr ; <"0 flipxy i{pos
+    cairo_move_to_jcairo_ plotcr ; <"0 flipxy of + i{pos
     cairo_show_text_jcairo_ plotcr;(,>i{txt)
   end.
 case. 1 do.
@@ -5102,7 +5105,7 @@ case. 1 do.
   end.
   for_i. i.#pos do.
     cairo_save_jcairo_ plotcr
-    cairo_move_to_jcairo_ plotcr ; <"0 flipxy i{pos
+    cairo_move_to_jcairo_ plotcr ; <"0 flipxy of + i{pos
     cairo_rotate_jcairo_ plotcr ; - 0.5p1
     cairo_show_text_jcairo_ plotcr;(,>i{txt)
     cairo_restore_jcairo_ plotcr
@@ -5116,7 +5119,7 @@ case. 2 do.
   end.
   for_i. i.#pos do.
     cairo_save_jcairo_ plotcr
-    cairo_move_to_jcairo_ plotcr ; <"0 flipxy i{pos
+    cairo_move_to_jcairo_ plotcr ; <"0 flipxy of + i{pos
     cairo_rotate_jcairo_ plotcr ; 0.5p1
     cairo_show_text_jcairo_ plotcr;(,>i{txt)
     cairo_restore_jcairo_ plotcr
@@ -5126,8 +5129,8 @@ end.
 if. -. und do. EMPTY return. end.
 pos=. citemize pos
 len=. , len
+off=. <. -/ 2 0{te
 
-'off lwd'=. getunderline fnt
 select. rot
 case. 0 do.
   bgn=. 0 >. pos -"1 [ 0,.-off
