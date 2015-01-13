@@ -9,6 +9,7 @@ DESCRIPTION=: 0 : 0
 VERSION=: '1.0.158'
 
 DEPENDS=: 0 : 0
+general/misc
 graphics/afm
 graphics/bmp
 graphics/color
