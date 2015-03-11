@@ -7506,7 +7506,7 @@ if. PShow=0 do.
   if. VISIBLE do.
     wd 'pshow ',PSHOW
   else.
-    wd 'pshow sw_hide'
+    wd 'pshow hide'
   end.
   wd 'ptop ',":PTop
   PShow=: 1
