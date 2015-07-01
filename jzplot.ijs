@@ -2223,10 +2223,6 @@ pclose_android=: 3 : 0
 0
 )
 popen_android=: 3 : 0
-if. wd ::0: 'psel ', ": (0&". ::]) PFormhwnd do.
-    selectpid''
-    0 return.
-end.
 fm=. PForm,'_'
 id=. fm,PId,'_'
 (fm,'close')=: pclose_android
@@ -4983,6 +4979,7 @@ if. -.ifjwplot'' do.
   android_paint''
   glpaint''
 end.
+EMPTY
 )
 android_paint=: 3 : 0
 selectpid''
@@ -5001,7 +4998,34 @@ for_d. dat do.
 end.
 android_gpapply''
 )
+Activity=: 0
 
+onCreate=: 3 : 0
+jniCheck PFormhwnd=: Activity=: NewGlobalRef <2{y
+jniCheck Activity ('requestWindowFeature (I)Z' jniMethod)~ FEATURE_NO_TITLE
+jniCheck win=. Activity ('getWindow ()LWindow;' jniMethod)~ ''
+jniCheck win ('setFlags (II)V' jniMethod)~ FLAG_FULLSCREEN;FLAG_FULLSCREEN
+jniCheck DeleteLocalRef <win
+option=. 0
+w=. h=. 320
+idnx=: (0,Activity) glcanvas_jgl2_ (w,h) ; coname''
+PIdhwnd=: ":idnx
+l=. glgetloc_jgl2_ idnx
+thisview=. view__l
+jniCheck Activity ('setContentView (LView;)V' jniMethod)~ thisview
+jniCheck thisview ('requestFocus ()Z' jniMethod)~ ''
+jniCheck DeleteLocalRef <thisview
+
+0
+)
+
+onDestroy=: 3 : 0
+if. Activity do.
+ jniCheck DeleteGlobalRef <Activity
+end.
+Activity=: idnx=: 0
+0
+)
 coclass 'jzplot'
 CAIRO_DEFSIZE=: 400 300
 CAIRO_DEFFILE=: jpath '~temp/plot.png'
