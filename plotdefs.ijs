@@ -169,7 +169,7 @@ if. IFTESTPLOTJHS +. IFJHS do.
   r=. 'OUTPUT=: JHSOUTPUT'
 elseif. IFQT do.
   r=. 'OUTPUT=: ''qt'''
-elseif. IFJCDROID do.
+elseif. IFJA do.
   r=. 'OUTPUT=: ''android'''
 elseif. do.  NB. jconsole
   r=. 'OUTPUT=: CONSOLEOUTPUT'

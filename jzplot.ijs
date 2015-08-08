@@ -10,9 +10,9 @@ elseif. IFQT do.
   require '~addons/ide/qt/console.ijs'
   require 'graphics/gl2'
   coinsert 'jgl2'
-elseif. IFJCDROID do.
-  require 'graphics/gl2 droidwd gui/android'
-  coinsert 'jgl2 jni jaresu'
+elseif. IFJA do.
+  require 'graphics/gl2'
+  coinsert 'jgl2'
   CONSOLEOUTPUT=: 'android'
 elseif. do.
   if. 0 < #1!:0 jpath '~addons/graphics/gl2/gl2.ijs' do.
@@ -764,7 +764,7 @@ end.
 if. -. IFTESTPLOTJHS +. IFJHS +. IFQT do.
   if. IFQT do.
     r=. 'OUTPUT=: ''qt'''
-  elseif. IFJCDROID do.
+  elseif. IFJA do.
     r=. 'OUTPUT=: ''android'''
   elseif. ('cairo' -: CONSOLEOUTPUT) do.
     r=. 'OUTPUT=: ''cairo'''
@@ -1326,7 +1326,7 @@ if. IFTESTPLOTJHS +. IFJHS do.
   r=. 'OUTPUT=: JHSOUTPUT'
 elseif. IFQT do.
   r=. 'OUTPUT=: ''qt'''
-elseif. IFJCDROID do.
+elseif. IFJA do.
   r=. 'OUTPUT=: ''android'''
 elseif. do.
   r=. 'OUTPUT=: CONSOLEOUTPUT'
@@ -2220,9 +2220,23 @@ else.
 end.
 )
 pclose_android=: 3 : 0
+try.
+  wd 'psel ',": PFormhwnd
+  PFormhwnd=: 0
+  if. ifjwplot'' do.
+    wpsave_j_ :: 0: PForm
+  end.
+  wd 'pclose'
+  pd 'reset'
+catch. end.
 0
 )
 popen_android=: 3 : 0
+if. wdishandle ": (0&". ::]) PFormhwnd do.
+  wd 'psel ', ": (0&". ::]) PFormhwnd
+  glsel PId
+  0 return.
+end.
 fm=. PForm,'_'
 id=. fm,PId,'_'
 (fm,'close')=: pclose_android
@@ -2231,20 +2245,26 @@ id=. fm,PId,'_'
 
 Pxywh=: ''
 PShow=: 0
-StartActivity_ja_ (>coname'');'onDestroy'
-)
-ppaint_android=: 3 : 0
-cwh=. glqwh''
-if. 1[ cwh -.@-: Cw,Ch do.
-  android_show ''
-end.
+wd 'activity ', >coname''
 )
 
+onCreate=: 3 : 0
+wd 'pc ',PForm
+wd 'pn *',PLOTCAPTION
+wd 'cc ',PId,' isigraph flush'
+wd 'pas 0 0'
+PFormhwnd=: wdqhwndp''
+android_show2''
+)
+ptop_android=: 3 : 0
+PTop=: -. PTop
+wd 'ptop ',":PTop
+)
 3 : 0''
-if. IFJCDROID do.
+if. IFJA do.
   pclose=: pclose_android
   popen=: popen_android
-  ppaint=: ppaint_android
+  ppaint=: qt_paint
   psize=: psize_android
   ptop=: ptop_android
 end.
@@ -2301,19 +2321,11 @@ EMPTY
 fzskludge=: 4%3
 pgetascender=: 3 : 0
 if. Poutput = iANDROID do.
-  if. 1 [ 1=GL2Backend_jgl2_ do.
-    glfont andfontdesc y
-    1 { glqtextmetrics''
-  else.
-    FontScale * getascender y
-  end.
+  glfontextent andfontdesc y
+  1 { glqtextmetrics''
 elseif. Poutput e. iQT,iQTC do.
-  if. 1 [ 1=GL2Backend_jgl2_ do.
-    glfont gtkfontdesc y
-    1 { glqtextmetrics''
-  else.
-    FontScale * getascender y
-  end.
+  glfontextent gtkfontdesc y
+  1 { glqtextmetrics''
 elseif. Poutput = iCAIRO do.
   FontScale * getascender y
 elseif. Poutput = iCANVAS do.
@@ -4968,18 +4980,19 @@ android_gifr=: 'gif' & android_defstr
 android_tifr=: 'tif' & android_defstr
 android_show=: 3 : 0
 popen_android''
-if. ifjwplot'' do.
-  (PForm,'_',PId,'_paint')=: android_paint
-end.
+)
+android_show2=: 3 : 0
+if. 0~: 4!:0 <'VISIBLE' do. '' return. end.
 if. PShow=0 do.
+  if. VISIBLE do.
+    wd 'pshow ',PSHOW
+  else.
+    wd 'pshow hide'
+  end.
+  wd 'ptop ',":PTop
   PShow=: 1
 end.
-
-if. -.ifjwplot'' do.
-  android_paint''
-  glpaint''
-end.
-EMPTY
+''
 )
 android_paint=: 3 : 0
 selectpid''
@@ -4989,43 +5002,22 @@ android_paintit 0 0,Cw,Ch
 )
 android_paintit=: 3 : 0
 android_gpinit''
-make iANDROID;y
+try.
+  make iANDROID;y
+catch.
+  PCmd=: Plot=: i.0 0
+  info ({.~i.&LF) 13!:12''
+end.
+if. 0=#Plot do. return. end.
 ids=. 1 {"1 Plot
-fns=. 'android'&, each ids
+fns=. 'qt'&, each ids
 dat=. 3 }."1 Plot
 for_d. dat do.
   (>d_index{fns)~d
 end.
 android_gpapply''
 )
-Activity=: 0
 
-onCreate=: 3 : 0
-jniCheck PFormhwnd=: Activity=: NewGlobalRef <2{y
-jniCheck Activity ('requestWindowFeature (I)Z' jniMethod)~ FEATURE_NO_TITLE
-jniCheck win=. Activity ('getWindow ()LWindow;' jniMethod)~ ''
-jniCheck win ('setFlags (II)V' jniMethod)~ FLAG_FULLSCREEN;FLAG_FULLSCREEN
-jniCheck DeleteLocalRef <win
-option=. 0
-w=. h=. 320
-idnx=: (0,Activity) glcanvas_jgl2_ (w,h) ; coname''
-PIdhwnd=: ":idnx
-l=. glgetloc_jgl2_ idnx
-thisview=. view__l
-jniCheck Activity ('setContentView (LView;)V' jniMethod)~ thisview
-jniCheck thisview ('requestFocus ()Z' jniMethod)~ ''
-jniCheck DeleteLocalRef <thisview
-
-0
-)
-
-onDestroy=: 3 : 0
-if. Activity do.
- jniCheck DeleteGlobalRef <Activity
-end.
-Activity=: idnx=: 0
-0
-)
 coclass 'jzplot'
 CAIRO_DEFSIZE=: 400 300
 CAIRO_DEFFILE=: jpath '~temp/plot.png'
@@ -7522,9 +7514,6 @@ qt_gifr=: 'gif' & qt_defstr
 qt_tifr=: 'tif' & qt_defstr
 qt_show=: 3 : 0
 popen_qt''
-make iQT;0 0 500 500
-
-glpaintx''
 if. 0~: 4!:0 <'VISIBLE' do. '' return. end.
 if. PShow=0 do.
   if. VISIBLE do.
