@@ -5010,7 +5010,7 @@ catch.
 end.
 if. 0=#Plot do. return. end.
 ids=. 1 {"1 Plot
-fns=. 'qt'&, each ids
+fns=. 'android'&, each ids
 dat=. 3 }."1 Plot
 for_d. dat do.
   (>d_index{fns)~d
@@ -7514,6 +7514,7 @@ qt_gifr=: 'gif' & qt_defstr
 qt_tifr=: 'tif' & qt_defstr
 qt_show=: 3 : 0
 popen_qt''
+glpaintx''
 if. 0~: 4!:0 <'VISIBLE' do. '' return. end.
 if. PShow=0 do.
   if. VISIBLE do.
