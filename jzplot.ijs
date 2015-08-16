@@ -1412,6 +1412,7 @@ elseif. do.
 end.
 
 pd 'show'
+EMPTY
 )
 coclass 'jzplot'
 makegridpos=: 4 : 0
