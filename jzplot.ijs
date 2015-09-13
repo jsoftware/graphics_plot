@@ -33,13 +33,6 @@ end.
 coinsert 'jafm'
 ''
 )
-
-jniImport ::0: (0 : 0)
-android.content.Context
-android.view.View
-android.view.View$OnTouchListener
-android.view.Window
-)
 NOAXES=: 'axes 0;boxed 0;frame 0;grids 0;labels 0;tics 0;'
 NOFRAME=: 'axes 1;frame 0'
 
@@ -2246,10 +2239,10 @@ id=. fm,PId,'_'
 
 Pxywh=: ''
 PShow=: 0
-wd 'activity ', >coname''
+wd 'activity ', (>coname''), ' fs'
 )
 
-onCreate=: 3 : 0
+onStart=: 3 : 0
 wd 'pc ',PForm
 wd 'pn *',PLOTCAPTION
 wd 'cc ',PId,' isigraph flush'
