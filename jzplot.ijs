@@ -5011,7 +5011,6 @@ for_d. dat do.
 end.
 android_gpapply''
 )
-
 coclass 'jzplot'
 CAIRO_DEFSIZE=: 400 300
 CAIRO_DEFFILE=: jpath '~temp/plot.png'
