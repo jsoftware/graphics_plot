@@ -19,8 +19,8 @@ elseif. do.
     require 'graphics/gl2'
     coinsert 'jgl2'
   end.
-  if. -. IFIOS +. (UNAME-:'Android') +. ((UNAME-:'Linux') *. ((0;'') e.~ <2!:5 'DISPLAY')) +. ((UNAME-:'Darwin') *. ((0;'') e.~ <2!:5 'QT_PLUGIN_PATH')) do.
-    if. (CONSOLEOUTPUT-:'qtc') *. 0 < #1!:0 jpath '~addons/ide/qt/console.ijs' do.
+  if. -. IFIOS +. IFJA +. (UNAME-:'Android') +. ((UNAME-:'Darwin') *. ((0;'') e.~ <2!:5 'QT_PLUGIN_PATH')) +. ((UNAME-:'Linux') *. (0;'') e.~ <2!:5 'DISPLAY') do.
+    if. (CONSOLEOUTPUT-:'qtc') *. 0 < #1!:0 jpath '~addons/ide/qt/qt.ijs' do.
       require '~addons/ide/qt/qt.ijs'
       require '~addons/ide/qt/console.ijs'
     end.
@@ -5033,7 +5033,7 @@ while. 0 ~: cairo_surface_write_to_png_jcairo_ (cairo_get_target_jcairo_ plotcr)
     info msg,'The file name is invalid.' return. end.
 end.
 if. (VISIBLE > IFJHS) do.
-  browse_j_ file
+  viewimage_j_ file
 end.
 EMPTY
 )
@@ -5517,7 +5517,7 @@ while. _1 -: dat flwrites file do.
     info msg,'The file name is invalid.' return. end.
 end.
 if. (VISIBLE > IFJHS) *. '<!DOCTYPE html>' -: 15{.x do.
-  browse_j_ file
+  viewimage_j_ file
 end.
 )
 canvas_build=: 4 : 0
@@ -6920,7 +6920,7 @@ qtc_show=: 3 : 0
 'size file'=. 2{. qtc_getparms y
 qtc_make file;size
 if. VISIBLE do.
-  browse_j_ file
+  viewimage_j_ file
 end.
 )
 qtc_make=: 3 : 0
