@@ -20,7 +20,7 @@ elseif. do.
     coinsert 'jgl2'
   end.
   if. -. IFIOS +. IFJA +. (UNAME-:'Android') +. ((UNAME-:'Darwin') *. ((0;'') e.~ <2!:5 'QT_PLUGIN_PATH')) +. ((UNAME-:'Linux') *. (0;'') e.~ <2!:5 'DISPLAY') do.
-    if. (CONSOLEOUTPUT-:'qtc') *. 0 < #1!:0 jpath '~addons/ide/qt/qt.ijs' do.
+    if. (CONSOLEOUTPUT-:'qtc') *. (0 < #1!:0 jpath '~addons/ide/qt/qt.ijs') *. IFUNIX +. (0 < #1!:0 jpath '~bin/jqt.dll') do.
       require '~addons/ide/qt/qt.ijs'
       require '~addons/ide/qt/console.ijs'
     end.
