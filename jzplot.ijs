@@ -6942,7 +6942,6 @@ glc_free_jglc_ ''
 qtc_getparms=: 3 : 0
 (QT_DEFSIZE;QT_DEFFILE,'.png') output_parms y
 )
-
 coclass 'jzplot'
 QT_DEFSIZE=: 480 360
 QT_DEFFILE=: jpath '~temp/plot'
