@@ -79,7 +79,7 @@ int01=: i.@>: % ]
 intersect=: e. # [
 inxb=: <:@(+/\) i. i.@(+/)
 isboxed=: 0 < L.
-ischar=: 3!:0 e. 2 131072"_
+ischar=: 3!:0 e. 2 131072 262144"_
 is1color=: 3 = */ @ $
 iscomplexdata=: 3!:0 e. 16 16384"_
 iscounter=: -: |@<.
@@ -603,7 +603,7 @@ movepos=: [ + $@[ $ ]
 scalepos=: [ * $@[ $ ]
 text2utf8=: 3 : 0
 if. isutf8 y do. y return. end.
-if. 131072 = 3!:0 y do. utf8 y return. end.
+if. 2 ~: 3!:0 y do. utf8 y return. end.
 val=. a. i. y
 msk=. 127 < val
 uni=. 192 128 +"1 [ 0 64 #: msk # val
@@ -2364,7 +2364,7 @@ end.
 )
 getfontsize=: 13 : '{.1{._1 -.~ _1 ". y'
 getplotfontsize=: 3 : 0
-if. 2 131072 e.~ 3!:0 y do.
+if. 2 131072 262144 e.~ 3!:0 y do.
   FontScale * FontSizeMin >. getfontsize y
 else.
   FontScale * FontSizeMin >. 2 { y
