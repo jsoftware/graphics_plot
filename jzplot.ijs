@@ -2258,7 +2258,7 @@ wd 'ptop ',":PTop
 if. IFJA do.
   pclose=: pclose_android
   popen=: popen_android
-  ppaint=: qt_paint
+  ppaint=: android_paint
   psize=: psize_android
   ptop=: ptop_android
 end.
@@ -4992,6 +4992,7 @@ android_paint=: 3 : 0
 selectpid''
 'Cw Ch'=: glqwh''
 android_paintit 0 0,Cw,Ch
+glpaint^:IFJA ''
 0
 )
 android_paintit=: 3 : 0
