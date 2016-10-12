@@ -97,10 +97,6 @@ nc=: 4!:0
 packs=: (, ,&< ".) &>
 pdefs=: 3 : '0 $ ({."1 y)=: {:"1 y'
 pbuf=: 3 : 'buf=: buf,,y,"1 LF'
-pforms=: 3 : 0
-if. 0=# z=. <;._2;._2 @ wdqpx '' do. z=. 0 6$<'' end.
-z
-)
 pick=: >@{
 pickf=: 2 : 'u @ > @ (n&{)'
 pow10=: 10&^
@@ -148,6 +144,9 @@ flexist ndx {. y
 )
 comma2blank=: 3 : 0
 ' ' (I. y=',') } y
+)
+commasep=: 3 : 0
+',' (I. y=' ') } y
 )
 chop=: 3 : 0
 y chop~ (' ',LF) {~ LF e. ,y
@@ -255,9 +254,9 @@ dat=. 0.0001 round y
 txt=. , dat=. commasep@(('('&,)@(,&')')^:x)@":"1 dat
 ($dat) $ '-' (I. txt='_') } txt
 )
-
-commasep=: 3 : 0
-',' (I. y=' ') } y
+pforms=: 3 : 0
+if. 0=# z=. <;._2;._2 @ wdqpx '' do. z=. 0 6$<'' end.
+z
 )
 qchop=: 3 : 0
 q=. dquoted y
@@ -6914,7 +6913,7 @@ PDFClip=: 0
 for_d. dat do.
   (>d_index{fns)~d
 end.
-buf
+dtbs buf
 )
 coclass 'jzplot'
 qtc_show=: 3 : 0
