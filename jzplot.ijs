@@ -4990,8 +4990,9 @@ end.
 android_paint=: 3 : 0
 selectpid''
 'Cw Ch'=: glqwh''
+glmark''
 android_paintit 0 0,Cw,Ch
-glpaint^:IFJA ''
+glpaints''
 0
 )
 android_paintit=: 3 : 0
