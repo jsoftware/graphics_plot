@@ -4493,7 +4493,7 @@ buf=: bufdef=: $0
 r=. ''
 r=. r,3 2003 1
 r=. r,3 2071 1
-android_gpapply''
+buf=: r
 )
 android_gpbrushnull=: 3 : '2 2005'
 android_gppens=: 4 : 0
