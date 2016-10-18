@@ -4481,7 +4481,8 @@ assert. 2 > #$y
 buf=: buf,y
 )
 android_gpapply=: 3 : 0
-glcmds buf
+rc=. glcmds buf
+assert. 0=rc [ 'glcmds buf'
 buf=: $0
 )
 android_gpflip=: flipxy @ rndint
@@ -4990,9 +4991,7 @@ end.
 android_paint=: 3 : 0
 selectpid''
 'Cw Ch'=: glqwh''
-glmark''
 android_paintit 0 0,Cw,Ch
-glpaints''
 0
 )
 android_paintit=: 3 : 0
