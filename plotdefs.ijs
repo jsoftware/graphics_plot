@@ -171,6 +171,8 @@ elseif. IFQT do.
   r=. 'OUTPUT=: ''qt'''
 elseif. IFJA do.
   r=. 'OUTPUT=: ''android'''
+elseif. ('jwin32';'jjava') e.~ < (11!:0) ::0: 'qwd' do.
+  r=. 'OUTPUT=: ''isi'''
 elseif. do.  NB. jconsole
   r=. 'OUTPUT=: CONSOLEOUTPUT'
 end.
