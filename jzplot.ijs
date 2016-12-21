@@ -4400,7 +4400,13 @@ if. #y do.
     end.
     'PForm PFormhwnd'=: i{p
     PId=: c
-    ". PForm,'_',PId,'_paint__COCREATOR=: qt_paint_',(>coname''),'_'
+    if. IFQT do.
+      ". PForm,'_',PId,'_paint__COCREATOR=: qt_paint_',(>coname''),'_'
+    elseif. IFJA do.
+      ". PForm,'_',PId,'_paint__COCREATOR=: android_paint_',(>coname''),'_'
+    elseif. do.
+      ". PForm,'_',PId,'_paint__COCREATOR=: isi_paint_',(>coname''),'_'
+    end.
   end.
 end.
 PReset=: 1
@@ -4486,21 +4492,10 @@ pd_pdf=: pdf_show
 pd_pdfr=: pdf_get
 pd_jpf=: pdf_jpf
 pd_isi=: isi_show
-pd_clip=: 3 : 0
-qt_clip y
-)
-
-pd_print=: 3 : 0
-qt_print y
-)
-
-pd_save=: 3 : 0
-qt_save y
-)
-
-pd_get=: 3 : 0
-qt_get y
-)
+pd_clip=: qt_clip`android_clip`isi_clip@.((IFQT,IFJA)&i.1)
+pd_print=: qt_print`android_print`isi_print@.((IFQT,IFJA)&i.1)
+pd_save=: qt_save`android_save`isi_save@.((IFQT,IFJA)&i.1)
+pd_get=: qt_get`android_get`isi_get@.((IFQT,IFJA)&i.1)
 pd_show=: 3 : 0
 ndx=. ({."1 PCmd) i. <'output'
 if. ndx < #PCmd do.
@@ -6476,13 +6471,19 @@ end.
 size;file
 )
 isi_clip=: 3 : 0
-if. -. IFWIN do.
+if. -. IFWIN+.IFJNET do.
   info 'Save plot to clipboard is only available in Windows'
   return.
 end.
-f=. gettemp 'emf'
-isi_emf dquote f
-wd 'clipcopyx enhmetafile ',dquote f
+if. IFJNET do.
+  f=. gettemp 'png'
+  isi_png dquote f
+  wd 'clipcopyx image ',dquote f
+else.
+  f=. gettemp 'emf'
+  isi_emf dquote f
+  wd 'clipcopyx enhmetafile ',dquote f
+end.
 1!:55 <f
 )
 gpcount=: ,"1~ 1 + [: {: 1 , $
@@ -6878,11 +6879,19 @@ bmp writepng file
 isi_def=: 4 : 0
 type=. x
 file=. jpath ('.',type) fext (;qchop y),(0=#y) # ISI_DEFFILE
-(isi_getrgb'') writeimg file
+if. IFJNET do.
+  writeimg_jnet_ (isi_getrgb'') ; file
+else.
+  (isi_getrgb'') writeimg file
+end.
 )
 isi_defstr=: 4 : 0
 type=. x
-(isi_getrgb'') putimg type
+if. IFJNET do.
+  putimg_jnet_ (isi_getrgb'') ; type
+else.
+  (isi_getrgb'') putimg type
+end.
 )
 isi_emf=: 3 : 0
 file=. jpath '.emf' fext (;qchop y),(0=#y) # ISI_DEFFILE
@@ -6915,7 +6924,11 @@ isi_getrgb=: 3 : 0
 wd 'psel ',PFormhwnd
 glsel PId
 box=. 0 ". wd 'qchildxywhx ',PId
-(3 2 { box) $ 256 256 256 #: glqpixels box
+if. IFJNET do.
+  (3 2 { box) $ glqpixels box
+else.
+  (3 2 { box) $ 256 256 256 #: glqpixels box
+end.
 )
 isi_jpg=: 3 : 0
 file=. ''
@@ -6929,7 +6942,11 @@ if. #y do.
 end.
 file=. jpath '.jpg' fext file,(0=#file) # ISI_DEFFILE
 rgb=. isi_getrgb''
-rgb writeimg file
+if. IFJNET do.
+  writeimg_jnet_ rgb ; file
+else.
+  rgb writeimg file
+end.
 )
 isi_png=: 3 : 0
 file=. ''
@@ -6943,7 +6960,11 @@ if. #y do.
 end.
 file=. jpath '.png' fext file,(0=#file) # ISI_DEFFILE
 rgb=. isi_getrgb''
-rgb writeimg file
+if. IFJNET do.
+  writeimg_jnet_ rgb ; file
+else.
+  rgb writeimg file
+end.
 )
 isi_save=: 3 : 0
 if. Poutput ~: iISI do.
@@ -6981,8 +7002,7 @@ isi_gifr=: 'gif' & isi_defstr
 isi_tifr=: 'tif' & isi_defstr
 isi_show=: 3 : 0
 popen_isi''
-(PForm,'_',PId,'_paint')=: isi_paint
-isi_paint''
+glpaintx''
 if. PShow=0 do.
   if. VISIBLE do.
     wd 'pshow ',PSHOW
@@ -6991,8 +7011,6 @@ if. PShow=0 do.
   end.
   wd 'ptop ',":PTop
   PShow=: 1
-else.
-  glpaint''
 end.
 )
 isi_paint=: 3 : 0
