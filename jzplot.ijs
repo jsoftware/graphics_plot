@@ -7002,7 +7002,6 @@ isi_gifr=: 'gif' & isi_defstr
 isi_tifr=: 'tif' & isi_defstr
 isi_show=: 3 : 0
 popen_isi''
-glpaintx''
 if. PShow=0 do.
   if. VISIBLE do.
     wd 'pshow ',PSHOW
