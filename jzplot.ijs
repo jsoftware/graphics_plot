@@ -5006,9 +5006,8 @@ android_getbitmapwh=: 3 : 0
 wd 'pc a owner;wh 480 300;cc g canvas;pas 0 0'
 PFormhwnd=: wdqhwndp''
 PId=: 'g'
-wd 'setxywhx g 0 0 ',":y
+wd 'set g wh ',":y
 wd 'pshow'
-android_paintx''
 glpaint''
 res=. android_getbitmap''
 wd 'pclose'
@@ -5102,6 +5101,7 @@ android_paint=: 3 : 0
 selectpid''
 'Cw Ch'=: glqwh''
 android_paintit 0 0,Cw,Ch
+glpaintx''
 0
 )
 android_paintit=: 3 : 0
@@ -8151,7 +8151,6 @@ PFormhwnd=: wdqhwndp''
 PId=: 'g'
 wd 'set g wh ',":y
 wd 'pshow'
-qt_paintx''
 glpaint''
 res=. qt_getbitmap''
 wd 'pclose'

@@ -6,7 +6,7 @@ DESCRIPTION=: 0 : 0
 2D Plot
 )
 
-VERSION=: '1.0.176'
+VERSION=: '1.0.177'
 
 DEPENDS=: 0 : 0
 general/misc
@@ -25,4 +25,4 @@ plotdefs.ijs
 history.txt
 )
 
-RELEASE=: 'j804 j805'
+RELEASE=: 'j805'
