@@ -24,7 +24,6 @@ elseif. do.
   end.
   if. -. IFIOS +. IFJA +. (UNAME-:'Android') +. ((UNAME-:'Darwin') *. ((0;'') e.~ <2!:5 'QT_PLUGIN_PATH')) +. ((UNAME-:'Linux') *. (0;'') e.~ <2!:5 'DISPLAY') do.
     if. (CONSOLEOUTPUT-:'qtc') *. (0 < #1!:0 jpath '~addons/ide/qt/qt.ijs') *. ('"',libjqt,'" dummyfunction + n')&cd :: (2={.@cder) '' do.
-      require '~addons/ide/qt/qt.ijs'
       require '~addons/ide/qt/console.ijs'
     end.
   end.
@@ -2433,8 +2432,8 @@ case. iANDROID do.
   glfontextent andfontdesc^:(0={.0#x) x
   |: glqextent &> y
 case. iQT;iQTC do.
-  glfontextent`glc_fontextent_jglc_@.(Poutput=iQTC) gtkfontdesc^:(0={.0#x) x
-  |: glqextent`glc_qextent_jglc_@.(Poutput=iQTC) &> y
+  glfontextent`glfontextent_jglc_@.(Poutput=iQTC) gtkfontdesc^:(0={.0#x) x
+  |: glqextent`glqextent_jglc_@.(Poutput=iQTC) &> y
 case. iCAIRO do.
   FontScale * fzskludge *  x getextent y
 case. iCANVAS do.
@@ -2456,8 +2455,8 @@ case. iANDROID do.
   glfontextent andfontdesc^:(0={.0#x) x
   glqextent y
 case. iQT;iQTC do.
-  glfontextent`glc_fontextent_jglc_@.(Poutput=iQTC) gtkfontdesc^:(0={.0#x) x
-  glqextent`glc_qextent_jglc_@.(Poutput=iQTC) y
+  glfontextent`glfontextent_jglc_@.(Poutput=iQTC) gtkfontdesc^:(0={.0#x) x
+  glqextent`glqextent_jglc_@.(Poutput=iQTC) y
 case. iCANVAS do.
   FontScale * fzskludge * ((FontSizeMin >. 2{x) 2} x) getextent1 y
 case. iISI do.
@@ -7641,15 +7640,15 @@ make iQTC;0 0,size
 ids=. 1 {"1 Plot
 fns=. 'qt'&, each ids
 dat=. 3 }."1 Plot
-glc_init_jglc_ size
+glinit_jglc_ size
 qt_gpinit''
 'Cw Ch'=: size
 for_d. dat do.
   (>d_index{fns)~d
 end.
 qt_gpapply''
-glc_savefile_jglc_ file
-glc_free_jglc_ ''
+glsavefile_jglc_ file
+glfree_jglc_ ''
 )
 qtc_getparms=: 3 : 0
 (QT_DEFSIZE;QT_DEFFILE,'.png') output_parms y
@@ -7678,7 +7677,7 @@ nam,' ',(":siz),sty
 )
 
 qt_getsize=: 3 : 0
-if. Poutput=iQTC do. glc_qwh_jglc_'' return. end.
+if. Poutput=iQTC do. glqwh_jglc_'' return. end.
 if. -. wdishandle :: 0: ": PFormhwnd do. '' return. end.
 wd 'psel ', ":PFormhwnd
 s=. wdqchildxywh ::0: PId
@@ -7739,7 +7738,7 @@ assert. 2 > #$y
 buf=: buf,y
 )
 qt_gpapply=: 3 : 0
-rc=. glcmds`glc_cmds_jglc_@.(Poutput=iQTC) buf
+rc=. glcmds`glcmds_jglc_@.(Poutput=iQTC) buf
 assert. 0=rc [ 'glcmds buf'
 buf=: $0
 )
@@ -7929,8 +7928,8 @@ f=. qtfontdesc^:(0={.0#f) f
 p=. qt_gpflip p
 t=. text2utf8 each boxopen t
 if. a do.
-  glfontextent`glc_fontextent_jglc_@.(Poutput=iQTC) f
-  off=. <. -: a * {."1 wh=. glqextent`glc_qextent_jglc_@.(Poutput=iQTC) &> t
+  glfontextent`glfontextent_jglc_@.(Poutput=iQTC) f
+  off=. <. -: a * {."1 wh=. glqextent`glqextent_jglc_@.(Poutput=iQTC) &> t
   if. (90=degree0)+.(1 e. 'angle900' E. f) do.
     p=. p + "1 [ (0.2*{:wh),.off
   elseif. (270=degree0)+.(1 e. 'angle2700' E. f) do.
