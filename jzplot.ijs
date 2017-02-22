@@ -6801,13 +6801,13 @@ case. _1 do.
 case. 0 do.
   glprintmore -.PRINTED
 case. do.
-  'Cw Ch'=: (<.@:(*&(1440%100)))^:IFJNET glqprintwh''
+  'Cw Ch'=: (<.@:(*&(14.4)))^:(-.(-.IFJNET) +. (,'1')-:11!:0 ::0: 'getj twip') glqprintwh''
   isi_paintit isi_printwin''
   PRINTED=: 1
 end.
 )
 isi_printwin=: 3 : 0
-'pw ph mw mh'=. (<.@:(*&(1440%100)))^:IFJNET 4 {. glqprintpaper''
+'pw ph mw mh'=. (<.@:(*&(14.4)))^:(-.(-.IFJNET) +. (,'1')-:11!:0 ::0: 'getj twip') 4 {. glqprintpaper''
 mrg=. 0 >. PRINTMARGIN - mw,(ph - mh + Ch),(pw - mw + Cw),mh
 xywh=. (0 0,Cw,Ch) shrinkrect mrg
 if. 0 = #PRINTWINDOW do.
