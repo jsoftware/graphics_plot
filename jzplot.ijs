@@ -4608,20 +4608,20 @@ buf=: r
 android_gpbrushnull=: 3 : '2 2005'
 android_gppens=: 4 : 0
 y=. rndint y
-5 2032,"1 x,"1 [ 4 2022,"1 y,.y~:0
+5 2032,"1 x,"1 [ 4 2022,"1 y,.(y~:0){PS_NULL,PS_SOLID
 )
 android_gppen=: 4 : 0
 y=. rndint y
-5 2032,(,x),4 2022,y,y~:0
+5 2032,(,x),4 2022,y,(y~:0){PS_NULL,PS_SOLID
 )
 android_gppens1=: 3 : 0
-5 2032,"1 y,"1 [ 4 2022 1 1
+5 2032,"1 y,"1 [ 4 2022 1,PS_SOLID
 )
 android_gppen1=: 3 : 0
-5 2032,(,y),4 2022 1 1
+5 2032,(,y),4 2022 1,PS_SOLID
 )
 android_gppenbrush1=: 3 : 0
-5 2032,(,y),4 2022 1 1 2 2004
+5 2032,(,y),4 2022 1,PS_SOLID,2 2004
 )
 android_gppixel=: 3 : 0
 's t f e c p'=. y
@@ -4754,7 +4754,7 @@ end.
 p=. android_gpflip p
 t=. t { PENPATTERN
 if. (is1color e) *. 1 = #s do.
-  android_gpbuf 5 2032,(,e),4 2022,s,1
+  android_gpbuf 5 2032,(,e),4 2022,s,PS_SOLID
   pos=. t linepattern"0 1 p
   android_gpbuf ,android_gpcount 2015,"1 pos
 else.
@@ -4873,7 +4873,7 @@ else.
   n=. rndint 2 * x
   p=. (y - s) ,. y + s
   q=. (y - "1 s * 1 _1) ,. y +"1 s * 1 _1
-  android_gpbuf 4 2022,n,1
+  android_gpbuf 4 2022,n,PS_SOLID
   android_gpbuf ,android_gpcount 2015 ,"1 p,q
 end.
 )
@@ -6522,20 +6522,20 @@ gpapply''
 gpbrushnull=: 3 : '2 2005'
 gppens=: 4 : 0
 y=. rndint y
-5 2032,"1 x,"1 [ 4 2022,"1 y,.5*y=0
+5 2032,"1 x,"1 [ 4 2022,"1 y,.(y~:0){PS_NULL,PS_SOLID
 )
 gppen=: 4 : 0
 y=. rndint y
-5 2032,(,x),4 2022,y,5*y=0
+5 2032,(,x),4 2022,y,(y~:0){PS_NULL,PS_SOLID
 )
 gppens1=: 3 : 0
-5 2032,"1 y,"1 [ 4 2022 1 0
+5 2032,"1 y,"1 [ 4 2022 1,PS_SOLID
 )
 gppen1=: 3 : 0
-5 2032,(,y),4 2022 1 0
+5 2032,(,y),4 2022 1,PS_SOLID
 )
 gppenbrush1=: 3 : 0
-5 2032,(,y),4 2022 1 0 2 2004
+5 2032,(,y),4 2022 1,PS_SOLID,2 2004
 )
 gppixel=: 3 : 0
 's t f e c p'=. y
@@ -6668,7 +6668,7 @@ end.
 p=. gpflip p
 t=. t { PENPATTERN
 if. (is1color e) *. 1 = #s do.
-  gpbuf 5 2032,(,e),4 2022,s,0
+  gpbuf 5 2032,(,e),4 2022,s,PS_SOLID
   pos=. t linepattern"0 1 p
   gpbuf ,gpcount 2015,"1 pos
 else.
@@ -6768,7 +6768,7 @@ else.
   n=. rndint 2 * x
   p=. (y - s) ,. y + s
   q=. (y - "1 s * 1 _1) ,. y +"1 s * 1 _1
-  gpbuf 4 2022,n,0
+  gpbuf 4 2022,n,PS_SOLID
   gpbuf ,gpcount 2015 ,"1 p,q
 end.
 )
@@ -7752,20 +7752,20 @@ buf=: bufdef=: $0
 qt_gpbrushnull=: 3 : '2 2005'
 qt_gppens=: 4 : 0
 y=. rndint y
-5 2032,"1 x,"1 [ 4 2022,"1 y,.y~:0
+5 2032,"1 x,"1 [ 4 2022,"1 y,.(y~:0){PS_NULL,PS_SOLID
 )
 qt_gppen=: 4 : 0
 y=. rndint y
-5 2032,(,x),4 2022,y,y~:0
+5 2032,(,x),4 2022,y,(y~:0){PS_NULL,PS_SOLID
 )
 qt_gppens1=: 3 : 0
-5 2032,"1 y,"1 [ 4 2022 1 1
+5 2032,"1 y,"1 [ 4 2022 1,PS_SOLID
 )
 qt_gppen1=: 3 : 0
-5 2032,(,y),4 2022 1 1
+5 2032,(,y),4 2022 1,PS_SOLID
 )
 qt_gppenbrush1=: 3 : 0
-5 2032,(,y),4 2022 1 1 2 2004
+5 2032,(,y),4 2022 1,PS_SOLID,2 2004
 )
 qt_gppixel=: 3 : 0
 's t f e c p'=. y
@@ -7898,7 +7898,7 @@ end.
 p=. qt_gpflip p
 t=. t { PENPATTERN
 if. (is1color e) *. 1 = #s do.
-  qt_gpbuf 5 2032,(,e),4 2022,s,1
+  qt_gpbuf 5 2032,(,e),4 2022,s,PS_SOLID
   pos=. t linepattern"0 1 p
   qt_gpbuf ,qt_gpcount 2015,"1 pos
 else.
@@ -8017,7 +8017,7 @@ else.
   n=. rndint 2 * x
   p=. (y - s) ,. y + s
   q=. (y - "1 s * 1 _1) ,. y +"1 s * 1 _1
-  qt_gpbuf 4 2022,n,1
+  qt_gpbuf 4 2022,n,PS_SOLID
   qt_gpbuf ,qt_gpcount 2015 ,"1 p,q
 end.
 )
