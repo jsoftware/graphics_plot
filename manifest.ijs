@@ -6,7 +6,7 @@ DESCRIPTION=: 0 : 0
 2D Plot
 )
 
-VERSION=: '1.0.180'
+VERSION=: '1.0.181'
 
 DEPENDS=: 0 : 0
 general/misc

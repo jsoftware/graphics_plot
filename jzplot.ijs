@@ -2239,7 +2239,6 @@ if. wdishandle ": (0&". ::]) PFormhwnd do.
 end.
 fm=. PForm,'_'
 id=. fm,PId,'_'
-(fm,'close')=: pclose_android
 (id,'paint')=: ppaint
 (id,'mmove')=: ]
 
@@ -2249,7 +2248,7 @@ wd 'activity ', (>coname''), ' fs'
 )
 
 onStart=: 3 : 0
-wd 'pc ',PForm
+wd 'pc ',PForm,' closeok'
 wd 'pn *',PLOTCAPTION
 wd 'cc ',PId,' isigraph flush'
 wd 'pas 0 0'
@@ -2303,18 +2302,20 @@ if. ifparent PFormhwnd do.
   wd 'psel ',PFormhwnd
   wd 'pactive'
   glsel PId
+  glnodblbuf^:IFJNET 0
   0 return.
 end.
 if. IFJNET do.
-  wd 'pc6j ',PForm
+  wd 'pc6j ',PForm,' closeok'
 else.
-  wd 'pc ',PForm
+  wd 'pc ',PForm,' closeok'
 end.
 PFormhwnd=: wd 'qhwndp'
 wd 'pn *',PLOTCAPTION
 wd 'xywh 0 0 240 180'
 wd 'cc ',PId,' isigraph rightmove bottommove'
 wd 'pas 0 0'
+glnodblbuf^:IFJNET 0
 
 if. ifjwplot'' do.
   wpset_j_ :: 0: PForm
@@ -2325,16 +2326,8 @@ wdfit ''
 
 fm=. PForm,'_'
 id=. fm,PId,'_'
-(fm,'close')=: pclose
-(fm,'cancel')=: pclose
-(fm,'tctrl_fkey')=: ptop
-(id,'size')=: ppaint
 (id,'paint')=: ppaint
 (id,'mmove')=: ]
-
-(fm,'f10_fkey')=: pd bind 'eps'
-(fm,'f11_fkey')=: pd bind 'pdf'
-
 Pxywh=: ''
 PShow=: 0
 )
@@ -2371,7 +2364,7 @@ if. wdishandle ": (0&". ::]) PFormhwnd do.
   glsel PId
   0 return.
 end.
-wd 'pc ',PForm
+wd 'pc ',PForm,' closeok'
 PFormhwnd=: wdqhwndp''
 wd 'pn *',PLOTCAPTION
 wd 'minwh 480 360'
@@ -2380,7 +2373,6 @@ wd 'pas 0 0'
 
 fm=. PForm,'_'
 id=. fm,PId,'_'
-(fm,'close')=: pclose_qt
 (id,'paint')=: ppaint
 (id,'mmove')=: ]
 
@@ -2398,6 +2390,12 @@ if. IFQT do.
   ppaint=: qt_paint
   psize=: psize_qt
   ptop=: ptop_qt
+elseif. IFJA do.
+  pclose=: pclose_android
+  popen=: popen_android
+  ppaint=: android_paint
+  psize=: psize_android
+  ptop=: ptop_android
 elseif. ('jwin32';'jjava') e.~ < (11!:0) ::0: 'qwd' do.
   pclose=: pclose_isi
   popen=: popen_isi
@@ -7001,6 +6999,7 @@ isi_gifr=: 'gif' & isi_defstr
 isi_tifr=: 'tif' & isi_defstr
 isi_show=: 3 : 0
 popen_isi''
+isi_paint`]@.IFJNET ''
 if. PShow=0 do.
   if. VISIBLE do.
     wd 'pshow ',PSHOW
