@@ -7930,9 +7930,9 @@ if. a do.
   glfontextent`glfontextent_jglc_@.(Poutput=iQTC) f
   off=. <. -: a * {."1 wh=. glqextent`glqextent_jglc_@.(Poutput=iQTC) &> t
   if. (90=degree0)+.(1 e. 'angle900' E. f) do.
-    p=. p + "1 [ (0.2*{:wh),.off
+    p=. p + "1 <. (0.2*{:wh),.off
   elseif. (270=degree0)+.(1 e. 'angle2700' E. f) do.
-    p=. p - "1 [ (0.2*{:wh),.off
+    p=. p - "1 <. (0.2*{:wh),.off
   elseif. do.
     p=. p -"1 off,. 0
   end.
