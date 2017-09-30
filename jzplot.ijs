@@ -2433,7 +2433,7 @@ case. iQT;iQTC do.
   glfontextent`glfontextent_jglc_@.(Poutput=iQTC) gtkfontdesc^:(0={.0#x) x
   |: glqextent`glqextent_jglc_@.(Poutput=iQTC) &> y
 case. iCAIRO do.
-  FontScale * fzskludge *  x getextent y
+  FontScale * fzskludge * x getextent y
 case. iCANVAS do.
   FontScale * fzskludge * ((FontSizeMin >. 2{x) 2} x) getextent y
 case. iISI do.
@@ -5091,6 +5091,10 @@ if. PShow=0 do.
   end.
   wd 'ptop ',":PTop
   PShow=: 1
+else.
+  if. VISIBLE do.
+    wd 'ptop'
+  end.
 end.
 ''
 )
@@ -7008,6 +7012,10 @@ if. PShow=0 do.
   end.
   wd 'ptop ',":PTop
   PShow=: 1
+else.
+  if. VISIBLE do.
+    wd 'ptop'
+  end.
 end.
 )
 isi_paint=: 3 : 0
@@ -8225,6 +8233,10 @@ if. PShow=0 do.
   end.
   wd 'ptop ',":PTop
   PShow=: 1
+else.
+  if. VISIBLE do.
+    wd 'ptop'
+  end.
 end.
 ''
 )
