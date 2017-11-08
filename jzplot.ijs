@@ -3593,6 +3593,7 @@ TITLEFONT
 TITLESTYLE
 TitleFont
 Txywh
+Vxywh
 XCAPTION
 XCAPTIONSTYLE
 Xxywh
@@ -3608,6 +3609,7 @@ definemultidefs=: 3 : 0
 pdefs y
 'Kx Ky Kw Kh'=: Kxywh
 'Tx Ty Tw Th'=: Txywh
+'Vx Vy Vw Vh'=: Vxywh
 'Xx Xy Xw Xh'=: Xxywh
 'Yx Yy Yw Yh'=: Yxywh
 )

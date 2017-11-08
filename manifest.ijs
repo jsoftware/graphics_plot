@@ -3,10 +3,10 @@ NB. graphics/plot manifest
 CAPTION=: 'Plot'
 
 DESCRIPTION=: 0 : 0
-2D Plot
+Plot package
 )
 
-VERSION=: '1.0.184'
+VERSION=: '1.0.185'
 
 DEPENDS=: 0 : 0
 general/misc
@@ -22,7 +22,6 @@ FILES=: 0 : 0
 jzplot.ijs
 plot.ijs
 plotdefs.ijs
-history.txt
 )
 
 RELEASE=: 'j805 j806'
