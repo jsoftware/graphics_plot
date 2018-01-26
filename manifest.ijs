@@ -6,7 +6,7 @@ DESCRIPTION=: 0 : 0
 Plot package
 )
 
-VERSION=: '1.0.185'
+VERSION=: '1.0.186'
 
 DEPENDS=: 0 : 0
 general/misc
@@ -24,4 +24,4 @@ plot.ijs
 plotdefs.ijs
 )
 
-RELEASE=: 'j805 j806'
+RELEASE=: 'j805 j806 j807'
