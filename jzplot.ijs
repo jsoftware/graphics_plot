@@ -3268,9 +3268,11 @@ getticpos=: 4 : 0
 'int tic min max log cnt'=. y
 
 if. log do. x gettplog y return. end.
-nmm=. 10 ^ <. <: 10 ^. max - min
-min=. nmm rounddown min
-max=. nmm roundup max
+if. max ~: min do.
+  nmm=. 10 ^ <. <: 10 ^. max - min
+  min=. nmm rounddown min
+  max=. nmm roundup max
+end.
 
 def=. cnt <. (DimType=3) { 10 6
 step=. {.tic
@@ -3382,9 +3384,11 @@ if. 2.9 < lmax-lmin do.
 end.
 min=. pow10 lmin
 max=. pow10 lmax
-nmm=. 10 ^ <. <: 10 ^. max - min
-min=. nmm rounddown min
-max=. nmm roundup max
+if. max ~: min do.
+  nmm=. 10 ^ <. <: 10 ^. max - min
+  min=. nmm rounddown min
+  max=. nmm roundup max
+end.
 
 step=. {.tic
 wid=. max - min

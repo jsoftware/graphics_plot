@@ -6,7 +6,7 @@ DESCRIPTION=: 0 : 0
 Plot package
 )
 
-VERSION=: '1.0.186'
+VERSION=: '1.0.187'
 
 DEPENDS=: 0 : 0
 general/misc
