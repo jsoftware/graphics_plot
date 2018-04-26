@@ -1,0 +1,14 @@
+NB. project: ~Plot/dev/demo
+NB.
+NB. defines list of source files.
+NB. path defaults to project directory.
+
+init.ijs
+pldata.ijs
+plotdwin.ijs
+pledit.ijs
+plexam.ijs
+plotrun.ijs
+plview.ijs
+plotdemo.ijs
+view3d.ijs

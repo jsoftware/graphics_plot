@@ -1,0 +1,14 @@
+NB. project: ~Plot/out/android
+NB.
+NB. defines list of source files.
+NB. path defaults to project directory.
+
+init.ijs
+util.ijs
+clip.ijs
+cmd.ijs
+draw.ijs
+mark.ijs
+print.ijs
+save.ijs
+show.ijs

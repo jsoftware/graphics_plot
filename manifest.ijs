@@ -24,4 +24,6 @@ plot.ijs
 plotdefs.ijs
 )
 
-RELEASE=: 'j805 j806 j807'
+RELEASE=: 'j805'
+
+FOLDER=: 'graphics/plot'

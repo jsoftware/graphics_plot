@@ -1,0 +1,12 @@
+NB. project: ~Plot/out/cairo
+NB.
+NB. defines list of source files.
+NB. path defaults to project directory.
+
+init.ijs
+util.ijs
+cmd.ijs
+draw.ijs
+mark.ijs
+esc.ijs
+show.ijs

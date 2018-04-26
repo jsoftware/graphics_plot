@@ -1,0 +1,9 @@
+NB. project: ~Plot/base/data
+NB.
+NB. defines list of source files.
+NB. path defaults to project directory.
+
+init.ijs
+conform3d.ijs
+data.ijs
+range.ijs

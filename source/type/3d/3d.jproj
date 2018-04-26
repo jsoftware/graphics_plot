@@ -1,0 +1,12 @@
+NB. project: ~Plot/type/3d
+NB.
+NB. defines list of source files.
+NB. path defaults to project directory.
+
+init.ijs
+dot.ijs
+line.ijs
+poly.ijs
+stick.ijs
+surface.ijs
+wire.ijs

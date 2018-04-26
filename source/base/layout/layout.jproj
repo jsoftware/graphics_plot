@@ -1,0 +1,15 @@
+NB. project: ~Plot/base/layout
+NB.
+NB. defines list of source files.
+NB. path defaults to project directory.
+
+init.ijs
+aspect.ijs
+frame.ijs
+get.ijs
+graf.ijs
+label.ijs
+layout.ijs
+outerbox.ijs
+piemove.ijs
+tics.ijs

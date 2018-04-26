@@ -1,0 +1,22 @@
+NB. project: ~Plot/type/2d
+NB.
+NB. defines list of source files.
+NB. path defaults to project directory.
+
+init.ijs
+area.ijs
+bar.ijs
+contour.ijs
+density.ijs
+dot.ijs
+errorbar.ijs
+hilo.ijs
+hist.ijs
+line.ijs
+marker.ijs
+pie.ijs
+piem.ijs
+poly.ijs
+radar.ijs
+stick.ijs
+symbol.ijs

@@ -1,0 +1,12 @@
+NB. project: ~Plot/base/axis
+NB.
+NB. defines list of source files.
+NB. path defaults to project directory.
+
+init.ijs
+util.ijs
+get.ijs
+xaxis.ijs
+yaxis.ijs
+zaxis.ijs
+pietics.ijs

@@ -1,0 +1,13 @@
+NB. project: ~Plot/out/canvas
+NB.
+NB. defines list of source files.
+NB. path defaults to project directory.
+
+init.ijs
+util.ijs
+canvasbuild.ijs
+cmd.ijs
+draw.ijs
+mark.ijs
+esc.ijs
+show.ijs

@@ -1,0 +1,19 @@
+NB. project: ~Plot/base/make
+NB.
+NB. defines list of source files.
+NB. path defaults to project directory.
+
+init.ijs
+util.ijs
+data.ijs
+defs.ijs
+groups.ijs
+make.ijs
+multi.ijs
+option.ijs
+new.ijs
+pdef.ijs
+rule.ijs
+sub.ijs
+text.ijs
+type.ijs

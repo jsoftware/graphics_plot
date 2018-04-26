@@ -1,0 +1,15 @@
+NB. project: ~Plot/out/pdf
+NB.
+NB. defines list of source files.
+NB. path defaults to project directory.
+
+init.ijs
+util.ijs
+bezier.ijs
+pdfbuild.ijs
+cid.ijs
+cmds.ijs
+draw.ijs
+esc.ijs
+mark.ijs
+show.ijs

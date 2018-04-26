@@ -1,0 +1,16 @@
+NB. project: ~Plot/base/main
+NB.
+NB. defines list of source files.
+NB. path defaults to project directory.
+
+init.ijs
+create.ijs
+defs.ijs
+opts.ijs
+pdef.ijs
+plotf.ijs
+show.ijs
+sizes.ijs
+stddefs.ijs
+types.ijs
+user.ijs

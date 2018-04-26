@@ -1,0 +1,13 @@
+NB. project: ~Plot/base/util
+NB.
+NB. defines list of source files.
+NB. path defaults to project directory.
+
+init.ijs
+util.ijs
+putil.ijs
+color.ijs
+files.ijs
+scale.ijs
+unicode.ijs
+numeric

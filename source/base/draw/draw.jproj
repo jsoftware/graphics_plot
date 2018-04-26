@@ -1,0 +1,13 @@
+NB. project: ~Plot/base/draw
+NB.
+NB. defines list of source files.
+NB. path defaults to project directory.
+
+init.ijs
+defs.ijs
+draw.ijs
+shape.ijs
+trims.ijs
+win-android.ijs
+win-isi.ijs
+win-qt.ijs
