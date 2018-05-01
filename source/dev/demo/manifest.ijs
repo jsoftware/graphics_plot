@@ -8,7 +8,9 @@ Plot demos using wd emulation
 
 VERSION=: '1.0.49'
 
-RELEASE=: 'j805 j806 j807'
+RELEASE=: 'j805'
+
+FOLDER=: 'demos/wdplot'
 
 DEPENDS=: 0 : 0
 graphics/plot
