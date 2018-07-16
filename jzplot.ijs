@@ -3497,8 +3497,9 @@ dd,dt
 
 getdim=: [: # $^:(0 = L.)
 getmulticmd=: 3 : 0
-mat=. citemize y
 res=. i. 0 2
+if. 0 e. $y do. return. end.
+mat=. citemize y
 for_m. mat do.
   'cmd dat'=. m
   'hdr cmd'=. pdcmdhdr boxcmd cmd
@@ -3523,9 +3524,19 @@ end.
 )
 makepos_xy=: 3 : 0
 'x y'=. y
+if. 'p' e. x do.
+  'x y'=. makepos_coords x;y
+end.
 tx=. (Dx,Dw) makepos1 x
 ty=. (Dy,Dh) makepos1 y
 tx,ty
+)
+makepos_coords=: 3 : 0
+'x y'=. y
+x=. roundint getgrafx 0 ". x -. 'p'
+y=. getgrafy 0 ". y -. 'p'
+y=. roundint y + -: {: TEXTFONT pgetextent 'X'
+(": each x,y) ,each 'x'
 )
 makepos_xywh=: 4 : 0
 
@@ -4387,6 +4398,7 @@ end.
 hdr,.(1 + # &> hdr) }.each cmd
 )
 pdreset=: 3 : 0
+readplotdefaults''
 setplotdefaults 'plot'
 if. #y do.
   if. 0=L. y do.

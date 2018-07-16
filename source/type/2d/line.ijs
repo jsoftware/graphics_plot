@@ -16,4 +16,3 @@ else.
   drawpline iDATA;sty;clr;PENSIZE;dat
 end.
 )
-

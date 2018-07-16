@@ -29,6 +29,7 @@ NB. optional argument may be form name or form name;child name
 NB. if the latter, treat as a form in another locale.
 NB. form handle is accepted in place of form name
 pdreset=: 3 : 0
+readplotdefaults''
 setplotdefaults 'plot'
 if. #y do.
   if. 0=L. y do.
