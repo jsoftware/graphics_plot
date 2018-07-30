@@ -3535,7 +3535,7 @@ makepos_coords=: 3 : 0
 'x y'=. y
 x=. roundint getgrafx 0 ". x -. 'p'
 y=. getgrafy 0 ". y -. 'p'
-y=. roundint y + -: {: TEXTFONT pgetextent 'X'
+y=. roundint y + -: {: (maketextfont TEXTFONT) pgetextent 'X'
 (": each x,y) ,each 'x'
 )
 makepos_xywh=: 4 : 0
@@ -4324,18 +4324,20 @@ for_p. Text do.
     pos=. makepos_xy 2 {. arg
     text=. towords 2 }. arg
     align=. TextTypes i. cmd
-    font=. getfontid TEXTFONT
-    if. Poutput e. iANDROID do.
-      font=. getgtkfontid font
-    elseif. Poutput e. iQT,iQTC do.
-      font=. getgtkfontid font
-    elseif. Poutput = iISI do.
-      font=. getisifontid font
-    end.
-
+    font=. maketextfont ''
     drawtext iTEXT;align;font;TEXTCOLOR;text;pos
   end.
 
+end.
+)
+maketextfont=: 3 : 0
+font=. getfontid TEXTFONT
+if. Poutput e. iANDROID do.
+  font=. getgtkfontid font
+elseif. Poutput e. iQT,iQTC do.
+  font=. getgtkfontid font
+elseif. Poutput = iISI do.
+  font=. getisifontid font
 end.
 )
 maketype=: 3 : 0

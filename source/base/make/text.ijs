@@ -17,17 +17,21 @@ NB. ---------------------------------------------------------
     pos=. makepos_xy 2 {. arg
     text=. towords 2 }. arg
     align=. TextTypes i. cmd
-    font=. getfontid TEXTFONT
-    if. Poutput e. iANDROID do.
-      font=. getgtkfontid font
-    elseif. Poutput e. iQT,iQTC do.
-      font=. getgtkfontid font
-    elseif. Poutput = iISI do.
-      font=. getisifontid font
-    end.
-
+    font=. maketextfont ''
     drawtext iTEXT;align;font;TEXTCOLOR;text;pos
   end.
 
+end.
+)
+
+NB. =========================================================
+maketextfont=: 3 : 0
+font=. getfontid TEXTFONT
+if. Poutput e. iANDROID do.
+  font=. getgtkfontid font
+elseif. Poutput e. iQT,iQTC do.
+  font=. getgtkfontid font
+elseif. Poutput = iISI do.
+  font=. getisifontid font
 end.
 )

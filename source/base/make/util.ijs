@@ -112,7 +112,7 @@ makepos_coords=: 3 : 0
 'x y'=. y
 x=. roundint getgrafx 0 ". x -. 'p'
 y=. getgrafy 0 ". y -. 'p'
-y=. roundint y + -: {: TEXTFONT pgetextent 'X'
+y=. roundint y + -: {: (maketextfont TEXTFONT) pgetextent 'X'
 (": each x,y) ,each 'x'
 )
 
