@@ -7,7 +7,9 @@ if. 0 ~: 4!:0 <'CONSOLEOUTPUT' do. CONSOLEOUTPUT=: 'pdf' end.
 if. 0 ~: 4!:0 <'IFTESTPLOTJHS' do. IFTESTPLOTJHS_z_=: 0 end.
 if. IFTESTPLOTJHS +. IFJHS do.
 elseif. IFQT do.
-  require '~addons/ide/qt/console.ijs'
+  if. 0 < #1!:0 jpath '~addons/ide/qt/console.ijs' do.
+    require '~addons/ide/qt/console.ijs'
+  end.
   require 'graphics/gl2'
   coinsert 'jgl2'
 elseif. IFJA do.
