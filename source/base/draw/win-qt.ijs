@@ -35,7 +35,7 @@ PFormhwnd=: wdqhwndp''
 
 NB. ---------------------------------------------------------
 wd 'pn *',PLOTCAPTION
-wd 'minwh 480 360'
+wd 'minwh ',":QT_DEFSIZE
 wd 'cc ',PId,' isigraph flush'
 wd 'pas 0 0'
 
