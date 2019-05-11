@@ -3,7 +3,7 @@ NB. show
 NB. =========================================================
 NB. qt_show
 qt_show=: 3 : 0
-popen_qt''
+popen_qt y
 
 NB. this tests make before the form is shown.
 NB. it should be possible to avoid doing the make twice, i.e.

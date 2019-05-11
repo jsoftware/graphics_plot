@@ -21,6 +21,9 @@ NB. =========================================================
 NB. popen   open plot window
 NB. return 0 if already open, 1 if opened
 popen_qt=: 3 : 0
+if. #y do. size=. 0 ". y else. size=. QT_DEFSIZE end.
+
+Poutput=: iQT
 
 NB. ---------------------------------------------------------
 if. wdishandle ": (0&". ::]) PFormhwnd do.
@@ -35,7 +38,7 @@ PFormhwnd=: wdqhwndp''
 
 NB. ---------------------------------------------------------
 wd 'pn *',PLOTCAPTION
-wd 'minwh ',":QT_DEFSIZE
+wd 'minwh ',": size
 wd 'cc ',PId,' isigraph flush'
 wd 'pas 0 0'
 

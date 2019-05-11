@@ -2361,6 +2361,9 @@ catch. end.
 0
 )
 popen_qt=: 3 : 0
+if. #y do. size=. 0 ". y else. size=. QT_DEFSIZE end.
+
+Poutput=: iQT
 if. wdishandle ": (0&". ::]) PFormhwnd do.
   wd 'psel ', ": (0&". ::]) PFormhwnd
   glsel PId
@@ -2369,7 +2372,7 @@ end.
 wd 'pc ',PForm,' closeok'
 PFormhwnd=: wdqhwndp''
 wd 'pn *',PLOTCAPTION
-wd 'minwh 480 360'
+wd 'minwh ',": size
 wd 'cc ',PId,' isigraph flush'
 wd 'pas 0 0'
 
@@ -8244,7 +8247,7 @@ qt_jpgr=: 'jpg' & qt_defstr
 qt_gifr=: 'gif' & qt_defstr
 qt_tifr=: 'tif' & qt_defstr
 qt_show=: 3 : 0
-popen_qt''
+popen_qt y
 glpaintx''
 if. 0~: 4!:0 <'VISIBLE' do. '' return. end.
 if. PShow=0 do.
