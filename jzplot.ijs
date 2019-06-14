@@ -7351,7 +7351,19 @@ end.
 if. x do.
   txt=. toucode1@(7&u:) each txt
 else.
-  txt=. u2a each txt
+  tx=. 0$<''
+  for_t. txt do.
+    if. 0-: t1=. 7&u: ::0: t=. >t do.
+      tx=. tx, <u2a t
+    else.
+      if. *./ 256 > 3&u: t1 do.
+        tx=. tx, < 1&u: t1
+      else.
+        tx=. tx, <u2a t
+      end.
+    end.
+  end.
+  txt=. tx
 end.
 
 txt=. pdfesc each txt
