@@ -4329,14 +4329,14 @@ for_p. Text do.
     pos=. makepos_xy 2 {. arg
     text=. towords 2 }. arg
     align=. TextTypes i. cmd
-    font=. maketextfont ''
+    font=. maketextfont TEXTFONT
     drawtext iTEXT;align;font;TEXTCOLOR;text;pos
   end.
 
 end.
 )
 maketextfont=: 3 : 0
-font=. getfontid TEXTFONT
+font=. getfontid y
 if. Poutput e. iANDROID do.
   font=. getgtkfontid font
 elseif. Poutput e. iQT,iQTC do.
@@ -7059,7 +7059,6 @@ for_d. dat do.
 end.
 gpapply''
 )
-
 coclass 'jzplot'
 PDF_DEFSIZE=: 480 360
 PDF_DEFFILE=: jpath '~temp/plot.pdf'
