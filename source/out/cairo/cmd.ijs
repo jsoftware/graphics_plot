@@ -77,7 +77,7 @@ txt=. utf8 each txt
 
 NB. cairographics text origin at baseline
 te=. (5*8)$(2.2-2.2)
-cairo_font_extents_jcairo_ plotcr; te
+te=. _1{:: cairo_font_extents_jcairo_ plotcr; te
 of=. - 0 , <. {.te
 
 NB. ---------------------------------------------------------

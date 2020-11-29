@@ -5223,7 +5223,7 @@ pos=. citemize pos
 txt=. ,each boxxopen txt
 txt=. utf8 each txt
 te=. (5*8)$(2.2-2.2)
-cairo_font_extents_jcairo_ plotcr; te
+te=. _1{:: cairo_font_extents_jcairo_ plotcr; te
 of=. - 0 , <. {.te
 if. und +. align e. iCENTER, iRIGHT do.
   len=. fnt pgetstringlen txt
