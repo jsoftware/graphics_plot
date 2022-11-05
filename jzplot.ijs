@@ -2011,6 +2011,10 @@ if. (<'radar') e. types do.
   ymin=. 0 <. ymin
   ymax=. 1 >. ymax
 end.
+
+if. (<'density') e. types do.
+  'xmin xmax ymin ymax'=. (xmin,xmax,ymin,ymax)+4$0.5*_1 1
+end.
 (xmin,xmax);(ymin,ymax);(y2min,y2max);zmin,zmax
 
 )
