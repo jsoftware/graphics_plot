@@ -44,15 +44,7 @@ type/2d
 type/3d
 )
 
-dat fwritenew jpath '~Addons/graphics/plot/jzplot.ijs'
+dat fwritenew jpath '~.Plot/jzplot.ijs'
 dat fwritenew jpath '~addons/graphics/plot/jzplot.ijs'
 
 load '~Plot/base/main/save.ijs'
-
-f=. 3 : 0
-(jpath '~Addons/graphics/plot/',y) fcopynew jpath '~Addons/graphics/plot/source/',y
-(jpath '~addons/graphics/plot/',y) (fcopynew ::0:) jpath '~Addons/graphics/plot/source/',y
-)
-
-f 'manifest.ijs'
-f 'history.txt'
