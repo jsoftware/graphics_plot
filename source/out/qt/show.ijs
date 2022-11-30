@@ -44,9 +44,11 @@ try.
   make iQT;y
 catch.
   PCmd=: Plot=: i.0 0
-  info ({.~i.&LF) 13!:12''
+NB.   info ({.~i.&LF) 13!:12''
+  echo  13!:12''
 end.
 if. 0=#Plot do. return. end.
+try.
 ids=. 1 {"1 Plot
 fns=. 'qt'&, each ids
 dat=. 3 }."1 Plot
@@ -54,4 +56,7 @@ for_d. dat do.
   (>d_index{fns)~d
 end.
 qt_gpapply''
+catch.
+echo 13!:12''
+end.
 )
