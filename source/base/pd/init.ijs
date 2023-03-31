@@ -15,7 +15,7 @@ PDgd=: 'gd'&, each ;: j
 PDGD=: 'GD'&, each ;: toupper j
 
 NB. following commands show the plot
-PDshow=: ;: 'cairo canvas eps android qt qtc jpf pdf isi print show'
+PDshow=: ;: 'cairo canvas eps android qt jpf pdf isi print show'
 
 NB. following commands copy/save an isigraph plot.
 PDcopy=: ;: 'clip save get'

@@ -32,7 +32,7 @@ NB. alignment
 ('i',each ;: 'LEFT CENTER RIGHT')=: i. 3
 
 NB. output
-j=. ;: ' EPS PDF CANVAS CAIRO ANDROID QT QTC ISI'
+j=. ;: ' EPS PDF CANVAS CAIRO ANDROID QT ISI'
 ('i' ,each j)=: i.#j
 
 NB. =========================================================

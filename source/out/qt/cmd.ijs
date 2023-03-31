@@ -38,7 +38,7 @@ NB. qt_gpapply
 NB.
 NB. apply buffered gl commands
 qt_gpapply=: 3 : 0
-rc=. glcmds`glcmds_jglc_@.(Poutput=iQTC) buf
+rc=. glcmds buf
 assert. 0=rc [ 'glcmds buf'
 buf=: $0
 )

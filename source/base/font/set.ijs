@@ -17,7 +17,7 @@ if. Poutput e. iANDROID do.
   SubTitleFont=: getgtkfontid SubTitleFontX
   SymbolFont=: getgtkfontid SymbolFontX
   TitleFont=: getgtkfontid TitleFontX
-elseif. Poutput e. iQT,iQTC do.
+elseif. Poutput e. iQT do.
   CaptionFont=: getgtkfontid CaptionFontX
   KeyFont=: getgtkfontid KeyFontX
   LabelFont=: getgtkfontid LabelFontX

@@ -13,9 +13,6 @@ if. 0 ~: 4!:0 <'CONSOLEOUTPUT' do. CONSOLEOUTPUT=: 'pdf' end.
 if. 0 ~: 4!:0 <'IFTESTPLOTJHS' do. IFTESTPLOTJHS_z_=: 0 end.
 if. IFTESTPLOTJHS +. IFJHS do.
 elseif. IFQT do.
-  if. 0 < #1!:0 jpath '~addons/ide/qt/console.ijs' do.
-    require '~addons/ide/qt/console.ijs'
-  end.
   require 'graphics/gl2'
   coinsert 'jgl2'
 elseif. IFJA do.
@@ -29,11 +26,6 @@ elseif. do.  NB. jconsole
   if. 0 < #1!:0 jpath '~addons/graphics/gl2/gl2.ijs' do.
     require 'graphics/gl2'
     coinsert 'jgl2'
-  end.
-  if. -. IFIOS +. IFJA +. (UNAME-:'Android') +. ((UNAME-:'Darwin') *. ((0;'') e.~ <2!:5 'QT_PLUGIN_PATH')) +. ((UNAME-:'Linux') *. (0;'') e.~ <2!:5 'DISPLAY') do.
-    if. (CONSOLEOUTPUT-:'qtc') *. (0 < #1!:0 jpath '~addons/ide/qt/qt.ijs') *. ('"',libjqt,'" dummyfunction + n')&cd :: (2={.@cder) '' do.
-      require '~addons/ide/qt/console.ijs'
-    end.
   end.
 end.
 if. 0 < #1!:0 jpath '~addons/graphics/cairo/cairo.ijs' do.

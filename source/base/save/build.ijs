@@ -37,7 +37,6 @@ out/canvas
 out/eps
 out/isi
 out/pdf
-out/qtc
 out/qt
 
 type/2d

@@ -6,7 +6,6 @@ pd_canvas=: canvas_show
 pd_canvasr=: canvas_get
 pd_cairo=: cairo_show
 pd_qt=: qt_show
-pd_qtc=: qtc_show
 pd_pdf=: pdf_show
 pd_pdfr=: pdf_get
 pd_jpf=: pdf_jpf

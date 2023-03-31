@@ -111,7 +111,7 @@ NB. ---------------------------------------------------------
 NB. draw text
 if. Poutput = iANDROID do.
   ty=. ty - <. 0.75 * {.th       NB. kludge for android
-elseif. Poutput e. iQT,iQTC do.
+elseif. Poutput e. iQT do.
 NB.   ty=. ty - <. 0.75 * {.th       NB. kludge for Qt
 end.
 pos=. tx,.ty

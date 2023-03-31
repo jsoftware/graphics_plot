@@ -127,8 +127,8 @@ t=. text2utf8 each boxopen t
 NB. ---------------------------------------------------------
 NB. alignment
 if. a do.
-  glfontextent`glfontextent_jglc_@.(Poutput=iQTC) f
-  off=. <. -: a * {."1 wh=. glqextent`glqextent_jglc_@.(Poutput=iQTC) &> t
+  glfontextent f
+  off=. <. -: a * {."1 wh=. glqextent &> t
   if. (90=degree0)+.(1 e. 'angle900' E. f) do.
     p=. p + "1 <. (0.2*{:wh),.off
   elseif. (270=degree0)+.(1 e. 'angle2700' E. f) do.

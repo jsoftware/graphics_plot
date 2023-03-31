@@ -29,7 +29,7 @@ maketextfont=: 3 : 0
 font=. getfontid y
 if. Poutput e. iANDROID do.
   font=. getgtkfontid font
-elseif. Poutput e. iQT,iQTC do.
+elseif. Poutput e. iQT do.
   font=. getgtkfontid font
 elseif. Poutput = iISI do.
   font=. getisifontid font

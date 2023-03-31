@@ -7,7 +7,7 @@ pgetascender=: 3 : 0
 if. Poutput = iANDROID do.
   glfontextent andfontdesc y
   1 { glqtextmetrics''
-elseif. Poutput e. iQT,iQTC do.
+elseif. Poutput e. iQT do.
   glfontextent gtkfontdesc y
   1 { glqtextmetrics''
 elseif. Poutput = iCAIRO do.
@@ -29,9 +29,9 @@ select. Poutput
 case. iANDROID do.
   glfontextent andfontdesc^:(0={.0#x) x
   |: glqextent &> y
-case. iQT;iQTC do.
-  glfontextent`glfontextent_jglc_@.(Poutput=iQTC) gtkfontdesc^:(0={.0#x) x
-  |: glqextent`glqextent_jglc_@.(Poutput=iQTC) &> y
+case. iQT do.
+  glfontextent gtkfontdesc^:(0={.0#x) x
+  |: glqextent &> y
 case. iCAIRO do.
   FontScale * fzskludge * x getextent y
 NB.   glcr_fontextent_jglcr_ gtkfontdesc^:(0={.0#x) x
@@ -56,9 +56,9 @@ select. Poutput
 case. iANDROID do.
   glfontextent andfontdesc^:(0={.0#x) x
   glqextent y
-case. iQT;iQTC do.
-  glfontextent`glfontextent_jglc_@.(Poutput=iQTC) gtkfontdesc^:(0={.0#x) x
-  glqextent`glqextent_jglc_@.(Poutput=iQTC) y
+case. iQT do.
+  glfontextent gtkfontdesc^:(0={.0#x) x
+  glqextent y
 case. iCANVAS do.
   FontScale * fzskludge * ((FontSizeMin >. 2{x) 2} x) getextent1 y
 case. iISI do.

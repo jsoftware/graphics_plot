@@ -14,7 +14,6 @@ nam,' ',(":siz),sty
 NB. =========================================================
 NB. get size of canvas if any
 qt_getsize=: 3 : 0
-if. Poutput=iQTC do. glqwh_jglc_'' return. end.
 if. -. wdishandle :: 0: ": PFormhwnd do. '' return. end.
 wd 'psel ', ":PFormhwnd
 s=. wdqchildxywh ::0: PId

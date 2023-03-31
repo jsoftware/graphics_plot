@@ -12,7 +12,7 @@ clr=. getitemcolor #dat
 font=. SymbolFont
 
 NB. ---------------------------------------------------------
-if. Poutput e. iANDROID,iQT,iQTC,iCANVAS,iCAIRO,iISI do.
+if. Poutput e. iANDROID,iQT,iCANVAS,iCAIRO,iISI do.
   sym=. utf8 each ucp text2utf8 SYMBOLS
 else.
   sym=. <&> text2ascii8 SYMBOLS
