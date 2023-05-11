@@ -35,6 +35,10 @@ end.
 NB. ---------------------------------------------------------
 wd 'pc ',PForm,' closeok'
 PFormhwnd=: wdqhwndp''
+wd 'menupop "&File";'
+wd 'menu quit "&Quit" "Ctrl+Q" "" "";'
+wd 'menupopz;'
+(PForm,'_quit_button')=: wd bind 'pclose'
 
 NB. ---------------------------------------------------------
 wd 'pn *',PLOTCAPTION

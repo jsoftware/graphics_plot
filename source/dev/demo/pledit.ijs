@@ -15,6 +15,9 @@ nam, ; ,&' ' &.> (<fmt x) ndx } txt
 NB. =========================================================
 PLOTEDIT=: 0 : 0
 pc plotedit;pn "View Definition";
+menupop "&File";
+menu quit "&Quit" "Ctrl+Q" "" "";
+menupopz;
 bin vhs;
 cc redisplay button;cn "&Redisplay";
 cc help button;cn "&Help";
@@ -25,9 +28,13 @@ bin z;
 pas 0 0;
 rem form end;
 )
+plotedt_quit_button=: plotedit_close
 
 PLOTEDITJN=: 0 : 0
 pc6j plotedit;pn "View Definition";
+menupop "&File";
+menu quit "&Quit" "Ctrl+Q" "" "";
+menupopz;
 xywh 82 1 42 12;cc redisplay button leftmove rightmove;cn "&Redisplay";
 xywh 124 1 42 12;cc help button leftmove rightmove;cn "&Help";
 xywh 166 1 42 12;cc close button leftmove rightmove;cn "&Close";

@@ -2308,7 +2308,11 @@ if. IFJNET do.
 else.
   wd 'pc ',PForm,' closeok'
 end.
+wd 'menupop "&File";'
+wd 'menu quit "&Quit" "Ctrl+Q" "" "";'
+wd 'menupopz;'
 PFormhwnd=: wd 'qhwndp'
+(PForm,'_quit_button')=: wd bind 'pclose'
 wd 'pn *',PLOTCAPTION
 wd 'xywh 0 0 240 180'
 wd 'cc ',PId,' isigraph rightmove bottommove'
@@ -2367,6 +2371,10 @@ if. wdishandle ": (0&". ::]) PFormhwnd do.
 end.
 wd 'pc ',PForm,' closeok'
 PFormhwnd=: wdqhwndp''
+wd 'menupop "&File";'
+wd 'menu quit "&Quit" "Ctrl+Q" "" "";'
+wd 'menupopz;'
+(PForm,'_quit_button')=: wd bind 'pclose'
 wd 'pn *',PLOTCAPTION
 wd 'minwh ',": size
 wd 'cc ',PId,' isigraph flush'
