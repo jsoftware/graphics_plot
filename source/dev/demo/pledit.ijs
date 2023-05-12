@@ -28,7 +28,7 @@ bin z;
 pas 0 0;
 rem form end;
 )
-plotedt_quit_button=: plotedit_close
+plotedit_quit_button=: plotedit_close
 
 PLOTEDITJN=: 0 : 0
 pc6j plotedit;pn "View Definition";

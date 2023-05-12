@@ -175,7 +175,7 @@ plotdemo_next_button=: plotdemo_step bind 1
 plotdemo_prev_button=: plotdemo_step bind _1
 
 3 : 0 ''
-plotdemo_f10_fkey=: plotdemo_saveeps_button
+plotdemo_f4_fkey=: plotdemo_saveeps_button
 plotdemo_f11_fkey=: plotdemo_savepdf_button
 plotdemo_f12_fkey=: plotdemo_next_button
 plotdemo_f12shift_fkey=: plotdemo_prev_button
