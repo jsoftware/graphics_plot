@@ -81,7 +81,7 @@ NB. =========================================================
 qt_getbitmap=: 3 : 0
 wd 'psel ',": PFormhwnd
 glsel PId
-box=. wdqchildxywh PId
+box=. 0 0,2}.wdqchildxywh PId
 res=. glqpixels box
 (3 2 { box) $ res
 )
@@ -109,7 +109,7 @@ NB. =========================================================
 qt_getrgb=: 3 : 0
 wd 'psel ',": PFormhwnd
 glsel PId
-box=. wdqchildxywh PId
+box=. 0 0,2}.wdqchildxywh PId
 (3 2 { box) $ 256 256 256 #: glqpixels box
 )
 

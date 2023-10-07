@@ -8158,7 +8158,7 @@ qt_save y
 qt_getbitmap=: 3 : 0
 wd 'psel ',": PFormhwnd
 glsel PId
-box=. wdqchildxywh PId
+box=. 0 0,2}.wdqchildxywh PId
 res=. glqpixels box
 (3 2 { box) $ res
 )
@@ -8179,7 +8179,7 @@ jpath ('.',x) fext y,(0=#y) # QT_DEFFILE
 qt_getrgb=: 3 : 0
 wd 'psel ',": PFormhwnd
 glsel PId
-box=. wdqchildxywh PId
+box=. 0 0,2}.wdqchildxywh PId
 (3 2 { box) $ 256 256 256 #: glqpixels box
 )
 qt_jpg=: 3 : 0
