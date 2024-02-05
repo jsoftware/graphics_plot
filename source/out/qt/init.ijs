@@ -3,7 +3,7 @@ NB. init
 coclass 'jzplot'
 NB. init
 
-QT_DEFSIZE=: 480 360
+QT_DEFSIZE=: (UNAME-:'Android'){::480 360;400 300
 QT_DEFFILE=: jpath '~temp/plot'
 QT_PENSCALE=: 0.4
 
