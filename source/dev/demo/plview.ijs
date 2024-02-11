@@ -51,7 +51,7 @@ NB. fs causes menu button hidden in android 7
 NB.  wd 'activity ', (>coname''), ' fs'
   wd 'activity ', (>coname'')
 else.
-  wd IFQT{::PLOTDEMO;~PLOTDEMOJN
+  wd IFQT{::PLOTDEMOJN;('720 520';'400 400')&stringreplace^:(UNAME-:'Android') PLOTDEMO
   PForm=: 'plotdemo'
   PFormhwnd=: wd 'qhwndp'
   PId=: 'ps'
