@@ -1999,6 +1999,9 @@ case. 1 1 do.
   y2min=. yrn
   y2max=. yrx
 end.
+if. (<'stick') e. types do.
+  if. ymin = ymax do. 'ymin ymax'=. sort 0,ymax end.
+end.
 if. (<'radar') e. types do.
   ymin=. 0 <. ymin
   ymax=. 1 >. ymax
