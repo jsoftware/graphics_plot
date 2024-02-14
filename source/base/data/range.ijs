@@ -41,6 +41,12 @@ case. 1 1 do.  NB. only 2D data
 end.
 
 NB. ---------------------------------------------------------
+NB. default include 0 if ymin = ymax
+if. (<'stick') e. types do.
+  if. ymin = ymax do. 'ymin ymax'=. sort 0,ymax end.
+end.
+
+NB. ---------------------------------------------------------
 if. (<'radar') e. types do.
   ymin=. 0 <. ymin
   ymax=. 1 >. ymax
