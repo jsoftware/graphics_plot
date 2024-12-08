@@ -492,6 +492,7 @@ selectpid=: 3 : 0
 if. 0~: (0&". ::]) PIdhwnd do.
   glsel ":PIdhwnd
 elseif. #PId do.
+  wd 'psel ',":PFormhwnd
   glsel PId
 end.
 )

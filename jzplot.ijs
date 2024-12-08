@@ -282,6 +282,7 @@ selectpid=: 3 : 0
 if. 0~: (0&". ::]) PIdhwnd do.
   glsel ":PIdhwnd
 elseif. #PId do.
+  wd 'psel ',":PFormhwnd
   glsel PId
 end.
 )
@@ -1138,13 +1139,6 @@ else.
   subres=. ,: (noninf#yvals) ; (noninf#"1 zvals) ; 0 0
 end.
 subres
-)
-plotshow=: 3 : 0
-gtk_window_present_with_time_jgtk_ ((0&". ::]) PFormhwnd),GDK_CURRENT_TIME_jgtk_
-selectpid''
-gpinit''
-make ''
-gtk_show 1
 )
 PDFScale=: 0.5
 Sizes=: ([:<i.&' '{.]);._2 (0 : 0)
@@ -2388,7 +2382,7 @@ id=. fm,PId,'_'
 (id,'paint')=: ppaint
 (id,'mmove')=: ]
 
-Pxywh=: ''
+Pw=: Ph=: Pxywh=: ''
 PShow=: 0
 )
 ptop_qt=: 3 : 0
@@ -8107,16 +8101,27 @@ else.
 end.
 file=. 'bmp' qt_getfile file
 if. (2 = #wh) > wh -: Pw,Ph do.
-  a=. cocreate''
-  coinsert__a (,copath) coname''
-  bitmap=. qt_getbitmapwh__a wh
-  coerase a
+  qt_bmps file;wh
 else.
-  bitmap=. qt_getbitmap''
+  (qt_getbitmap'') writebmp file
 end.
-bitmap writebmp file
 )
-
+qt_bmps=: 3 : 0
+cocurrent conew > coname''
+'FILE QT_DEFSIZE'=: y
+VISIBLE=: 0
+PFormhwnd=: ''
+Pw=: Ph=: ''
+ppaint=: qt_bmps1 @ qt_paint
+pd 'show'
+)
+qt_bmps1=: 3 : 0
+wh=. QT_DEFSIZE
+bmp=: (|.wh) $ glqpixels 0 0,wh
+bmp writebmp jpath FILE
+wd 'pclose'
+codestroy''
+)
 qt_png=: 3 : 0
 if. #y do.
   arg=. qchop y

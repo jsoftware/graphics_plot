@@ -18,16 +18,34 @@ else.
 end.
 file=. 'bmp' qt_getfile file
 if. (2 = #wh) > wh -: Pw,Ph do.
-  a=. cocreate''
-  coinsert__a (,copath) coname''
-  bitmap=. qt_getbitmapwh__a wh
-  coerase a
+  qt_bmps file;wh
 else.
-  bitmap=. qt_getbitmap''
+  (qt_getbitmap'') writebmp file
 end.
-bitmap writebmp file
 )
 
+NB. =========================================================
+NB. bmp of given size
+qt_bmps=: 3 : 0
+cocurrent conew > coname''
+'FILE QT_DEFSIZE'=: y
+VISIBLE=: 0
+PFormhwnd=: ''
+Pw=: Ph=: ''
+ppaint=: qt_bmps1 @ qt_paint
+pd 'show'
+)
+
+NB. =========================================================
+qt_bmps1=: 3 : 0
+wh=. QT_DEFSIZE
+bmp=: (|.wh) $ glqpixels 0 0,wh
+bmp writebmp jpath FILE
+wd 'pclose'
+codestroy''
+)
+
+NB. =========================================================
 qt_png=: 3 : 0
 if. #y do.
   arg=. qchop y

@@ -52,7 +52,7 @@ NB. (fm,'close')=: pclose_qt
 (id,'paint')=: ppaint
 (id,'mmove')=: ]
 
-Pxywh=: ''
+Pw=: Ph=: Pxywh=: ''
 PShow=: 0
 )
 
