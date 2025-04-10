@@ -8122,30 +8122,6 @@ bmp writebmp jpath FILE
 wd 'pclose'
 codestroy''
 )
-qt_png=: 3 : 0
-if. #y do.
-  arg=. qchop y
-  num=. __ ". &.> arg
-  msk=. __ e. &> num
-  file=. > {. msk # arg
-  wh=. >(-.msk) # num
-  if. -. (#wh) e. 0 2 do.
-    info 'invalid [w h] parameter in save png' return.
-  end.
-else.
-  wh=. file=. ''
-end.
-file=. 'png' qt_getfile file
-if. (2 = #wh) > wh -: Pw,Ph do.
-  a=. cocreate''
-  coinsert__a (,copath) coname''
-  bitmap=. qt_getbitmapwh__a wh
-  coerase a
-else.
-  bitmap=. qt_getbitmap''
-end.
-bitmap writepng file
-)
 qt_def=: 4 : 0
 file=. x qt_getfile ;qchop y
 (qt_getrgb'') qt_writeimg file
@@ -8234,11 +8210,9 @@ else.
 end.
 )
 qt_writeimg=: 4 : '(256 #. 255 ,"0 1 x) writeimg_jqtide_ y'
-qt_gif=: 'gif' & qt_def
 qt_tif=: 'tif' & qt_def
 qt_pngr=: 'png' & qt_defstr
 qt_jpgr=: 'jpg' & qt_defstr
-qt_gifr=: 'gif' & qt_defstr
 qt_tifr=: 'tif' & qt_defstr
 qt_show=: 3 : 0
 popen_qt y
